@@ -1,0 +1,179 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9620f8c34305754d8cc9a7e49e852d9, type: 3}
+  m_Name: Ui_fr
+  m_EditorClassIdentifier: 
+  m_LocaleId:
+    m_Code: fr
+  m_SharedData: {fileID: 11400000, guid: 139b479b97953f6408ed5252090dad8a, type: 2}
+  m_Metadata:
+    m_Items: []
+  m_TableData:
+  - m_Id: 131746250752
+    m_Localized: "Param\xE8tres"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 970497998848
+    m_Localized: Graphique
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1383683080192
+    m_Localized: "Contr\xF4les"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2027605213184
+    m_Localized: Dos
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2473115795456
+    m_Localized: Volume
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3014503972864
+    m_Localized: Langue
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3400098922496
+    m_Localized: "Luminosit\xE9"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3872650182656
+    m_Localized: "R\xE9solution"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4448138051584
+    m_Localized: "Qualit\xE9"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 8477446520832
+    m_Localized: "Plein \xE9cran"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 8968343666688
+    m_Localized: VSync
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4431438714781696
+    m_Localized: Haut
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4432840631533568
+    m_Localized: Bas
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4433609279684608
+    m_Localized: Gauche
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4434875611365376
+    m_Localized: Droite
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4435707815804928
+    m_Localized: Saute
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4436155876524032
+    m_Localized: "\xC9P\xC9E"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4436740700913664
+    m_Localized: Tirer
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4436953398263808
+    m_Localized: Tiret
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4437939936313344
+    m_Localized: Interagir
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4438392812093440
+    m_Localized: Carte
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4438634261397504
+    m_Localized: Inventaire
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4439434157113344
+    m_Localized: "R\xE9initialiser"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7710782497243136
+    m_Localized: Clavier
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7711595756011520
+    m_Localized: Manette
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7658507665924096
+    m_Localized: "Gu\xE9rir"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 8326031520817152
+    m_Localized: "D\xE9marrer Jeu"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 8326430495596544
+    m_Localized: "Possibilit\xE9s"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 8327031195426816
+    m_Localized: Quitter le Jeu
+    m_Metadata:
+      m_Items: []
+  - m_Id: 12967706063003648
+    m_Localized: Nouveau Jeu
+    m_Metadata:
+      m_Items: []
+  - m_Id: 12967728745799680
+    m_Localized: Chargement du jeu
+    m_Metadata:
+      m_Items: []
+  - m_Id: 17012065297227776
+    m_Localized: Reprendre le Jeu
+    m_Metadata:
+      m_Items: []
+  - m_Id: 17012091033477120
+    m_Localized: Retour au Menu
+    m_Metadata:
+      m_Items: []
+  - m_Id: 50713352287019008
+    m_Localized: Retour au jeu
+    m_Metadata:
+      m_Items: []
+  - m_Id: 50723670266470400
+    m_Localized: Oui
+    m_Metadata:
+      m_Items: []
+  - m_Id: 50723684258668544
+    m_Localized: Non
+    m_Metadata:
+      m_Items: []
+  - m_Id: 51056541560725504
+    m_Localized: Faible
+    m_Metadata:
+      m_Items: []
+  - m_Id: 51058290795208704
+    m_Localized: Moyen
+    m_Metadata:
+      m_Items: []
+  - m_Id: 51058302950301696
+    m_Localized: Haut
+    m_Metadata:
+      m_Items: []
+  references:
+    version: 2
+    RefIds: []

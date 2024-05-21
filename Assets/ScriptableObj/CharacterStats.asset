@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bea602b121144ebc8b1fa06d601f6720, type: 3}
+  m_Name: CharacterStats
+  m_EditorClassIdentifier: 
+  jumpForce: 8
+  megaJumpForce: 10
+  maxJump: 2
+  numberOfJumps: 0
+  isJump: 0
+  gravity: 0
+  jumpEndEarlyGravityModifier: 1
+  dashDuration: 0.2
+  dashTimer: 0.008879855
+  isFalling: 0
+  moveVector: {x: 0, y: 0}
+  isDashing: 0
+  dashCooldownTimer: 0
+  smoothTime: 0.8
+  dashSpeed: 15
+  moveSpeed: 5
+  isAttacking: 0
+  attackCounter: 1
+  airAttackCounter: 0

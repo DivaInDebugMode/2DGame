@@ -1,0 +1,184 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b11a58205ec3474ca216360e9fa74a8, type: 3}
+  m_Name: Ui Shared Data
+  m_EditorClassIdentifier: 
+  m_TableCollectionName: Ui
+  m_TableCollectionNameGuidString: 139b479b97953f6408ed5252090dad8a
+  m_Entries:
+  - m_Id: 131746250752
+    m_Key: Settings
+    m_Metadata:
+      m_Items: []
+  - m_Id: 970497998848
+    m_Key: Graphics
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1383683080192
+    m_Key: Controls
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2027605213184
+    m_Key: Back
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2473115795456
+    m_Key: Volume
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3014503972864
+    m_Key: Language
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3400098922496
+    m_Key: Brightness
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3872650182656
+    m_Key: Resolution
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4448138051584
+    m_Key: Quality
+    m_Metadata:
+      m_Items: []
+  - m_Id: 8477446520832
+    m_Key: Full Screen
+    m_Metadata:
+      m_Items: []
+  - m_Id: 8968343666688
+    m_Key: VSync
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4431438714781696
+    m_Key: Up
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4432840631533568
+    m_Key: Down
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4433609279684608
+    m_Key: Left
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4434875611365376
+    m_Key: Right
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4435707815804928
+    m_Key: Jump
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4436155876524032
+    m_Key: Sword
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4436740700913664
+    m_Key: Shoot
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4436953398263808
+    m_Key: Dash
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4437939936313344
+    m_Key: Interact
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4438392812093440
+    m_Key: Map
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4438634261397504
+    m_Key: Inventory
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4439434157113344
+    m_Key: Reset
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7658507665924096
+    m_Key: Heal
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7710782497243136
+    m_Key: Keyboard
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7711595756011520
+    m_Key: Controller
+    m_Metadata:
+      m_Items: []
+  - m_Id: 8326031520817152
+    m_Key: Start Game
+    m_Metadata:
+      m_Items: []
+  - m_Id: 8326430495596544
+    m_Key: Options
+    m_Metadata:
+      m_Items: []
+  - m_Id: 8327031195426816
+    m_Key: Exit Game
+    m_Metadata:
+      m_Items: []
+  - m_Id: 12967706063003648
+    m_Key: New Game
+    m_Metadata:
+      m_Items: []
+  - m_Id: 12967728745799680
+    m_Key: Load Game
+    m_Metadata:
+      m_Items: []
+  - m_Id: 17012065297227776
+    m_Key: Resume Game
+    m_Metadata:
+      m_Items: []
+  - m_Id: 17012091033477120
+    m_Key: Back To Menu
+    m_Metadata:
+      m_Items: []
+  - m_Id: 50713352287019008
+    m_Key: Back To Game
+    m_Metadata:
+      m_Items: []
+  - m_Id: 50723670266470400
+    m_Key: Yes
+    m_Metadata:
+      m_Items: []
+  - m_Id: 50723684258668544
+    m_Key: No
+    m_Metadata:
+      m_Items: []
+  - m_Id: 51056541560725504
+    m_Key: Low
+    m_Metadata:
+      m_Items: []
+  - m_Id: 51058290795208704
+    m_Key: Medium
+    m_Metadata:
+      m_Items: []
+  - m_Id: 51058302950301696
+    m_Key: High
+    m_Metadata:
+      m_Items: []
+  m_Metadata:
+    m_Items: []
+  m_KeyGenerator:
+    rid: 970466493149216840
+  references:
+    version: 2
+    RefIds:
+    - rid: 970466493149216840
+      type: {class: DistributedUIDGenerator, ns: UnityEngine.Localization.Tables, asm: Unity.Localization}
+      data:
+        m_CustomEpoch: 1701864001505
