@@ -6,7 +6,7 @@ namespace Character.CharacterScripts
     {
         [SerializeField] private new Rigidbody rigidbody;
         [SerializeField] private Animator animator;
-        [SerializeField] private new BoxCollider collider;
+        [SerializeField] private new CapsuleCollider collider;
 
         public Rigidbody Rb
         {
@@ -20,7 +20,7 @@ namespace Character.CharacterScripts
             set => animator = value;
         }
 
-        public BoxCollider Coll
+        public CapsuleCollider Coll
         {
             get => collider;
             set => collider = value;

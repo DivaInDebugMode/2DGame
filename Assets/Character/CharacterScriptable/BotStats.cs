@@ -18,8 +18,6 @@ namespace Character.CharacterScriptable
         
 
 
-
-
         public Vector3 CollCentreGround => collCentreGround;
         public Vector3 CollCentreEdge => collCentreEdge;
 

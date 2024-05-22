@@ -6,8 +6,22 @@ namespace Character.CharacterScripts
     {
         [SerializeField]
         private Transform groundTransform;
-        [SerializeField] private Transform edgeFeetTransform;
+        [SerializeField] private Transform leftFeetTransform;
+        [SerializeField] private Transform rightFeetTransform;
+        [SerializeField] private bool isRightFootOnGround;
+        [SerializeField] private bool isLeftFootOnEdge;
+        private readonly Vector3 feetDirection = Vector3.down;
         [SerializeField] private BotData botData;
+
+        public bool IsRightFootOnGround
+        {
+            get => isRightFootOnGround;
+        }
+        
+        public bool IsLeftFootOnEdge
+        {
+            get => isLeftFootOnEdge;
+        }
 
         private void Update()
         {
@@ -21,27 +35,16 @@ namespace Character.CharacterScripts
                 groundTransform.position, 0.2f, botData.BotDetectionStats.Grounded);
         }
 
-        public void CheckGroundDistance()
+        public void CheckGroundRightFoot()
         {
-            var rayDirection = Vector3.down; 
-            var rayOrigin = edgeFeetTransform.position; 
-            var edgeHit = Physics.Raycast(rayOrigin, rayDirection,
+             isRightFootOnGround = Physics.Raycast(rightFeetTransform.position, feetDirection,
+                0.1f, botData.BotDetectionStats.Grounded | botData.BotDetectionStats.FallingEdge);
+        }
+        
+        public void CheckGroundLeftFoot()
+        {
+            isLeftFootOnEdge = Physics.Raycast(leftFeetTransform.position, feetDirection,
                 0.1f, botData.BotDetectionStats.FallingEdge);
-            if (edgeHit)
-            {
-                botData.BotComponents.Rb.velocity= Vector3.zero; 
-                botData.BotComponents.Coll.center = botData.BotStats.CollCentreEdge;
-                botData.BotStats.IsRotating = false;
-                botData.BotStats.IsRunning = false;
-                botData.BotStats.IsFallingEdge = true;
-               Debug.Log("0");
-            }
-            else
-            {
-                botData.BotStats.IsFallingEdge = false;
-                if (botData.BotDetectionStats.IsGrounded) return;
-                Debug.Log("1");
-            }
         }
      
     }

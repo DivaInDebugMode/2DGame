@@ -15,8 +15,8 @@ MonoBehaviour:
   moveSpeed: 6.7
   moveDirection: {x: 0, y: 0, z: 0}
   smoothTime: 0.9
-  isRunning: 0
-  isRotating: 0
+  isRunning: 1
+  isRotating: 1
   currentDirection: 0
   isFallingEdge: 0
   collCentreGround: {x: 0, y: 0.85, z: 0.05}

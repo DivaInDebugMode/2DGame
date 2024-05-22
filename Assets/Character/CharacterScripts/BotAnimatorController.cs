@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace Character.CharacterScripts
 {
@@ -12,6 +11,9 @@ namespace Character.CharacterScripts
         public string botRunningTurnLeft = "Running Turn Left";
         public string botRunningTurnRight = "Running Turn Right";
         public string fallingEdge = "EdgeStop";
+        public string stepBackEdge = "StepBack";
+        public string idleTurnLeft = "Idle Turn Left";
+        public string idleTurnRight = "Idle Turn Right";
         private string currentAnimation; // Currently playing animation
         
 
@@ -28,7 +30,7 @@ namespace Character.CharacterScripts
             currentAnimation = newStateAnim;
         }
 
-        private void TurnOnRoot() => animator.applyRootMotion = true;
-        private void TurnOfRoot() => animator.applyRootMotion = false;
+        public void TurnOnRoot() => animator.applyRootMotion = true;
+        public void TurnOfRoot() => animator.applyRootMotion = false;
     }
 }

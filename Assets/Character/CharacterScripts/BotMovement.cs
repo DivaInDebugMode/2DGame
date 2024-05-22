@@ -13,6 +13,7 @@ namespace Character.CharacterScripts
         [SerializeField] private BotComponents botComponents;
         [SerializeField] private BotStats botStats;
         [SerializeField] private BotInput botInput;
+        [SerializeField] private BotAnimatorController botAnimatorController;
 
         private void Start()
         {
@@ -22,13 +23,16 @@ namespace Character.CharacterScripts
         private void Update()
         {
             HandleBotInput();
+            if (botStats.MoveDirection.x == 0)
+            {
+                botAnimatorController.TurnOfRoot();
+            }
         }
 
         private void FixedUpdate()
         {
-            MoveHorizontally(botStats.MoveSpeed);
             RotateBot();
-
+            MoveHorizontally(botStats.MoveSpeed);
         }
 
         private void HandleBotInput()
@@ -41,6 +45,7 @@ namespace Character.CharacterScripts
 
         public void MoveHorizontally(float horizontalSpeed)
         {
+            if(botStats.IsRotating) return;
             if (botStats.MoveDirection.x != 0)
             {
                 botStats.VelocityX = Mathf.MoveTowards(botComponents.Rb.velocity.x,
@@ -62,18 +67,21 @@ namespace Character.CharacterScripts
                 {
                     case 1:
                         if (botStats.CurrentDirection == Directions.Right) return;
-                        transform.rotation = Quaternion.Euler(0, 90, 0);
                         botStats.IsRotating = true;
+                        botStats.IsRunning = false;
+                        transform.rotation = Quaternion.Euler(0, 90, 0);
+                        botAnimatorController.TurnOnRoot();
                         botStats.CurrentDirection = Directions.Right;
                         break;
                     case -1:
                         if (botStats.CurrentDirection == Directions.Left) return;
-                        transform.rotation = Quaternion.Euler(0, -90, 0);
                         botStats.IsRotating = true;
+                        botStats.IsRunning = false;
+                        transform.rotation = Quaternion.Euler(0, -90, 0);
+                        botAnimatorController.TurnOnRoot();
                         botStats.CurrentDirection = Directions.Left;
                         break;
                 }
-            
         }
 
         private void RunToStop() => botStats.IsRunning = false;
