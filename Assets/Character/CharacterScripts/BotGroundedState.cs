@@ -1,4 +1,3 @@
-
 using System;
 using UnityEngine;
 
@@ -8,6 +7,13 @@ namespace Character.CharacterScripts
     {
         private bool isOnEdge;
         private bool isEdgeOff;
+        private static readonly int Velocity = Animator.StringToHash("Velocity");
+        private static readonly int Rotate = Animator.StringToHash("Rotate");
+        private static readonly int RunRotate = Animator.StringToHash("RunRotate");
+        private static readonly int XDirection = Animator.StringToHash("XDirection");
+        private static readonly int Crouch1 = Animator.StringToHash("Crouch");
+        private static readonly int CrouchToStand = Animator.StringToHash("CrouchToStand");
+
         public override void EnterState()
         {
 
@@ -15,14 +21,19 @@ namespace Character.CharacterScripts
 
         public override void UpdateState()
         {
-            MoveAnim();
+            HandleRotation();
+            HandleMovementSpeed();
+            HandleMovementAnimation();
+            SetCurrentDirectionValue();
+            Crouch();
             botData.BotDetection.CheckGroundLeftFoot();
             botData.BotDetection.CheckGroundRightFoot();
         }
 
         public override void FixedUpdate()
         {
-            botMovement.MoveHorizontally(botData.BotStats.MoveSpeed);
+            botMovement.MoveHorizontally(botData.BotStats.CurrentSpeed);
+            
             if (botData.BotDetection.IsLeftFootOnEdge && botData.BotDetection.IsRightFootOnGround && !isOnEdge)
             {
                 botData.BotStats.IsRotating = false;
@@ -55,61 +66,103 @@ namespace Character.CharacterScripts
             }
         }
 
-        public override void ExitState()
+
+        private void HandleMovementAnimation()
         {
+            if (botData.BotStats.IsRotating) return;
+            botAnimatorController.Animator.SetFloat(XDirection,botData.BotStats.MoveDirection.x);
+            botAnimatorController.Animator.SetFloat(Velocity,botData.BotStats.CurrentSpeed);
+            
             
         }
-        
-        private void MoveAnim()
-        {
-            switch (botData.BotStats.MoveDirection.x)
-            {
-                case > 0:
-                case < 0:
-                    if (botData.BotStats.IsFallingEdge) return;
-                    botData.BotStats.IsRunning = true;
-                    if (!botData.BotStats.IsRotating)
-                    {
-                        botAnimatorController.ChangeAnimationState(botAnimatorController.botRunAnim, 0.1f);
-                    }
-                    else if (botData.BotStats.IsRotating && botData.BotStats.MoveSpeed > 5.5f)
-                    {
-                        botAnimatorController.ChangeAnimationState(
-                            botData.BotStats.CurrentDirection == Directions.Left
-                                ? botAnimatorController.botRunningTurnLeft
-                                : botAnimatorController.botRunningTurnRight, 0.1f);
-                        //botData.BotStats.MoveSpeed = 6.5f;
 
-                    }else if (botData.BotStats.IsRotating && botData.BotStats.MoveSpeed == 0f)
-                    {
-                        botAnimatorController.ChangeAnimationState(
-                            botData.BotStats.CurrentDirection == Directions.Left
-                                ? botAnimatorController.idleTurnLeft
-                                : botAnimatorController.idleTurnRight, 0.1f);
-                    }
-                    //botData.BotStats.MoveSpeed = 6.5f;
+        private void HandleRotation()
+        {
+            if (!botData.BotStats.IsRotating || botData.BotStats.HasRotate) return;
+            switch (botData.BotStats.DirectionTime)
+            {
+                case >= 0.5f:
+                    botAnimatorController.Animator.SetTrigger(RunRotate);
+                    botData.BotStats.DirectionTime = 0f;
                     break;
-                case 0:
-                    botData.BotStats.MoveSpeed = 0f;
-                    // if (botData.BotStats.IsRunning)
-                    // {
-                    //     if (!botData.BotStats.IsRotating && !botData.BotStats.IsFallingEdge)
-                    //         botAnimatorController.ChangeAnimationState(botAnimatorController.botRunToStopAnim, 0.1f);
-                    // }
-                    
-                    if (botData.BotStats.IsFallingEdge)
+                case < 0.5f:
+                    botAnimatorController.Animator.SetTrigger(Rotate);
+                    break;
+            }
+
+            botData.BotStats.HasRotate = true;
+        }
+        private void HandleMovementSpeed()
+        {
+            if(botData.BotStats.IsCrouching) return;
+            if (botData.BotStats.MoveDirection.x != 0)
+            {
+                
+                if (botInput.Run.action.IsPressed())
+                {
+                    if (Math.Abs(botData.BotStats.CurrentSpeed - botData.BotStats.MaxSpeed) > 0.0001f)
                     {
-                        botAnimatorController.ChangeAnimationState(botAnimatorController.fallingEdge, 0.1f);
+                        botData.BotStats.IsRunning = true;
+                        botData.BotStats.CurrentSpeed = botData.BotStats.MaxSpeed;
                     }
-                    
-                    else if (!botData.BotStats.IsRunning)
+                }
+                else
+                {
+                    if (Math.Abs(botData.BotStats.CurrentSpeed - botData.BotStats.WalkSpeed) > 0.0001f)
                     {
-                        botAnimatorController.ChangeAnimationState(botAnimatorController.botIdleAnim, 0.1f);
+                        botData.BotStats.IsRunning = false;
+                        botData.BotStats.DirectionTime = 0;
+                        botData.BotStats.CurrentSpeed = botData.BotStats.WalkSpeed;
                     }
+
+                }
+            }
+            
+
+            if (botData.BotStats.MoveDirection.x == 0 && botData.BotStats.CurrentSpeed >= 0f)
+            {
+                botData.BotStats.CurrentSpeed -= Time.deltaTime * botData.BotStats.MoveDeceleration * 2f;
+            }
+        }
+
+        private void SetCurrentDirectionValue()
+        {
+            if(botData.BotStats.IsCrouching) return;
+            switch (botData.BotStats.CurrentDirectionValue)
+            {
+                case 1 when botInput.Run.action.IsPressed() && botData.BotStats.MoveDirection.x != 0:
+                case -1 when botInput.Run.action.IsPressed() && botData.BotStats.MoveDirection.x != 0:
+                    botData.BotStats.DirectionTime += Time.deltaTime;
                     break;
             }
         }
 
+        private void Crouch()
+        {
+            if (botInput.MoveDown.action.triggered && !botData.BotStats.IsCrouching)
+            {
+                botData.BotComponents.Rb.velocity = new Vector2(0, botData.BotComponents.Rb.velocity.y);
+                botData.BotComponents.Coll.enabled = false;
+                botData.BotComponents.BoxCollider.enabled = true;
+                botData.BotStats.CurrentSpeed = 0;
+                botData.BotStats.DirectionTime = 0;
+                botAnimatorController.Animator.SetTrigger(Crouch1);
+                botData.BotStats.HasCrouched = false;
+                botData.BotStats.IsCrouching = true;
+            }
+            else if (!botInput.MoveDown.action.IsPressed() && botData.BotStats.IsCrouching && !botData.BotStats.HasCrouched)
+            {
+                botData.BotComponents.BoxCollider.enabled = false;
+                botData.BotComponents.Coll.enabled = true;
+
+                botAnimatorController.Animator.SetTrigger(CrouchToStand);
+                botData.BotStats.HasCrouched = true;
+            }
+        }
+        public override void ExitState()
+        {
+            
+        }
 
         public BotGroundedState(BotStateMachine currentContext, BotMovement botMovement, BotInput botInput, BotData botData, BotAnimatorController botAnimatorController) : base(currentContext, botMovement, botInput, botData, botAnimatorController)
         {

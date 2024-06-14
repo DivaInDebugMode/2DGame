@@ -7,8 +7,12 @@ namespace Character.CharacterScripts
     {
         [SerializeField] private InputActionReference moveLeft;
         [SerializeField] private InputActionReference moveRight;
-
+        [SerializeField] private InputActionReference moveDown;
+        [SerializeField] private InputActionReference run;
+        
+        public InputActionReference Run => run;
         public InputActionReference MoveLeft => moveLeft;
         public InputActionReference MoveRight => moveRight;
+        public InputActionReference MoveDown => moveDown;
     }
 }

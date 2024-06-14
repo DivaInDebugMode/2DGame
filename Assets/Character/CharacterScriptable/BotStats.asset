@@ -12,12 +12,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e6555dc62174e405ba3886cb961c54a0, type: 3}
   m_Name: BotStats
   m_EditorClassIdentifier: 
-  moveSpeed: 6.7
+  currentSpeed: -0.10336876
+  maxSpeed: 6
+  walkSpeed: 3.5
+  currentDirectionValue: -1
+  directionTime: 0.18021293
+  hasRotate: 0
+  moveDeceleration: 10
   moveDirection: {x: 0, y: 0, z: 0}
   smoothTime: 0.9
-  isRunning: 1
-  isRotating: 1
-  currentDirection: 0
+  isRunning: 0
+  isRotating: 0
+  currentDirection: 1
   isFallingEdge: 0
   collCentreGround: {x: 0, y: 0.85, z: 0.05}
-  collCentreEdge: {x: 0, y: 0.85, z: 0.5}
+  hasStopped: 1
+  isCrouching: 0
+  hasCrouched: 1

@@ -5,17 +5,17 @@ namespace Character.CharacterScripts
     public class BotAnimatorController : MonoBehaviour
     {
         [SerializeField] private Animator animator;
-        public string botIdleAnim = "StandartIdle";
-        public string botRunAnim = "Running";
-        public string botRunToStopAnim = "Run To Stop"; 
         public string botRunningTurnLeft = "Running Turn Left";
         public string botRunningTurnRight = "Running Turn Right";
         public string fallingEdge = "EdgeStop";
         public string stepBackEdge = "StepBack";
-        public string idleTurnLeft = "Idle Turn Left";
-        public string idleTurnRight = "Idle Turn Right";
         private string currentAnimation; // Currently playing animation
-        
+
+        public Animator Animator
+        {
+            get => animator;
+            set => animator = value;
+        }
 
         // Changes the character's animation state with a transition
         public void ChangeAnimationState(string newStateAnim, float transitionTime)
