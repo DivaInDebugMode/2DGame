@@ -23,6 +23,62 @@ namespace Character.CharacterScriptable
         [SerializeField] private bool hasStopped;
         [SerializeField] private bool isCrouching;
         [SerializeField] private bool hasCrouched;
+        [SerializeField] private bool isDashing;
+        [SerializeField] private int dashForce;
+        [SerializeField] private bool canDash;
+        [SerializeField] private float dashDuration;
+        [SerializeField] private float dashCooldown;
+        [SerializeField] private float dashTimer;
+        [SerializeField] private float dashCooldownStart;
+        [SerializeField] private bool hasDashed;
+
+        public bool HasDashed
+        {
+            get => hasDashed;
+            set => hasDashed = value;
+        }
+
+        public float DashCooldownStart
+        {
+            get => dashCooldownStart;
+            set => dashCooldownStart = value;
+        }
+
+        public float DashTimer
+        {
+            get => dashTimer;
+            set => dashTimer = value;
+        }
+
+        public float DashCooldown
+        {
+            get => dashCooldown;
+            set => dashCooldown = value;
+        }
+
+        public float DashDuration
+        {
+            get => dashDuration;
+            set => dashDuration = value;
+        }
+
+        public bool CanDash
+        {
+            get => canDash;
+            set => canDash = value;
+        }
+
+        public int DashForce
+        {
+            get => dashForce;
+            set => dashForce = value;
+        }
+
+        public bool IsDashing
+        {
+            get => isDashing;
+            set => isDashing = value;
+        }
 
         public int CurrentDirectionValue
         {

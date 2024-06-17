@@ -4,15 +4,17 @@ namespace Character.CharacterScripts
     {
         protected BotStateMachine ctx;
         protected readonly BotMovement botMovement;
+        protected readonly BotDash botDash;
         protected BotInput botInput;
         protected readonly BotData botData;
         protected readonly BotAnimatorController botAnimatorController;
         
-        protected BotBaseState(BotStateMachine currentContext,BotMovement botMovement, BotInput botInput,
+        protected BotBaseState(BotStateMachine currentContext,BotMovement botMovement, BotDash botDash, BotInput botInput,
            BotData botData, BotAnimatorController botAnimatorController)
         {
             ctx = currentContext;
             this.botMovement = botMovement;
+            this.botDash = botDash;
             this.botInput = botInput;
             this.botData = botData;
             this.botAnimatorController = botAnimatorController;

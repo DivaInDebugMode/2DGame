@@ -9,8 +9,10 @@ namespace Character.CharacterScripts
         [SerializeField] private InputActionReference moveRight;
         [SerializeField] private InputActionReference moveDown;
         [SerializeField] private InputActionReference run;
+        [SerializeField] private InputActionReference dash;
         
         public InputActionReference Run => run;
+        public InputActionReference Dash => dash;
         public InputActionReference MoveLeft => moveLeft;
         public InputActionReference MoveRight => moveRight;
         public InputActionReference MoveDown => moveDown;

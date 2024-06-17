@@ -52,11 +52,12 @@ MonoBehaviour:
   - <Gamepad>/buttonSouth
   - <Gamepad>/buttonWest
   - <Gamepad>/buttonEast
+  - <Gamepad>/dpad/down
   - <Gamepad>/rightTrigger
-  - <Gamepad>/rightShoulder
   - <Gamepad>/buttonNorth
   - <Gamepad>/leftShoulder
   - <Gamepad>/leftTrigger
+  - <Gamepad>/leftShoulder
   keyboardInputs:
   - <Keyboard>/upArrow
   - <Keyboard>/downArrow
@@ -67,6 +68,7 @@ MonoBehaviour:
   - <Keyboard>/w
   - <Keyboard>/r
   - <Keyboard>/leftShift
-  - <Keyboard>/f
+  - <Keyboard>/e
   - <Keyboard>/m
-  - <Keyboard>/v
+  - <Keyboard>/i
+  - <Keyboard>/z

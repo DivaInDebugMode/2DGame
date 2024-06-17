@@ -20,6 +20,7 @@ namespace Managers
         private const string AttackAction = "Attack";
         private const string RangeAction = "Range";
         private const string HealAction = "Heal";
+        private const string RunAction = "Run";
         private const string DashAction = "Dash";
         private const string InteractAction = "Interact";
         private const string MapAction = "Map";
@@ -29,6 +30,7 @@ namespace Managers
         private const string LeftAction = "Left";
         private const string RightAction = "Right";
         [SerializeField] private InputOverridePath inputOverridePath;
+
         [SerializeField] private RebindCondition rebindCondition;
 
         private readonly Dictionary<string, string> defaultKeys = new()
@@ -40,11 +42,12 @@ namespace Managers
             { JumpAction, "<Keyboard>/space" },
             { AttackAction, "<Keyboard>/q" },
             { RangeAction, "<Keyboard>/w" },
-            { DashAction, "<Keyboard>/leftShift" },
+            { RunAction, "<Keyboard>/leftShift" },
             { InteractAction, "<Keyboard>/e" },
             { MapAction, "<Keyboard>/m" },
             { InventoryAction, "<Keyboard>/i" },
             { HealAction, "<Keyboard>/r" },
+            { DashAction, "<Keyboard>/z" },
         };
 
         private string filePath;
@@ -111,10 +114,11 @@ namespace Managers
                     5 => AttackAction,
                     6 => RangeAction,
                     7 => HealAction,
-                    8 => DashAction,
+                    8 => RunAction,
                     9 => InteractAction,
                     10 => MapAction,
                     11 => InventoryAction,
+                    12 => DashAction,
 
                     _ => sameAction
                 };
@@ -132,7 +136,7 @@ namespace Managers
             foreach (var kvp in defaultKeys) playerInput.actions[kvp.Key].ApplyBindingOverride
                 (new InputBinding { overridePath = kvp.Value });
            
-            for (var index = 0; index < 12; index++) inputOverridePath.KeyboardInputs[index] =
+            for (var index = 0; index < 13; index++) inputOverridePath.KeyboardInputs[index] =
                 playerInput.actions.actionMaps[0].actions[index].bindings[0].overridePath;
             
             OnKeyReset?.Invoke();

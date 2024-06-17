@@ -10,10 +10,11 @@ namespace Character.CharacterScripts
         [SerializeField] private BotData botData;
         [SerializeField] private BotInput botInput;
         [SerializeField] private BotMovement botMovement;
+        [SerializeField] private BotDash botDash;
         [SerializeField] private BotAnimatorController botAnimatorController;
         private void Awake()
         {
-            states = new BotStateFactory(this,botData,botMovement,botInput,botAnimatorController);
+            states = new BotStateFactory(this,botData,botMovement,botDash,botInput,botAnimatorController);
             currentState = states.Grounded();
             currentState.EnterState();
         }

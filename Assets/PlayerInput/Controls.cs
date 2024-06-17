@@ -100,7 +100,7 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Dash"",
+                    ""name"": ""Run"",
                     ""type"": ""Button"",
                     ""id"": ""98b003ee-57f2-4c94-a882-2ee5b1f9820d"",
                     ""expectedControlType"": ""Button"",
@@ -130,6 +130,15 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                     ""name"": ""Inventory"",
                     ""type"": ""Button"",
                     ""id"": ""41bbcf5d-383b-4489-ba95-c3c7e4b62cfe"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Dash"",
+                    ""type"": ""Button"",
+                    ""id"": ""03085cfd-86c1-45d1-83bb-48aae65b673d"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -213,7 +222,7 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""17d50058-413c-4928-83ce-aac39811685e"",
-                    ""path"": ""<Gamepad>/rightTrigger"",
+                    ""path"": ""<Gamepad>/dpad/down"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""GamePad"",
@@ -228,18 +237,18 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard"",
-                    ""action"": ""Dash"",
+                    ""action"": ""Run"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
                 {
                     ""name"": """",
                     ""id"": ""c61429f6-70b4-493c-b126-7a1f981fd17a"",
-                    ""path"": ""<Gamepad>/rightShoulder"",
+                    ""path"": ""<Gamepad>/rightTrigger"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""GamePad"",
-                    ""action"": ""Dash"",
+                    ""action"": ""Run"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -462,6 +471,28 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                     ""action"": ""Back"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ff12c67f-6e81-46ee-9dc7-5a9d5af8efb1"",
+                    ""path"": ""<Keyboard>/z"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Dash"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""44842a90-d9d0-40bc-b842-3d5a058e5fc2"",
+                    ""path"": ""<Gamepad>/leftShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Dash"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -501,10 +532,11 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         m_GameInputs_Attack = m_GameInputs.FindAction("Attack", throwIfNotFound: true);
         m_GameInputs_Range = m_GameInputs.FindAction("Range", throwIfNotFound: true);
         m_GameInputs_Heal = m_GameInputs.FindAction("Heal", throwIfNotFound: true);
-        m_GameInputs_Dash = m_GameInputs.FindAction("Dash", throwIfNotFound: true);
+        m_GameInputs_Run = m_GameInputs.FindAction("Run", throwIfNotFound: true);
         m_GameInputs_Interact = m_GameInputs.FindAction("Interact", throwIfNotFound: true);
         m_GameInputs_Map = m_GameInputs.FindAction("Map", throwIfNotFound: true);
         m_GameInputs_Inventory = m_GameInputs.FindAction("Inventory", throwIfNotFound: true);
+        m_GameInputs_Dash = m_GameInputs.FindAction("Dash", throwIfNotFound: true);
         m_GameInputs_Back = m_GameInputs.FindAction("Back", throwIfNotFound: true);
         m_GameInputs_Pause = m_GameInputs.FindAction("Pause", throwIfNotFound: true);
     }
@@ -576,10 +608,11 @@ public partial class @Controls: IInputActionCollection2, IDisposable
     private readonly InputAction m_GameInputs_Attack;
     private readonly InputAction m_GameInputs_Range;
     private readonly InputAction m_GameInputs_Heal;
-    private readonly InputAction m_GameInputs_Dash;
+    private readonly InputAction m_GameInputs_Run;
     private readonly InputAction m_GameInputs_Interact;
     private readonly InputAction m_GameInputs_Map;
     private readonly InputAction m_GameInputs_Inventory;
+    private readonly InputAction m_GameInputs_Dash;
     private readonly InputAction m_GameInputs_Back;
     private readonly InputAction m_GameInputs_Pause;
     public struct GameInputsActions
@@ -594,10 +627,11 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         public InputAction @Attack => m_Wrapper.m_GameInputs_Attack;
         public InputAction @Range => m_Wrapper.m_GameInputs_Range;
         public InputAction @Heal => m_Wrapper.m_GameInputs_Heal;
-        public InputAction @Dash => m_Wrapper.m_GameInputs_Dash;
+        public InputAction @Run => m_Wrapper.m_GameInputs_Run;
         public InputAction @Interact => m_Wrapper.m_GameInputs_Interact;
         public InputAction @Map => m_Wrapper.m_GameInputs_Map;
         public InputAction @Inventory => m_Wrapper.m_GameInputs_Inventory;
+        public InputAction @Dash => m_Wrapper.m_GameInputs_Dash;
         public InputAction @Back => m_Wrapper.m_GameInputs_Back;
         public InputAction @Pause => m_Wrapper.m_GameInputs_Pause;
         public InputActionMap Get() { return m_Wrapper.m_GameInputs; }
@@ -633,9 +667,9 @@ public partial class @Controls: IInputActionCollection2, IDisposable
             @Heal.started += instance.OnHeal;
             @Heal.performed += instance.OnHeal;
             @Heal.canceled += instance.OnHeal;
-            @Dash.started += instance.OnDash;
-            @Dash.performed += instance.OnDash;
-            @Dash.canceled += instance.OnDash;
+            @Run.started += instance.OnRun;
+            @Run.performed += instance.OnRun;
+            @Run.canceled += instance.OnRun;
             @Interact.started += instance.OnInteract;
             @Interact.performed += instance.OnInteract;
             @Interact.canceled += instance.OnInteract;
@@ -645,6 +679,9 @@ public partial class @Controls: IInputActionCollection2, IDisposable
             @Inventory.started += instance.OnInventory;
             @Inventory.performed += instance.OnInventory;
             @Inventory.canceled += instance.OnInventory;
+            @Dash.started += instance.OnDash;
+            @Dash.performed += instance.OnDash;
+            @Dash.canceled += instance.OnDash;
             @Back.started += instance.OnBack;
             @Back.performed += instance.OnBack;
             @Back.canceled += instance.OnBack;
@@ -679,9 +716,9 @@ public partial class @Controls: IInputActionCollection2, IDisposable
             @Heal.started -= instance.OnHeal;
             @Heal.performed -= instance.OnHeal;
             @Heal.canceled -= instance.OnHeal;
-            @Dash.started -= instance.OnDash;
-            @Dash.performed -= instance.OnDash;
-            @Dash.canceled -= instance.OnDash;
+            @Run.started -= instance.OnRun;
+            @Run.performed -= instance.OnRun;
+            @Run.canceled -= instance.OnRun;
             @Interact.started -= instance.OnInteract;
             @Interact.performed -= instance.OnInteract;
             @Interact.canceled -= instance.OnInteract;
@@ -691,6 +728,9 @@ public partial class @Controls: IInputActionCollection2, IDisposable
             @Inventory.started -= instance.OnInventory;
             @Inventory.performed -= instance.OnInventory;
             @Inventory.canceled -= instance.OnInventory;
+            @Dash.started -= instance.OnDash;
+            @Dash.performed -= instance.OnDash;
+            @Dash.canceled -= instance.OnDash;
             @Back.started -= instance.OnBack;
             @Back.performed -= instance.OnBack;
             @Back.canceled -= instance.OnBack;
@@ -742,10 +782,11 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         void OnAttack(InputAction.CallbackContext context);
         void OnRange(InputAction.CallbackContext context);
         void OnHeal(InputAction.CallbackContext context);
-        void OnDash(InputAction.CallbackContext context);
+        void OnRun(InputAction.CallbackContext context);
         void OnInteract(InputAction.CallbackContext context);
         void OnMap(InputAction.CallbackContext context);
         void OnInventory(InputAction.CallbackContext context);
+        void OnDash(InputAction.CallbackContext context);
         void OnBack(InputAction.CallbackContext context);
         void OnPause(InputAction.CallbackContext context);
     }

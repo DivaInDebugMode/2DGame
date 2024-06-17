@@ -13,6 +13,7 @@ namespace Character.CharacterScripts
         private static readonly int XDirection = Animator.StringToHash("XDirection");
         private static readonly int Crouch1 = Animator.StringToHash("Crouch");
         private static readonly int CrouchToStand = Animator.StringToHash("CrouchToStand");
+        private static readonly int Dash = Animator.StringToHash("Dash");
 
         public override void EnterState()
         {
@@ -26,6 +27,7 @@ namespace Character.CharacterScripts
             HandleMovementAnimation();
             SetCurrentDirectionValue();
             Crouch();
+            HandleDashAnimation();
             botData.BotDetection.CheckGroundLeftFoot();
             botData.BotDetection.CheckGroundRightFoot();
         }
@@ -69,11 +71,9 @@ namespace Character.CharacterScripts
 
         private void HandleMovementAnimation()
         {
-            if (botData.BotStats.IsRotating) return;
+            if (botData.BotStats.IsRotating || botData.BotStats.IsDashing) return;
             botAnimatorController.Animator.SetFloat(XDirection,botData.BotStats.MoveDirection.x);
             botAnimatorController.Animator.SetFloat(Velocity,botData.BotStats.CurrentSpeed);
-            
-            
         }
 
         private void HandleRotation()
@@ -94,7 +94,7 @@ namespace Character.CharacterScripts
         }
         private void HandleMovementSpeed()
         {
-            if(botData.BotStats.IsCrouching) return;
+            if(botData.BotStats.IsCrouching || botData.BotStats.IsDashing) return;
             if (botData.BotStats.MoveDirection.x != 0)
             {
                 
@@ -117,8 +117,6 @@ namespace Character.CharacterScripts
 
                 }
             }
-            
-
             if (botData.BotStats.MoveDirection.x == 0 && botData.BotStats.CurrentSpeed >= 0f)
             {
                 botData.BotStats.CurrentSpeed -= Time.deltaTime * botData.BotStats.MoveDeceleration * 2f;
@@ -127,7 +125,7 @@ namespace Character.CharacterScripts
 
         private void SetCurrentDirectionValue()
         {
-            if(botData.BotStats.IsCrouching) return;
+            if(botData.BotStats.IsCrouching || botData.BotStats.IsDashing) return;
             switch (botData.BotStats.CurrentDirectionValue)
             {
                 case 1 when botInput.Run.action.IsPressed() && botData.BotStats.MoveDirection.x != 0:
@@ -139,7 +137,7 @@ namespace Character.CharacterScripts
 
         private void Crouch()
         {
-            if (botInput.MoveDown.action.triggered && !botData.BotStats.IsCrouching)
+            if (botInput.MoveDown.action.triggered && !botData.BotStats.IsCrouching && !botData.BotStats.IsDashing)
             {
                 botData.BotComponents.Rb.velocity = new Vector2(0, botData.BotComponents.Rb.velocity.y);
                 botData.BotComponents.Coll.enabled = false;
@@ -159,12 +157,22 @@ namespace Character.CharacterScripts
                 botData.BotStats.HasCrouched = true;
             }
         }
+
+        private void HandleDashAnimation()
+        {
+            if (botData.BotStats.IsDashing && botData.BotStats.HasDashed && botData.BotStats.MoveDirection.x != 0)
+            {
+                botAnimatorController.Animator.SetTrigger(Dash);
+                botData.BotStats.HasDashed = false;
+            }
+                
+        }
         public override void ExitState()
         {
             
         }
 
-        public BotGroundedState(BotStateMachine currentContext, BotMovement botMovement, BotInput botInput, BotData botData, BotAnimatorController botAnimatorController) : base(currentContext, botMovement, botInput, botData, botAnimatorController)
+        public BotGroundedState(BotStateMachine currentContext, BotMovement botMovement, BotDash botDash, BotInput botInput, BotData botData, BotAnimatorController botAnimatorController) : base(currentContext, botMovement, botDash, botInput, botData, botAnimatorController)
         {
         }
     }

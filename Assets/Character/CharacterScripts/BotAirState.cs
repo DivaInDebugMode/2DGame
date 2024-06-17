@@ -2,9 +2,7 @@
 {
     public class BotAirState : BotBaseState
     {
-        public BotAirState(BotStateMachine currentContext, BotMovement botMovement, BotInput botInput, BotData botData, BotAnimatorController botAnimatorController) : base(currentContext, botMovement, botInput, botData, botAnimatorController)
-        {
-        }
+        
 
         public override void EnterState()
         {
@@ -24,6 +22,10 @@
         public override void ExitState()
         {
            
+        }
+
+        public BotAirState(BotStateMachine currentContext, BotMovement botMovement, BotDash botDash, BotInput botInput, BotData botData, BotAnimatorController botAnimatorController) : base(currentContext, botMovement, botDash, botInput, botData, botAnimatorController)
+        {
         }
     }
 }
