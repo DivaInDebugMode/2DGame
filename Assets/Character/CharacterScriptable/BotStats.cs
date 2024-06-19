@@ -11,13 +11,11 @@ namespace Character.CharacterScriptable
         [SerializeField] private float walkSpeed;
         [SerializeField] private int currentDirectionValue;
         [SerializeField] private float directionTime;
-        [SerializeField] private bool hasRotate;
         [SerializeField] private float moveDeceleration;
         [SerializeField] private Vector3 moveDirection;
         [SerializeField] private float smoothTime;
         [SerializeField] private bool isRunning;
         [SerializeField] private bool isRotating;
-        [SerializeField] private Directions currentDirection;
         [SerializeField] private bool isFallingEdge;
         [SerializeField] private Vector3 collCentreGround;
         [SerializeField] private bool hasStopped;
@@ -31,7 +29,57 @@ namespace Character.CharacterScriptable
         [SerializeField] private float dashTimer;
         [SerializeField] private float dashCooldownStart;
         [SerializeField] private bool hasDashed;
+        [SerializeField] private float targetAngle;
+        [SerializeField] private int lastDirectionValue;
+        [SerializeField] private float jumpForce;
+        [SerializeField] private int numberOfJump;
+        [SerializeField] private int maxJump;
+        [SerializeField] private bool endedJumPEarly;
+        [SerializeField] private float jumpEarlyGravityModifier;
+        [SerializeField] private bool isJump;
 
+
+
+        public int NumberOfJump
+        {
+            get => numberOfJump;
+            set => numberOfJump = value;
+        }
+
+        public bool IsJump
+        {
+            get => isJump;
+            set => isJump = value;
+        }
+        public int MaxJump => maxJump;
+
+        public bool EndedJumpEarly
+        {
+            get => endedJumPEarly;
+            set => endedJumPEarly = value;
+        }
+
+        public float JumpEarlyGravityModifier
+        {
+            get => jumpEarlyGravityModifier;
+            set => jumpEarlyGravityModifier = value;
+        }
+        public float JumpForce
+        {
+            get => jumpForce;
+            set => jumpForce = value;
+        }
+
+        public int LastDirectionValue
+        {
+            get => lastDirectionValue;
+            set => lastDirectionValue = value;
+        }
+        public float TargetAngle
+        {
+            get => targetAngle;
+            set => targetAngle = value; 
+        }
         public bool HasDashed
         {
             get => hasDashed;
@@ -109,11 +157,6 @@ namespace Character.CharacterScriptable
             get => hasStopped;
             set => hasStopped = value;
         }
-        public bool HasRotate
-        {
-            get => hasRotate;
-            set => hasRotate = value;
-        }
         
         public float MaxSpeed
         {
@@ -130,11 +173,6 @@ namespace Character.CharacterScriptable
         {
             get => isFallingEdge;
             set => isFallingEdge = value;
-        }
-        public Directions CurrentDirection
-        {
-            get => currentDirection;
-            set => currentDirection = value;
         }
         public bool IsRotating
         {

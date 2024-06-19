@@ -10,11 +10,12 @@ namespace Character.CharacterScripts
         [SerializeField] private BotData botData;
         [SerializeField] private BotInput botInput;
         [SerializeField] private BotMovement botMovement;
-        [SerializeField] private BotDash botDash;
         [SerializeField] private BotAnimatorController botAnimatorController;
+        [SerializeField] private BotJump botJump;
+        public bool test { get; set; }
         private void Awake()
         {
-            states = new BotStateFactory(this,botData,botMovement,botDash,botInput,botAnimatorController);
+            states = new BotStateFactory(this,botData,botMovement,botInput,botAnimatorController,botJump);
             currentState = states.Grounded();
             currentState.EnterState();
         }
@@ -26,14 +27,15 @@ namespace Character.CharacterScripts
         {
             currentState.UpdateState();
             StateSwitcher();
+          
          
         }
         
         private void StateSwitcher()
         {
-            if(botData.BotDetectionStats.IsGrounded)
+            if(botData.BotDetectionStats.IsGrounded && !botData.BotStats.IsJump)
                 CheckState(states.Grounded());
-            if(!botData.BotDetectionStats.IsGrounded &&!botData.BotStats.IsFallingEdge)
+            if(!botData.BotDetectionStats.IsGrounded || botData.BotStats.IsJump)
                 CheckState(states.Air());
         }
     

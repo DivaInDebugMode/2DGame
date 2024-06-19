@@ -1,4 +1,5 @@
 using System;
+using Character.CharacterScriptable;
 using UnityEngine;
 
 namespace Character.CharacterScripts
@@ -8,8 +9,6 @@ namespace Character.CharacterScripts
         private bool isOnEdge;
         private bool isEdgeOff;
         private static readonly int Velocity = Animator.StringToHash("Velocity");
-        private static readonly int Rotate = Animator.StringToHash("Rotate");
-        private static readonly int RunRotate = Animator.StringToHash("RunRotate");
         private static readonly int XDirection = Animator.StringToHash("XDirection");
         private static readonly int Crouch1 = Animator.StringToHash("Crouch");
         private static readonly int CrouchToStand = Animator.StringToHash("CrouchToStand");
@@ -17,12 +16,13 @@ namespace Character.CharacterScripts
 
         public override void EnterState()
         {
-
+            botData.BotStats.IsJump = false;
+            botData.BotStats.NumberOfJump = 0;
+            ctx.test = false;
         }
 
         public override void UpdateState()
         {
-            HandleRotation();
             HandleMovementSpeed();
             HandleMovementAnimation();
             SetCurrentDirectionValue();
@@ -47,22 +47,22 @@ namespace Character.CharacterScripts
             else if(!isEdgeOff && !botData.BotDetection.IsLeftFootOnEdge)
             {
                 botData.BotStats.IsFallingEdge = false;
-                switch (botData.BotStats.CurrentDirection)
+                switch (botData.BotStats.CurrentDirectionValue)
                 {
-                    case Directions.Left:
+                    case -1:
                         var transform = botData.transform;
                         var position = transform.position;
                         position = new Vector3(position.x - 0.4f,position.y,position.z);
                         transform.position = position;
                         break;
-                    case Directions.Right:
+                    case 1:
                         var transform1 = botData.transform;
                         var position1 = transform1.position;
                         position1 = new Vector3(position1.x + 0.4f,position1.y,position1.z);
                         transform1.position = position1;
                         break;
                 }
-
+            
                 isEdgeOff = true;
                 isOnEdge = false;
             }
@@ -71,27 +71,11 @@ namespace Character.CharacterScripts
 
         private void HandleMovementAnimation()
         {
-            if (botData.BotStats.IsRotating || botData.BotStats.IsDashing) return;
-            botAnimatorController.Animator.SetFloat(XDirection,botData.BotStats.MoveDirection.x);
+            if (botData.BotStats.IsDashing) return;
+            botAnimatorController.Animator.SetFloat(XDirection,botData.BotStats.CurrentDirectionValue);
             botAnimatorController.Animator.SetFloat(Velocity,botData.BotStats.CurrentSpeed);
         }
-
-        private void HandleRotation()
-        {
-            if (!botData.BotStats.IsRotating || botData.BotStats.HasRotate) return;
-            switch (botData.BotStats.DirectionTime)
-            {
-                case >= 0.5f:
-                    botAnimatorController.Animator.SetTrigger(RunRotate);
-                    botData.BotStats.DirectionTime = 0f;
-                    break;
-                case < 0.5f:
-                    botAnimatorController.Animator.SetTrigger(Rotate);
-                    break;
-            }
-
-            botData.BotStats.HasRotate = true;
-        }
+        
         private void HandleMovementSpeed()
         {
             if(botData.BotStats.IsCrouching || botData.BotStats.IsDashing) return;
@@ -160,19 +144,18 @@ namespace Character.CharacterScripts
 
         private void HandleDashAnimation()
         {
-            if (botData.BotStats.IsDashing && botData.BotStats.HasDashed && botData.BotStats.MoveDirection.x != 0)
-            {
-                botAnimatorController.Animator.SetTrigger(Dash);
-                botData.BotStats.HasDashed = false;
-            }
-                
+            if (!botData.BotStats.IsDashing || !botData.BotStats.HasDashed) return;
+            botAnimatorController.Animator.SetTrigger(Dash);
+            botData.BotStats.HasDashed = false;
+
         }
         public override void ExitState()
         {
             
         }
 
-        public BotGroundedState(BotStateMachine currentContext, BotMovement botMovement, BotDash botDash, BotInput botInput, BotData botData, BotAnimatorController botAnimatorController) : base(currentContext, botMovement, botDash, botInput, botData, botAnimatorController)
+
+        public BotGroundedState(BotStateMachine currentContext, BotMovement botMovement, BotInput botInput, BotData botData, BotAnimatorController botAnimatorController, BotJump botJump) : base(currentContext, botMovement, botInput, botData, botAnimatorController, botJump)
         {
         }
     }

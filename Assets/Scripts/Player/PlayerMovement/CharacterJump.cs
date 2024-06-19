@@ -100,32 +100,32 @@ namespace Player.PlayerMovement
             }
             
             // Method to apply gravity
-            public void ApplyGravity()
-            {
-                // If the jump ended early, adjust gravity
-                    if (characterStats.EndedJumpEarly && characterComponents.Rb.velocity.y > 0)
-                    {
-                        characterComponents.Rb.gravityScale *= characterStats.JumpEndEarlyGravityModifier;
-                        //Debug.Log(gravity);
-                    }
-                
-                    // If character is grounded or moving upwards, exit
-                    if (detectionStats.IsGrounded || !(characterComponents.Rb.gravityScale <= 0f)) return;
-                
-                     var newVelocityY = Mathf.MoveTowards(characterComponents.Rb.velocity.y, 5,
-                         characterComponents.Rb.gravityScale);
-                    characterComponents.Rb.velocity = new Vector2(characterComponents.Rb.velocity.x, newVelocityY);
-            }
-
-
-            // Method to handle early jump end
-            public void HandleJumpEnd()
-            {
-                // If character is not grounded, not jumping, and moving upwards, set jump ended early flag
-                if (!detectionStats.IsGrounded && !characterStats.IsJump && characterComponents.Rb.velocity.y > 0)
-                {
-                    characterStats.EndedJumpEarly = true;
-                }
-            }
+            // public void ApplyGravity()
+            // {
+            //     // If the jump ended early, adjust gravity
+            //         if (characterStats.EndedJumpEarly && characterComponents.Rb.velocity.y > 0)
+            //         {
+            //             characterComponents.Rb.gravityScale *= characterStats.JumpEndEarlyGravityModifier;
+            //             //Debug.Log(gravity);
+            //         }
+            //     
+            //         // If character is grounded or moving upwards, exit
+            //         if (detectionStats.IsGrounded || !(characterComponents.Rb.gravityScale <= 0f)) return;
+            //     
+            //          var newVelocityY = Mathf.MoveTowards(characterComponents.Rb.velocity.y, 5,
+            //              characterComponents.Rb.gravityScale);
+            //         characterComponents.Rb.velocity = new Vector2(characterComponents.Rb.velocity.x, newVelocityY);
+            // }
+            //
+            //
+            // // Method to handle early jump end
+            // public void HandleJumpEnd()
+            // {
+            //     // If character is not grounded, not jumping, and moving upwards, set jump ended early flag
+            //     if (!detectionStats.IsGrounded && !characterStats.IsJump && characterComponents.Rb.velocity.y > 0)
+            //     {
+            //         characterStats.EndedJumpEarly = true;
+            //     }
+            // }
         }
     }

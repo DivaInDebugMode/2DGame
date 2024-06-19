@@ -10,11 +10,13 @@ namespace Character.CharacterScripts
         [SerializeField] private InputActionReference moveDown;
         [SerializeField] private InputActionReference run;
         [SerializeField] private InputActionReference dash;
+        [SerializeField] private InputActionReference jump;
         
         public InputActionReference Run => run;
         public InputActionReference Dash => dash;
         public InputActionReference MoveLeft => moveLeft;
         public InputActionReference MoveRight => moveRight;
         public InputActionReference MoveDown => moveDown;
+        public InputActionReference Jump => jump;
     }
 }

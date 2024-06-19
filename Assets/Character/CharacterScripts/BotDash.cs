@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -21,48 +20,50 @@ namespace Character.CharacterScripts
 
         private void Update()
         {
-            
             if (botData.BotStats.IsDashing)
             {
                 botData.BotStats.DashCooldownStart += Time.deltaTime;
                 if (botData.BotStats.DashCooldownStart > botData.BotStats.DashDuration)
                 {
-                    botData.BotStats.IsDashing = false;
-                    botData.BotStats.DirectionTime = 0;
-                    botData.BotStats.DashCooldownStart = 0;
+                    EndDash();
                 }
             }
 
-            if (!botData.BotStats.CanDash)
-            {
-                botData.BotStats.DashTimer += Time.deltaTime;
-                if (botData.BotStats.DashTimer >= botData.BotStats.DashCooldown)
-                {
-                    botData.BotStats.CanDash = true;
-                    botData.BotStats.DashTimer = 0;
-                }
-            }
+            if (botData.BotStats.CanDash) return;
+            botData.BotStats.DashTimer += Time.deltaTime;
+            if (!(botData.BotStats.DashTimer >= botData.BotStats.DashCooldown)) return;
+            botData.BotStats.CanDash = true;
+            botData.BotStats.DashTimer = 0;
         }
 
         private void Dash(InputAction.CallbackContext context)
         {
-            if(!botData.BotStats.CanDash) return;
-            if(botData.BotStats.IsRotating) return;
+            if (botData.BotStats.IsCrouching) return;
+            if (!botData.BotStats.CanDash) return;
+            if (botData.BotStats.IsRotating) return;
             botData.BotStats.IsDashing = true;
-            switch (botData.BotStats.MoveDirection.x)
+            botData.BotStats.CurrentSpeed = 0;
+            botData.BotStats.DashCooldownStart = 0;
+
+            var velocity = botData.BotComponents.Rb.velocity;
+            velocity = botData.BotStats.CurrentDirectionValue switch
             {
-                case 1:
-                    botData.BotComponents.Rb.velocity = new Vector2(botData.BotStats.DashForce, botData.BotComponents.Rb.velocity.y);
-                    break;
-                case -1:
-                    botData.BotComponents.Rb.velocity = new Vector2(-botData.BotStats.DashForce, botData.BotComponents.Rb.velocity.y);
-                    break;
-                    
-            }
+                1 => new Vector2(botData.BotStats.DashForce, velocity.y),
+                -1 => new Vector2(-botData.BotStats.DashForce, velocity.y),
+                _ => velocity
+            };
+            botData.BotComponents.Rb.velocity = velocity;
 
             botData.BotStats.HasDashed = true;
             botData.BotStats.CanDash = false;
         }
-        
+
+        private void EndDash()
+        {
+            botData.BotStats.IsDashing = false;
+            botData.BotStats.DirectionTime = 0;
+            botData.BotStats.DashCooldownStart = 0;
+            botData.BotComponents.Rb.velocity = new Vector2(0, botData.BotComponents.Rb.velocity.y);
+        }
     }
 }

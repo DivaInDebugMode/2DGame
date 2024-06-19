@@ -6254,6 +6254,7 @@ GameObject:
   - component: {fileID: 5866666021710219758}
   - component: {fileID: 5866666021710219759}
   - component: {fileID: 5866666021710219760}
+  - component: {fileID: 5866666021710219761}
   m_Layer: 6
   m_Name: Y Bot-2
   m_TagString: Untagged
@@ -8393,7 +8394,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 919132149358643491}
   serializedVersion: 4
-  m_Mass: 1
+  m_Mass: 0.1
   m_Drag: 0
   m_AngularDrag: 0
   m_CenterOfMass: {x: 0, y: 0, z: 0}
@@ -8459,6 +8460,7 @@ MonoBehaviour:
   moveDown: {fileID: -1359881480486733995, guid: fa2b6866f7dc145ab9f96166a28a914a, type: 3}
   run: {fileID: 3364377578063260321, guid: fa2b6866f7dc145ab9f96166a28a914a, type: 3}
   dash: {fileID: -5474854073648830051, guid: fa2b6866f7dc145ab9f96166a28a914a, type: 3}
+  jump: {fileID: -9121203486731450044, guid: fa2b6866f7dc145ab9f96166a28a914a, type: 3}
 --- !u!114 &5866666021710219752
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8523,8 +8525,8 @@ MonoBehaviour:
   botData: {fileID: 5866666021710219757}
   botInput: {fileID: 5866666021710219751}
   botMovement: {fileID: 5866666021710219753}
-  botDash: {fileID: 5866666021710219760}
   botAnimatorController: {fileID: 5866666021710219756}
+  botJump: {fileID: 5866666021710219761}
 --- !u!114 &5866666021710219756
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8616,6 +8618,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   botData: {fileID: 5866666021710219757}
   botInput: {fileID: 5866666021710219751}
+--- !u!114 &5866666021710219761
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 919132149358643491}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7af9f6f3ec6463db4a33e94cc93202c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  botData: {fileID: 5866666021710219757}
+  botInput: {fileID: 5866666021710219751}
+  pressStartTime: 0
+  jumpPressedTime: 0
 --- !u!4 &5901452235461394714
 Transform:
   m_ObjectHideFlags: 0

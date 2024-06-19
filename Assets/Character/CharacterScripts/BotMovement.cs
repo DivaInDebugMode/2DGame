@@ -5,44 +5,48 @@ using UnityEngine;
 
 namespace Character.CharacterScripts
 {
-    public enum Directions
-    {
-        Right,
-        Left
-    }
+  
     public class BotMovement : MonoBehaviour
     {
         [SerializeField] private BotComponents botComponents;
         [SerializeField] private BotStats botStats;
         [SerializeField] private BotInput botInput;
-        
+
+
         private void Start()
         {
-            botStats.CurrentDirection = Directions.Right;
+            botStats.LastDirectionValue = botStats.CurrentDirectionValue;
         }
 
         private void Update()
         {
             HandleBotInput();
-            if (botStats.CurrentDirectionValue == 1 && botStats.MoveDirection.x < 0)
+            botStats.CurrentDirectionValue = botStats.CurrentDirectionValue switch
             {
-                botStats.CurrentDirectionValue = -1;
+                1 when botStats.MoveDirection.x < 0 => -1,
+                -1 when botStats.MoveDirection.x > 0 => 1,
+                _ => botStats.CurrentDirectionValue
+            };
+            
+            if (!botStats.IsRotating && botStats.LastDirectionValue!= botStats.CurrentDirectionValue)
+            {
+                botStats.IsRotating = true;
+                botStats.DirectionTime = 0;
+                botStats.LastDirectionValue = botStats.CurrentDirectionValue;
             }
-            else if (botStats.CurrentDirectionValue == -1 && botStats.MoveDirection.x > 0)
+            if (botStats.IsRotating && botStats.DirectionTime >=0.1f)
             {
-                botStats.CurrentDirectionValue = 1;
+                botStats.IsRotating = false;
             }
         }
 
         private void FixedUpdate()
         {
-            //GroundRotateBot();
-            TestRotate();
+            SmoothRotate();
         }
 
         private void HandleBotInput()
         {
-            if(botStats.IsCrouching) return;
             botStats.MoveDirection = new Vector2(
                 botInput.MoveRight.action.ReadValue<float>() - botInput.MoveLeft.action.ReadValue<float>(),
                 0
@@ -51,7 +55,7 @@ namespace Character.CharacterScripts
 
         public void MoveHorizontally(float horizontalSpeed)
         {
-            if(botStats.IsRotating || botStats.IsCrouching || botStats.IsDashing) return;
+            if(botStats.IsCrouching || botStats.IsDashing) return;
             if (botStats.MoveDirection.x != 0)
             {
                 botStats.VelocityX = Mathf.MoveTowards(botComponents.Rb.velocity.x,
@@ -69,80 +73,26 @@ namespace Character.CharacterScripts
                 botStats.HasStopped = true;
             }
         }
-
-        // private void GroundRotateBot()
-        // {
-        //     if (botStats.IsRotating || botStats.IsCrouching || botStats.IsDashing) return;
-        //     switch (botStats.MoveDirection.x)
-        //         {
-        //             case > 0:
-        //                 if (botStats.CurrentDirection == Directions.Right) return;
-        //                 botStats.CurrentDirectionValue = 1;
-        //                 ApplyVelocityOnDirection(botStats.CurrentDirectionValue);
-        //                 transform.rotation = Quaternion.Euler(0, 90, 0);
-        //                 StartCoroutine(DirectionTimer());
-        //                 botStats.IsRotating = true;
-        //                 botStats.CurrentDirection = Directions.Right;
-        //                 break;
-        //             case < 0:
-        //                 if (botStats.CurrentDirection == Directions.Left) return;
-        //                 botStats.CurrentDirectionValue = -1;
-        //                 ApplyVelocityOnDirection(botStats.CurrentDirectionValue);
-        //                 transform.rotation = Quaternion.Euler(0, -90, 0);
-        //                 StartCoroutine(DirectionTimer());
-        //                 botStats.IsRotating = true;
-        //                 botStats.CurrentDirection = Directions.Left;
-        //                 break;
-        //         }
-        // }
-        private void TestRotate()
+        
+        private void SmoothRotate()
         {
-            float targetAngle = 0;
+            if (botStats.IsDashing) return;
+            botStats.TargetAngle = botStats.CurrentDirectionValue switch
+            {
+                > 0 when Math.Abs(botStats.TargetAngle - 90f) > 0.00001f => 90,
+                < 0 when Math.Abs(botStats.TargetAngle - 270) > 0.00001f => 270f,
+                _ => botStats.TargetAngle
+            };
 
-            if (botStats.CurrentDirectionValue > 0)
-            {
-                targetAngle = 90f;
-            }
-            else if (botStats.CurrentDirectionValue < 0)
-            {
-                targetAngle = 270f;
-            }
+            if (!(Math.Abs(transform.eulerAngles.y - botStats.TargetAngle) > 0.00001f)) return;
+            botStats.DirectionTime += Time.deltaTime;
+            var targetRotation = Quaternion.Euler(0, botStats.TargetAngle, 0);
+            transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, Time.deltaTime * 15);
 
-            if (Math.Abs(transform.rotation.y - targetAngle) > 0.00001f)
-            {
-                Quaternion targetRotation = Quaternion.Euler(0, targetAngle, 0);
-                transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, Time.deltaTime * 20); 
-            }
-            
         }
         
         
-
-        private void ApplyVelocityOnDirection(int direction)
-        {
-            var velocity = botComponents.Rb.velocity;
-            if (botStats.CurrentSpeed > 3.5f && botStats.DirectionTime >= 0.5f)
-            {
-                velocity = new Vector2(1.5f * direction, velocity.y);
-            }
-            else if (botStats.CurrentSpeed <= 3.5f || botStats.DirectionTime < 0.5f)
-            {
-                velocity = new Vector2(0f, velocity.y);
-            }
-            botComponents.Rb.velocity = velocity;
-        }
-
-        private IEnumerator DirectionTimer()
-        {
-            yield return new WaitForSecondsRealtime(0.05f);
-            botStats.DirectionTime = 0;
-        }
-
-        private void RunToStop() => botStats.IsRunning = false;
-        private void RotateToRun() => botStats.IsRotating = false;
-        private void Rotated() => botStats.HasRotate = false;
         private void TurnOfEdgeFall() => botStats.IsFallingEdge = false;
-
         private void StandingFromCrouch() => botStats.IsCrouching = false;
 
     }

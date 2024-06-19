@@ -36,8 +36,8 @@ namespace Player.PlayerMovement
             }
 
             if(stats.IsDashing) characterDash.PerformDash();
-            characterJump.ApplyGravity();
-            characterJump.HandleJumpEnd();
+            // characterJump.ApplyGravity();
+            // characterJump.HandleJumpEnd();
             characterJump.Jump();
         }
 
