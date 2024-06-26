@@ -40,6 +40,7 @@ namespace Character.CharacterScripts
         {
             if (botData.BotStats.IsCrouching) return;
             if (botData.BotStats.IsRotating) return;
+            if(botData.BotStats.IsGliding) return;
             if (!botData.BotStats.CanDash) return;
             botData.BotStats.IsDashing = true;
             botData.BotStats.CurrentSpeed = 0;

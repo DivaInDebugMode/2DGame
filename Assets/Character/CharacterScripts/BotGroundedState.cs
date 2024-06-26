@@ -23,10 +23,11 @@ namespace Character.CharacterScripts
 
         public override void EnterState()
         {
+            botData.BotComponents.Rb.velocity = Vector3.zero;
             Physics.gravity = new Vector2(0, -9.81f);
             botData.BotStats.IsJump = false;
             botData.BotStats.CanDash = false;
-            botData.BotStats.DashDuration = 1f;
+            botData.BotStats.DashDuration = 0.7f;
             ctx.test = false;
             resetJumpTimer = 0.2f;
             resetJumpTimerActive = true;
