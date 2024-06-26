@@ -26,7 +26,6 @@ namespace Character.CharacterScripts
         private void Update()
         {
             IsGrounded();
-           
         }
 
         private void IsGrounded()

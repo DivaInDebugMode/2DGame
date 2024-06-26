@@ -430,8 +430,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 135996081}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 34.3979, y: -8.6655, z: 3.01}
-  m_LocalScale: {x: 17, y: 16.74001, z: 7}
+  m_LocalPosition: {x: 34.3979, y: -8.183, z: 3.01}
+  m_LocalScale: {x: 17, y: 17.706926, z: 7}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 54387189}
@@ -3340,11 +3340,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2957207784595611945, guid: 08ac4b3b2bea9494db0e0122d339738d, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 18.816914
+      value: -10.89
       objectReference: {fileID: 0}
     - target: {fileID: 2957207784595611945, guid: 08ac4b3b2bea9494db0e0122d339738d, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -1.1730826
+      value: -1.08
       objectReference: {fileID: 0}
     - target: {fileID: 2957207784595611945, guid: 08ac4b3b2bea9494db0e0122d339738d, type: 3}
       propertyPath: m_LocalPosition.z
@@ -6133,7 +6133,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 919132149358643491}
   m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 18.33, y: -3.988, z: 1.5}
+  m_LocalPosition: {x: 32.07, y: -2.114, z: 1.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -8526,7 +8526,7 @@ MonoBehaviour:
   botInput: {fileID: 5866666021710219751}
   botMovement: {fileID: 5866666021710219753}
   botAnimatorController: {fileID: 5866666021710219756}
-  botJump: {fileID: 5866666021710219761}
+  botJump: {fileID: 0}
 --- !u!114 &5866666021710219756
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8627,13 +8627,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 919132149358643491}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f7af9f6f3ec6463db4a33e94cc93202c, type: 3}
+  m_Script: {fileID: 11500000, guid: eb952a44ada242e79fd00c45f6ef05a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   botData: {fileID: 5866666021710219757}
   botInput: {fileID: 5866666021710219751}
-  pressStartTime: 0
-  jumpPressedTime: 0
 --- !u!4 &5901452235461394714
 Transform:
   m_ObjectHideFlags: 0

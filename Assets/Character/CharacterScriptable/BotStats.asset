@@ -12,34 +12,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e6555dc62174e405ba3886cb961c54a0, type: 3}
   m_Name: BotStats
   m_EditorClassIdentifier: 
-  currentSpeed: -0.326004
+  currentSpeed: -0.046539254
   maxSpeed: 6
   walkSpeed: 3.5
-  currentDirectionValue: 1
-  directionTime: 0
   moveDeceleration: 10
-  moveDirection: {x: 0, y: 0, z: 0}
   smoothTime: 0.9
-  isRunning: 0
-  isRotating: 0
-  isFallingEdge: 0
-  collCentreGround: {x: 0, y: 0.85, z: 0.05}
-  hasStopped: 1
-  isCrouching: 0
-  hasCrouched: 1
-  isDashing: 0
+  moveDirection: {x: 0, y: 0, z: 0}
+  currentDirectionValue: 1
+  lastDirectionValue: 1
+  directionTime: 0.93999964
+  targetAngle: 90
   dashForce: 10
+  isDashing: 0
+  hasDashed: 0
   canDash: 1
   dashDuration: 1
-  dashCooldown: 2
-  dashTimer: 0
+  dashTimer: 0.4610137
   dashCooldownStart: 0
-  hasDashed: 0
-  targetAngle: 90
-  lastDirectionValue: 1
-  jumpForce: 5
+  dashCooldown: 1.5
+  isRotating: 0
+  isCrouching: 0
+  hasCrouched: 1
+  hasStopped: 1
+  jumpForce: 13
   numberOfJump: 0
-  maxJump: 2
-  endedJumPEarly: 0
-  jumpEarlyGravityModifier: 0
+  maxJump: 1
   isJump: 0
+  isFalling: 0
+  hasJumped: 0
+  initialJumpForce: 7

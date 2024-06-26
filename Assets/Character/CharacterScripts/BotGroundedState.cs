@@ -1,5 +1,4 @@
 using System;
-using Character.CharacterScriptable;
 using UnityEngine;
 
 namespace Character.CharacterScripts
@@ -8,64 +7,72 @@ namespace Character.CharacterScripts
     {
         private bool isOnEdge;
         private bool isEdgeOff;
+        private float crouchTimer;
+        private const float CrouchDuration = 0.3f;
+        private float resetJumpTimer;
+        private bool resetJumpTimerActive;
+        private float resetDashTimer;
+        private bool resetDashTimerActive;
         private static readonly int Velocity = Animator.StringToHash("Velocity");
         private static readonly int XDirection = Animator.StringToHash("XDirection");
         private static readonly int Crouch1 = Animator.StringToHash("Crouch");
         private static readonly int CrouchToStand = Animator.StringToHash("CrouchToStand");
         private static readonly int Dash = Animator.StringToHash("Dash");
+        private static readonly int Landing = Animator.StringToHash("Landing");
+        private static readonly int Falling = Animator.StringToHash("Falling");
 
         public override void EnterState()
         {
+            Physics.gravity = new Vector2(0, -9.81f);
             botData.BotStats.IsJump = false;
-            botData.BotStats.NumberOfJump = 0;
+            botData.BotStats.CanDash = false;
+            botData.BotStats.DashDuration = 1f;
             ctx.test = false;
+            resetJumpTimer = 0.2f;
+            resetJumpTimerActive = true;
+            resetDashTimer = 0.09f;
+            resetDashTimerActive = true;
         }
 
         public override void UpdateState()
         {
+            HandleTimers();
             HandleMovementSpeed();
             HandleMovementAnimation();
             SetCurrentDirectionValue();
             Crouch();
             HandleDashAnimation();
+            HandleLanding();
             botData.BotDetection.CheckGroundLeftFoot();
             botData.BotDetection.CheckGroundRightFoot();
         }
 
+        private void HandleTimers()
+        {
+            if (resetJumpTimerActive)
+            {
+                resetJumpTimer -= Time.deltaTime;
+                if (resetJumpTimer <= 0f)
+                {
+                    botData.BotStats.NumberOfJump = 0;
+                    resetJumpTimerActive = false;
+                }
+            }
+
+            if (resetDashTimerActive)
+            {
+                resetDashTimer -= Time.deltaTime;
+                if (resetDashTimer <= 0f)
+                {
+                    botData.BotStats.CanDash = true;
+                    resetDashTimerActive = false;
+                }
+            }
+            
+        }
         public override void FixedUpdate()
         {
             botMovement.MoveHorizontally(botData.BotStats.CurrentSpeed);
-            
-            if (botData.BotDetection.IsLeftFootOnEdge && botData.BotDetection.IsRightFootOnGround && !isOnEdge)
-            {
-                botData.BotStats.IsRotating = false;
-                botData.BotStats.IsRunning = false;
-                botData.BotStats.IsFallingEdge = true;
-                isOnEdge = true;
-                isEdgeOff = false;
-            }
-            else if(!isEdgeOff && !botData.BotDetection.IsLeftFootOnEdge)
-            {
-                botData.BotStats.IsFallingEdge = false;
-                switch (botData.BotStats.CurrentDirectionValue)
-                {
-                    case -1:
-                        var transform = botData.transform;
-                        var position = transform.position;
-                        position = new Vector3(position.x - 0.4f,position.y,position.z);
-                        transform.position = position;
-                        break;
-                    case 1:
-                        var transform1 = botData.transform;
-                        var position1 = transform1.position;
-                        position1 = new Vector3(position1.x + 0.4f,position1.y,position1.z);
-                        transform1.position = position1;
-                        break;
-                }
-            
-                isEdgeOff = true;
-                isOnEdge = false;
-            }
         }
 
 
@@ -86,7 +93,6 @@ namespace Character.CharacterScripts
                 {
                     if (Math.Abs(botData.BotStats.CurrentSpeed - botData.BotStats.MaxSpeed) > 0.0001f)
                     {
-                        botData.BotStats.IsRunning = true;
                         botData.BotStats.CurrentSpeed = botData.BotStats.MaxSpeed;
                     }
                 }
@@ -94,7 +100,6 @@ namespace Character.CharacterScripts
                 {
                     if (Math.Abs(botData.BotStats.CurrentSpeed - botData.BotStats.WalkSpeed) > 0.0001f)
                     {
-                        botData.BotStats.IsRunning = false;
                         botData.BotStats.DirectionTime = 0;
                         botData.BotStats.CurrentSpeed = botData.BotStats.WalkSpeed;
                     }
@@ -121,7 +126,7 @@ namespace Character.CharacterScripts
 
         private void Crouch()
         {
-            if (botInput.MoveDown.action.triggered && !botData.BotStats.IsCrouching && !botData.BotStats.IsDashing)
+            if (botInput.MoveDown.action.triggered && !botData.BotStats.IsCrouching && !botData.BotStats.IsDashing && !botData.BotStats.IsJump && crouchTimer <= 0)
             {
                 botData.BotComponents.Rb.velocity = new Vector2(0, botData.BotComponents.Rb.velocity.y);
                 botData.BotComponents.Coll.enabled = false;
@@ -131,14 +136,25 @@ namespace Character.CharacterScripts
                 botAnimatorController.Animator.SetTrigger(Crouch1);
                 botData.BotStats.HasCrouched = false;
                 botData.BotStats.IsCrouching = true;
+                crouchTimer = CrouchDuration;
             }
-            else if (!botInput.MoveDown.action.IsPressed() && botData.BotStats.IsCrouching && !botData.BotStats.HasCrouched)
+            else if (!botInput.MoveDown.action.IsPressed() && botData.BotStats.IsCrouching && !botData.BotStats.HasCrouched && crouchTimer <= 0f)
             {
                 botData.BotComponents.BoxCollider.enabled = false;
                 botData.BotComponents.Coll.enabled = true;
-
                 botAnimatorController.Animator.SetTrigger(CrouchToStand);
+                botData.BotStats.IsCrouching = false;
                 botData.BotStats.HasCrouched = true;
+                crouchTimer = CrouchDuration;
+            }
+
+            if (crouchTimer > 0f)
+            {
+                crouchTimer -= Time.deltaTime;
+                if (crouchTimer <= 0f)
+                {
+                    crouchTimer = 0;
+                }
             }
         }
 
@@ -147,14 +163,23 @@ namespace Character.CharacterScripts
             if (!botData.BotStats.IsDashing || !botData.BotStats.HasDashed) return;
             botAnimatorController.Animator.SetTrigger(Dash);
             botData.BotStats.HasDashed = false;
-
         }
+
+        private void HandleLanding()
+        {
+            if (botData.BotStats.IsFalling && !botData.BotStats.IsDashing)
+            {
+                botAnimatorController.Animator.SetTrigger(Landing);
+                botAnimatorController.Animator.SetBool(Falling, false);
+                botData.BotStats.IsFalling = false;
+            }
+        }
+        
         public override void ExitState()
         {
             
         }
-
-
+        
         public BotGroundedState(BotStateMachine currentContext, BotMovement botMovement, BotInput botInput, BotData botData, BotAnimatorController botAnimatorController, BotJump botJump) : base(currentContext, botMovement, botInput, botData, botAnimatorController, botJump)
         {
         }

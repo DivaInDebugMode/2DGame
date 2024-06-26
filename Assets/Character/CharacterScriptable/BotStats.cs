@@ -1,4 +1,3 @@
-using Character.CharacterScripts;
 using UnityEngine;
 
 namespace Character.CharacterScriptable
@@ -6,202 +5,222 @@ namespace Character.CharacterScriptable
     [CreateAssetMenu(menuName = "Create BotStats", fileName = "BotStats", order = 0)]
     public class BotStats : ScriptableObject
     {
+        #region Character Move Speed Values
+        [Header("Character Move Speed Values")]
+        [Space]
+        [Tooltip("The current speed of the character.")]
         [SerializeField] private float currentSpeed;
+        [Tooltip("The maximum speed the character can reach.")]
         [SerializeField] private float maxSpeed;
+        [Tooltip("The walking speed of the character.")]
         [SerializeField] private float walkSpeed;
-        [SerializeField] private int currentDirectionValue;
-        [SerializeField] private float directionTime;
+        [Tooltip("The deceleration rate when the character stops moving.")]
         [SerializeField] private float moveDeceleration;
-        [SerializeField] private Vector3 moveDirection;
+        [Tooltip("The time it takes to smoothly change speed.")]
         [SerializeField] private float smoothTime;
-        [SerializeField] private bool isRunning;
-        [SerializeField] private bool isRotating;
-        [SerializeField] private bool isFallingEdge;
-        [SerializeField] private Vector3 collCentreGround;
-        [SerializeField] private bool hasStopped;
-        [SerializeField] private bool isCrouching;
-        [SerializeField] private bool hasCrouched;
-        [SerializeField] private bool isDashing;
-        [SerializeField] private int dashForce;
-        [SerializeField] private bool canDash;
-        [SerializeField] private float dashDuration;
-        [SerializeField] private float dashCooldown;
-        [SerializeField] private float dashTimer;
-        [SerializeField] private float dashCooldownStart;
-        [SerializeField] private bool hasDashed;
-        [SerializeField] private float targetAngle;
-        [SerializeField] private int lastDirectionValue;
-        [SerializeField] private float jumpForce;
-        [SerializeField] private int numberOfJump;
-        [SerializeField] private int maxJump;
-        [SerializeField] private bool endedJumPEarly;
-        [SerializeField] private float jumpEarlyGravityModifier;
-        [SerializeField] private bool isJump;
-
-
-
-        public int NumberOfJump
-        {
-            get => numberOfJump;
-            set => numberOfJump = value;
-        }
-
-        public bool IsJump
-        {
-            get => isJump;
-            set => isJump = value;
-        }
-        public int MaxJump => maxJump;
-
-        public bool EndedJumpEarly
-        {
-            get => endedJumPEarly;
-            set => endedJumPEarly = value;
-        }
-
-        public float JumpEarlyGravityModifier
-        {
-            get => jumpEarlyGravityModifier;
-            set => jumpEarlyGravityModifier = value;
-        }
-        public float JumpForce
-        {
-            get => jumpForce;
-            set => jumpForce = value;
-        }
-
-        public int LastDirectionValue
-        {
-            get => lastDirectionValue;
-            set => lastDirectionValue = value;
-        }
-        public float TargetAngle
-        {
-            get => targetAngle;
-            set => targetAngle = value; 
-        }
-        public bool HasDashed
-        {
-            get => hasDashed;
-            set => hasDashed = value;
-        }
-
-        public float DashCooldownStart
-        {
-            get => dashCooldownStart;
-            set => dashCooldownStart = value;
-        }
-
-        public float DashTimer
-        {
-            get => dashTimer;
-            set => dashTimer = value;
-        }
-
-        public float DashCooldown
-        {
-            get => dashCooldown;
-            set => dashCooldown = value;
-        }
-
-        public float DashDuration
-        {
-            get => dashDuration;
-            set => dashDuration = value;
-        }
-
-        public bool CanDash
-        {
-            get => canDash;
-            set => canDash = value;
-        }
-
-        public int DashForce
-        {
-            get => dashForce;
-            set => dashForce = value;
-        }
-
-        public bool IsDashing
-        {
-            get => isDashing;
-            set => isDashing = value;
-        }
-
-        public int CurrentDirectionValue
-        {
-            get => currentDirectionValue;
-            set => currentDirectionValue = value;
-        }
-
-        public bool IsCrouching
-        {
-            get => isCrouching;
-            set => isCrouching = value;
-        }
-        
-        public bool HasCrouched
-        {
-            get => hasCrouched;
-            set => hasCrouched = value;
-        }
-
-        public float DirectionTime
-        {
-            get => directionTime;
-            set => directionTime = value;
-        }
-        
-        public bool HasStopped
-        {
-            get => hasStopped;
-            set => hasStopped = value;
-        }
-        
-        public float MaxSpeed
-        {
-            get => maxSpeed;
-            set => maxSpeed = value;
-        }
-
-        public float MoveDeceleration => moveDeceleration;
-
-        public Vector3 CollCentreGround => collCentreGround;
-
-
-        public bool IsFallingEdge
-        {
-            get => isFallingEdge;
-            set => isFallingEdge = value;
-        }
-        public bool IsRotating
-        {
-            get => isRotating;
-            set => isRotating = value;
-        }
-        public bool IsRunning
-        {
-            get => isRunning;
-            set => isRunning = value;
-        }
-
-        public float VelocityX { get; set; }
 
         public float CurrentSpeed
         {
             get => currentSpeed;
             set => currentSpeed = value;
         }
+        public float MaxSpeed => maxSpeed;
+        public float WalkSpeed => walkSpeed;
+        public float MoveDeceleration => moveDeceleration;
+        public float SmoothTime => smoothTime;
+        #endregion
 
-      
+        #region Character Move Direction Values
+        [Header("Character Move Direction Values")]
+        [Space]
+        [Tooltip("The current move direction of the character.")]
+        [SerializeField] private Vector3 moveDirection;
+        [Tooltip("The current direction value.")]
+        [SerializeField] private int currentDirectionValue;
+        [Tooltip("The last direction value.")]
+        [SerializeField] private int lastDirectionValue;
+        [Tooltip("The time spent moving in the current direction.")]
+        [SerializeField] private float directionTime;
+        [Tooltip("The target angle for rotation.")]
+        [SerializeField] private float targetAngle;
+
+        public float VelocityX { get; set; }
         public Vector3 MoveDirection
         {
             get => moveDirection;
             set => moveDirection = value;
         }
+        public int CurrentDirectionValue
+        {
+            get => currentDirectionValue;
+            set => currentDirectionValue = value;
+        }
+        public int LastDirectionValue
+        {
+            get => lastDirectionValue;
+            set => lastDirectionValue = value;
+        }
+        public float DirectionTime
+        {
+            get => directionTime;
+            set => directionTime = value;
+        }
+        public float TargetAngle
+        {
+            get => targetAngle;
+            set => targetAngle = value;
+        }
+        #endregion
 
-        public float SmoothTime => smoothTime;
+        #region Character Dash Values
+        [Header("Character Dash Values")]
+        [Space]
+        [Tooltip("The force applied during a dash.")]
+        [SerializeField] private int dashForce;
+        [Tooltip("Whether the character is currently dashing.")]
+        [SerializeField] private bool isDashing;
+        [Tooltip("Whether the character has dashed.")]
+        [SerializeField] private bool hasDashed;
+        [Tooltip("Whether the character can dash.")]
+        [SerializeField] private bool canDash;
+        [Tooltip("The duration of the dash.")]
+        [SerializeField] private float dashDuration;
+        [Tooltip("The timer for the dash duration.")]
+        [SerializeField] private float dashTimer;
+        [Tooltip("The start time of the dash cooldown.")]
+        [SerializeField] private float dashCooldownStart;
+        [Tooltip("The cooldown time before the character can dash again.")]
+        [SerializeField] private float dashCooldown;
 
-        public float WalkSpeed => walkSpeed;
+        public bool HasDashed
+        {
+            get => hasDashed;
+            set => hasDashed = value;
+        }
+        public float DashCooldownStart
+        {
+            get => dashCooldownStart;
+            set => dashCooldownStart = value;
+        }
+        public float DashTimer
+        {
+            get => dashTimer;
+            set => dashTimer = value;
+        }
+        public float DashCooldown => dashCooldown;
+        public float DashDuration
+        {
+            get => dashDuration;
+            set => dashDuration = value;
+        }
+        public bool CanDash
+        {
+            get => canDash;
+            set => canDash = value;
+        }
+        public int DashForce => dashForce;
+        public bool IsDashing
+        {
+            get => isDashing;
+            set => isDashing = value;
+        }
+        #endregion
+
+        #region Character Move States
+        [Header("Character Move States")]
+        [Space]
+        [Tooltip("Whether the character is rotating.")]
+        [SerializeField] private bool isRotating;
+        [Tooltip("Whether the character is crouching.")]
+        [SerializeField] private bool isCrouching;
+        [Tooltip("Whether the character has crouched.")]
+        [SerializeField] private bool hasCrouched;
+        [Tooltip("Whether the character has stopped.")]
+        [SerializeField] private bool hasStopped;
+
+        public bool IsRotating
+        {
+            get => isRotating;
+            set => isRotating = value;
+        }
+        public bool IsCrouching
+        {
+            get => isCrouching;
+            set => isCrouching = value;
+        }
+        public bool HasCrouched
+        {
+            get => hasCrouched;
+            set => hasCrouched = value;
+        }
+        public bool HasStopped
+        {
+            get => hasStopped;
+            set => hasStopped = value;
+        }
+        #endregion
+
+        #region Character Jump/Air Values
+        [Header("Character Jump/Air Values")]
+        [Space]
+        [Tooltip("The force applied during a jump.")]
+        [SerializeField] private float jumpForce;
+        [Tooltip("The current number of jumps performed.")]
+        [SerializeField] private int numberOfJump;
+        [Tooltip("The maximum number of jumps allowed.")]
+        [SerializeField] private int maxJump;
+        [Tooltip("Whether the character is jumping.")]
+        [SerializeField] private bool isJump;
+        [Tooltip("Whether the character is falling.")]
+        [SerializeField] private bool isFalling;
+        [Tooltip("Whether the character is hasJumped.")]
+        [SerializeField] private bool hasJumped;
+        [Tooltip("Force of Minimum Jump")]
+        [SerializeField] private float initialJumpForce;
+        [Tooltip("Whether the character is gliding.")]
+        [SerializeField] private bool isGliding;
+        [Tooltip("Whether the character was glided.")]
+        [SerializeField] private bool hasGlided;
+
+        public bool HasGlided
+        {
+            get => hasGlided;
+            set => hasGlided = value;
+        }
+        public bool IsGliding
+        {
+            get => isGliding;
+            set => isGliding = value;
+        }
+
+        public bool IsFalling
+        {
+            get => isFalling;
+            set => isFalling = value;
+        }
+        public int NumberOfJump
+        {
+            get => numberOfJump;
+            set => numberOfJump = value;
+        }
+        public bool IsJump
+        {
+            get => isJump;
+            set => isJump = value;
+        }
+        public int MaxJump => maxJump;
+        public float JumpForce => jumpForce;
+
+        public float InitialJumpForce
+        {
+            get => initialJumpForce;
+        }
+
+        public bool HasJumped
+        {
+            get => hasJumped;
+            set => hasJumped = value;
+        }
+        #endregion
     }
 }

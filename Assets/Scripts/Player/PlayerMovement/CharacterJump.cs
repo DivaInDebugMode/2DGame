@@ -2,7 +2,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-
 namespace Player.PlayerMovement
 {
     public class CharacterJump : MonoBehaviour
@@ -46,12 +45,21 @@ namespace Player.PlayerMovement
                 }
             }
 
+            private void Update()
+            {
+                if(!isPressed) return;
+                jumpPressedTime = Time.time - pressStartTime;
+            }
+
             private void FixedUpdate()
             {
                 if (!isPressed) return;
-                jumpPressedTime = Time.time - pressStartTime;
-                if (jumpPressedTime <= 0.15f) characterComponents.Rb.velocity = 
+                if (jumpPressedTime <= 0.15f)
+                {
+                    characterComponents.Rb.velocity = 
                     new Vector2(characterComponents.Rb.velocity.x, characterStats.JumpForce);
+                    
+                }
             }
 
 

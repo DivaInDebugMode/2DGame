@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using Character.CharacterScriptable;
 using UnityEngine;
 
@@ -11,8 +10,7 @@ namespace Character.CharacterScripts
         [SerializeField] private BotComponents botComponents;
         [SerializeField] private BotStats botStats;
         [SerializeField] private BotInput botInput;
-
-
+        
         private void Start()
         {
             botStats.LastDirectionValue = botStats.CurrentDirectionValue;
@@ -69,14 +67,13 @@ namespace Character.CharacterScripts
             {
                 botComponents.Rb.velocity =
                     new Vector2(0, botComponents.Rb.velocity.y);
-                botStats.IsRunning = false;
                 botStats.HasStopped = true;
             }
         }
         
         private void SmoothRotate()
         {
-            if (botStats.IsDashing) return;
+            if (botStats.IsDashing || botStats.IsCrouching) return;
             botStats.TargetAngle = botStats.CurrentDirectionValue switch
             {
                 > 0 when Math.Abs(botStats.TargetAngle - 90f) > 0.00001f => 90,
@@ -90,10 +87,6 @@ namespace Character.CharacterScripts
             transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, Time.deltaTime * 15);
 
         }
-        
-        
-        private void TurnOfEdgeFall() => botStats.IsFallingEdge = false;
         private void StandingFromCrouch() => botStats.IsCrouching = false;
-
     }
 }

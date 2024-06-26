@@ -39,8 +39,8 @@ namespace Character.CharacterScripts
         private void Dash(InputAction.CallbackContext context)
         {
             if (botData.BotStats.IsCrouching) return;
-            if (!botData.BotStats.CanDash) return;
             if (botData.BotStats.IsRotating) return;
+            if (!botData.BotStats.CanDash) return;
             botData.BotStats.IsDashing = true;
             botData.BotStats.CurrentSpeed = 0;
             botData.BotStats.DashCooldownStart = 0;
@@ -48,8 +48,8 @@ namespace Character.CharacterScripts
             var velocity = botData.BotComponents.Rb.velocity;
             velocity = botData.BotStats.CurrentDirectionValue switch
             {
-                1 => new Vector2(botData.BotStats.DashForce, velocity.y),
-                -1 => new Vector2(-botData.BotStats.DashForce, velocity.y),
+                1 => new Vector2(botData.BotStats.DashForce, 0),
+                -1 => new Vector2(-botData.BotStats.DashForce, 0),
                 _ => velocity
             };
             botData.BotComponents.Rb.velocity = velocity;
