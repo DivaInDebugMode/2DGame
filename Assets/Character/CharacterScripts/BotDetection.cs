@@ -6,26 +6,25 @@ namespace Character.CharacterScripts
     {
         [SerializeField]
         private Transform groundTransform;
-        [SerializeField] private Transform leftFeetTransform;
-        [SerializeField] private Transform rightFeetTransform;
-        [SerializeField] private bool isRightFootOnGround;
-        [SerializeField] private bool isLeftFootOnEdge;
-        private readonly Vector3 feetDirection = Vector3.down;
         [SerializeField] private BotData botData;
+        [SerializeField] private Transform ledgeDetectionTransform;
+        [SerializeField] private Transform wallDetectionTransform;
 
-        public bool IsRightFootOnGround
+        public Transform LedgeDetectionTransform
         {
-            get => isRightFootOnGround;
+            get => ledgeDetectionTransform;
+        }
+
+
+        public Transform WallDetectionTransform
+        {
+            get => wallDetectionTransform;
         }
         
-        public bool IsLeftFootOnEdge
-        {
-            get => isLeftFootOnEdge;
-        }
-
         private void Update()
         {
             IsGrounded();
+            CheckLedge();
         }
 
         private void IsGrounded()
@@ -34,17 +33,43 @@ namespace Character.CharacterScripts
                 groundTransform.position, 0.2f, botData.BotDetectionStats.Grounded);
         }
 
-        public void CheckGroundRightFoot()
+        private void CheckLedge()
         {
-             isRightFootOnGround = Physics.Raycast(rightFeetTransform.position, feetDirection,
-                0.1f, botData.BotDetectionStats.Grounded | botData.BotDetectionStats.FallingEdge);
+            switch (botData.BotStats.CurrentDirectionValue)
+            {
+                case 1:
+                    botData.BotDetectionStats.IsLedge = Physics.Raycast(LedgeDetectionTransform.position, Vector3.right,
+                        0.5f, botData.BotDetectionStats.Grounded);
+                    botData.BotDetectionStats.IsWall = Physics.Raycast(WallDetectionTransform.position, Vector3.right,
+                        botData.BotDetectionStats.WallDetectionRadius, botData.BotDetectionStats.Wall);
+                    break;
+                case -1:
+                    botData.BotDetectionStats.IsLedge = Physics.Raycast(LedgeDetectionTransform.position, -Vector3.right,
+                        0.5f, botData.BotDetectionStats.Grounded);
+                    botData.BotDetectionStats.IsWall = Physics.Raycast(WallDetectionTransform.position, -Vector3.right,
+                        botData.BotDetectionStats.WallDetectionRadius, botData.BotDetectionStats.Wall);
+                    break;
+            }
         }
-        
-        public void CheckGroundLeftFoot()
+
+        private void OnDrawGizmos()
         {
-            isLeftFootOnEdge = Physics.Raycast(leftFeetTransform.position, feetDirection,
-                0.1f, botData.BotDetectionStats.FallingEdge);
+            if (ledgeDetectionTransform != null)
+            {
+                Gizmos.color = Color.red;
+                Gizmos.DrawLine(ledgeDetectionTransform.position, ledgeDetectionTransform.position + Vector3.right * (botData.BotStats.CurrentDirectionValue == 1 ? 1f : -1f));
+            }
+
+            if (wallDetectionTransform != null)
+            {
+                Gizmos.color = Color.blue;
+                Gizmos.DrawLine(wallDetectionTransform.position, wallDetectionTransform.position + Vector3.right * (botData.BotStats.CurrentDirectionValue switch
+                {
+                    1 => botData.BotDetectionStats.WallDetectionRadius,
+                    _ => -botData.BotDetectionStats.WallDetectionRadius,
+                }));
+            }
         }
-     
+
     }
 }

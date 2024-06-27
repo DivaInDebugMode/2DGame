@@ -61,8 +61,7 @@ namespace Player.PlayerMovement // Namespace for managing player movement
         private IEnumerator Timer()
         {
             yield return new WaitForSeconds(0.3f);
-            detectionStats.WallCollisionRadius = 0.3f;
-            
+            detectionStats.WallCollisionRadius = 0.5f;
         }
 
         // Method to handle movement on the wall

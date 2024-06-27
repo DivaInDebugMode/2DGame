@@ -24,6 +24,7 @@ namespace Character.CharacterScripts
         public override void EnterState()
         {
             botData.BotComponents.Rb.velocity = Vector3.zero;
+            botAnimatorController.Animator.SetBool("Wall Slide", false);
             Physics.gravity = new Vector2(0, -9.81f);
             botData.BotStats.IsJump = false;
             botData.BotStats.CanDash = false;
@@ -44,8 +45,6 @@ namespace Character.CharacterScripts
             Crouch();
             HandleDashAnimation();
             HandleLanding();
-            botData.BotDetection.CheckGroundLeftFoot();
-            botData.BotDetection.CheckGroundRightFoot();
         }
 
         private void HandleTimers()
@@ -74,6 +73,12 @@ namespace Character.CharacterScripts
         public override void FixedUpdate()
         {
             botMovement.MoveHorizontally(botData.BotStats.CurrentSpeed);
+            if (botData.BotStats.HasJumped)
+            {
+                botData.BotComponents.Rb.velocity =
+                    new Vector2(botData.BotComponents.Rb.velocity.x, Mathf.Max(botData.BotStats.JumpForce, botData.BotStats.InitialJumpForce));
+                botData.BotStats.HasJumped = false;
+            }
         }
 
 
@@ -178,7 +183,7 @@ namespace Character.CharacterScripts
         
         public override void ExitState()
         {
-            
+            botAnimatorController.Animator.ResetTrigger(Landing);
         }
         
         public BotGroundedState(BotStateMachine currentContext, BotMovement botMovement, BotInput botInput, BotData botData, BotAnimatorController botAnimatorController, BotJump botJump) : base(currentContext, botMovement, botInput, botData, botAnimatorController, botJump)

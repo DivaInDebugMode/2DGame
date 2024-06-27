@@ -9,11 +9,33 @@ namespace Character.CharacterScriptable
         [Header("Layer Masks")]
         [Tooltip("Layer mask to detect if the bot is grounded.")]
         [SerializeField] private LayerMask grounded;
-        [Tooltip("Layer mask to detect the edge the bot can fall off.")]
-        [SerializeField] private LayerMask edge;
+        [Tooltip("Layer mask to detect the ledge.")]
+        [SerializeField] private LayerMask wall;
+        
+        [SerializeField] private bool isLedge;
+        [SerializeField] private bool isWall;
+        [SerializeField] private float wallDetectionRadius;
+
+        public float WallDetectionRadius
+        {
+            get => wallDetectionRadius;
+            set => wallDetectionRadius = value;
+        }
+
+        public bool IsWall
+        {
+            get => isWall;
+            set => isWall = value;
+        }
+
+        public bool IsLedge
+        {
+            get => isLedge;
+            set => isLedge = value;
+        }
 
         public LayerMask Grounded => grounded;
-        public LayerMask FallingEdge => edge;
+        public LayerMask Wall => wall;
         #endregion
 
         #region Grounded State

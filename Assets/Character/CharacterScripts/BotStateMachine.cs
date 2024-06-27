@@ -31,10 +31,22 @@ namespace Character.CharacterScripts
         
         private void StateSwitcher()
         {
-            if(botData.BotDetectionStats.IsGrounded && !botData.BotStats.IsJump)
+            if (botData.BotDetectionStats.IsGrounded && !botData.BotStats.IsJump)
+            {
                 CheckState(states.Grounded());
-            if(!botData.BotDetectionStats.IsGrounded || botData.BotStats.IsJump)
+            }
+            if (!botData.BotDetectionStats.IsGrounded && !botData.BotDetectionStats.IsWall || botData.BotStats.IsJump)
+            {
                 CheckState(states.Air());
+            }
+
+            if (botData.BotDetectionStats.IsWall && !botData.BotDetectionStats.IsGrounded &&
+                botData.BotDetectionStats.WallDetectionRadius > 0f)
+            {
+                CheckState(states.Climb());
+            }
+            
+            
         }
     
         private void CheckState(BotBaseState newState)

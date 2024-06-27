@@ -6,7 +6,8 @@ namespace Character.CharacterScripts
     public enum States
     {
         GroundedState,
-        AirState
+        AirState,
+        ClimbState
     }
     public class BotStateFactory
     {
@@ -19,6 +20,8 @@ namespace Character.CharacterScripts
                 new BotGroundedState(currentContext,botMovement, botInput,botData, botAnimatorController,botJump);
             container[States.AirState] =
                 new BotAirState(currentContext, botMovement, botInput, botData, botAnimatorController,botJump);
+            container[States.ClimbState] =
+                new BotClimbState(currentContext, botMovement, botInput, botData, botAnimatorController,botJump);
         }
         
         public BotBaseState Grounded()
@@ -29,6 +32,11 @@ namespace Character.CharacterScripts
         public BotBaseState Air()
         {
             return container[States.AirState];
+        }
+
+        public BotBaseState Climb()
+        {
+            return container[States.ClimbState];
         }
     }
 }

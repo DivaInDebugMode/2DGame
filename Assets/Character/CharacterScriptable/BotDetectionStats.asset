@@ -15,7 +15,10 @@ MonoBehaviour:
   grounded:
     serializedVersion: 2
     m_Bits: 8
-  edge:
+  wall:
     serializedVersion: 2
-    m_Bits: 2048
+    m_Bits: 128
+  isLedge: 0
+  isWall: 0
+  wallDetectionRadius: 0.5
   isGrounded: 1

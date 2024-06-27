@@ -28,17 +28,18 @@ namespace Character.CharacterScripts
                 botData.BotStats.NumberOfJump++;
                 botData.BotStats.IsJump = true;
                 botData.BotStats.HasJumped = true;
+                botData.BotDetectionStats.WallDetectionRadius = 0;
             }
         }
 
         private void FixedUpdate()
         {
-            if (botData.BotStats.HasJumped)
-            {
-                botData.BotComponents.Rb.velocity =
-                    new Vector2(botData.BotComponents.Rb.velocity.x, Mathf.Max(botData.BotStats.JumpForce, botData.BotStats.InitialJumpForce));
-                botData.BotStats.HasJumped = false;
-            }
+            // if (botData.BotStats.HasJumped)
+            // {
+            //     botData.BotComponents.Rb.velocity =
+            //         new Vector2(botData.BotComponents.Rb.velocity.x, Mathf.Max(botData.BotStats.JumpForce, botData.BotStats.InitialJumpForce));
+            //     botData.BotStats.HasJumped = false;
+            // }
         }
 
         private void Update()
@@ -53,6 +54,8 @@ namespace Character.CharacterScripts
         {
             yield return new WaitForSecondsRealtime(0.08f);
             botData.BotStats.IsJump = false;
+            botData.BotDetectionStats.WallDetectionRadius = 0.5f;
+
         }
 
         private void OnButtonCancel(InputAction.CallbackContext context)

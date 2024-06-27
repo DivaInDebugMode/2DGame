@@ -24,6 +24,7 @@ namespace Character.CharacterScripts
             HandleAirDashAnimation();
             HandleGliding();
             HandleFallingGravity();
+
         }
 
         public override void FixedUpdate()
