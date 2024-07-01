@@ -13,7 +13,7 @@ namespace Character.CharacterScripts
 
         public override void EnterState()
         {
-            botData.BotStats.NumberOfJump = 0;
+            //botData.BotStats.NumberOfJump = 0;
             Physics.gravity = new Vector2(0.0f, -3.5f);
             botData.BotComponents.Rb.velocity = Vector3.zero;
             botAnimatorController.Animator.SetBool(Property, true);

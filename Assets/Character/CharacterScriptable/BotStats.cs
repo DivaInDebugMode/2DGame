@@ -181,7 +181,15 @@ namespace Character.CharacterScriptable
         [SerializeField] private bool isGliding;
         [Tooltip("Whether the character was glided.")]
         [SerializeField] private bool hasGlided;
+        [Tooltip("Allows jumping when the character is grounded.")]
+        [SerializeField] private bool canGroundJump;
 
+
+        public bool CanGroundJump
+        {
+            get => canGroundJump;
+            set => canGroundJump = value;
+        }
         public bool HasGlided
         {
             get => hasGlided;

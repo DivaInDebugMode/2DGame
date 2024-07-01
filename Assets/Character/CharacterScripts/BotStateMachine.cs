@@ -12,7 +12,7 @@ namespace Character.CharacterScripts
         [SerializeField] private BotMovement botMovement;
         [SerializeField] private BotAnimatorController botAnimatorController;
         [SerializeField] private BotJump botJump;
-        public bool test { get; set; }
+        public bool AnimationTrigger { get; set; }
         private void Awake()
         {
             states = new BotStateFactory(this,botData,botMovement,botInput,botAnimatorController,botJump);

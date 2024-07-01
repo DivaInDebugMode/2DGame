@@ -20,17 +20,17 @@ namespace Character.CharacterScripts
         private static readonly int Dash = Animator.StringToHash("Dash");
         private static readonly int Landing = Animator.StringToHash("Landing");
         private static readonly int Falling = Animator.StringToHash("Falling");
+        private static readonly int WallSlide = Animator.StringToHash("Wall Slide");
 
         public override void EnterState()
         {
             botData.BotComponents.Rb.velocity = Vector3.zero;
-            botAnimatorController.Animator.SetBool("Wall Slide", false);
+            botAnimatorController.Animator.SetBool(WallSlide, false);
             Physics.gravity = new Vector2(0, -9.81f);
             botData.BotStats.IsJump = false;
             botData.BotStats.CanDash = false;
             botData.BotStats.DashDuration = 0.7f;
-            ctx.test = false;
-            resetJumpTimer = 0.2f;
+            resetJumpTimer = 0.3f;
             resetJumpTimerActive = true;
             resetDashTimer = 0.09f;
             resetDashTimerActive = true;
@@ -54,8 +54,10 @@ namespace Character.CharacterScripts
                 resetJumpTimer -= Time.deltaTime;
                 if (resetJumpTimer <= 0f)
                 {
-                    botData.BotStats.NumberOfJump = 0;
+                    botData.BotStats.CanGroundJump = true;
+                   // ctx.AnimationTrigger = false;
                     resetJumpTimerActive = false;
+                   
                 }
             }
 
@@ -73,12 +75,7 @@ namespace Character.CharacterScripts
         public override void FixedUpdate()
         {
             botMovement.MoveHorizontally(botData.BotStats.CurrentSpeed);
-            if (botData.BotStats.HasJumped)
-            {
-                botData.BotComponents.Rb.velocity =
-                    new Vector2(botData.BotComponents.Rb.velocity.x, Mathf.Max(botData.BotStats.JumpForce, botData.BotStats.InitialJumpForce));
-                botData.BotStats.HasJumped = false;
-            }
+          
         }
 
 
@@ -132,7 +129,7 @@ namespace Character.CharacterScripts
 
         private void Crouch()
         {
-            if (botInput.MoveDown.action.triggered && !botData.BotStats.IsCrouching && !botData.BotStats.IsDashing && !botData.BotStats.IsJump && crouchTimer <= 0)
+            if (!botData.BotStats.IsRotating && botInput.MoveDown.action.triggered && !botData.BotStats.IsCrouching && !botData.BotStats.IsDashing && !botData.BotStats.IsJump && crouchTimer <= 0)
             {
                 botData.BotComponents.Rb.velocity = new Vector2(0, botData.BotComponents.Rb.velocity.y);
                 botData.BotComponents.Coll.enabled = false;
@@ -173,17 +170,20 @@ namespace Character.CharacterScripts
 
         private void HandleLanding()
         {
-            if (botData.BotStats.IsFalling && !botData.BotStats.IsDashing)
+            if (botData.BotStats.IsFalling && !botData.BotStats.IsDashing && botData.BotDetectionStats.IsGrounded)
             {
+                Debug.Log("Land");
                 botAnimatorController.Animator.SetTrigger(Landing);
                 botAnimatorController.Animator.SetBool(Falling, false);
                 botData.BotStats.IsFalling = false;
+              
+                
             }
         }
         
         public override void ExitState()
         {
-            botAnimatorController.Animator.ResetTrigger(Landing);
+           
         }
         
         public BotGroundedState(BotStateMachine currentContext, BotMovement botMovement, BotInput botInput, BotData botData, BotAnimatorController botAnimatorController, BotJump botJump) : base(currentContext, botMovement, botInput, botData, botAnimatorController, botJump)

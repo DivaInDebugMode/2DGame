@@ -12,6 +12,8 @@ namespace Character.CharacterScripts
 
         public override void EnterState()
         {
+           
+            botData.BotStats.CanGroundJump = false;
             botData.BotStats.IsFalling = true;
             botData.BotStats.DashDuration = 0.5f;
             HandleFallingGravity();
@@ -105,17 +107,14 @@ namespace Character.CharacterScripts
 
         private void HandleAirAnimation()
         {
-            if (botInput.Jump.action.inProgress && botData.BotStats.IsJump && !ctx.test)
-            {
-                botAnimatorController.Animator.SetTrigger(Jump);
-                ctx.test = true;
-            }
 
             if (!botData.BotStats.IsJump && botData.BotStats.IsFalling && !botData.BotStats.IsDashing && !botData.BotStats.IsGliding)
             {
                 botAnimatorController.Animator.SetBool(Falling, true);
+                Debug.Log("Falling Animation Triggered");
             }
         }
+
 
 
         public BotAirState(BotStateMachine currentContext, BotMovement botMovement, BotInput botInput, BotData botData, BotAnimatorController botAnimatorController, BotJump botJump) : base(currentContext, botMovement, botInput, botData, botAnimatorController, botJump)
