@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -46,14 +47,7 @@ namespace Character.CharacterScripts
             botData.BotStats.CurrentSpeed = 0;
             botData.BotStats.DashCooldownStart = 0;
 
-            var velocity = botData.BotComponents.Rb.velocity;
-            velocity = botData.BotStats.CurrentDirectionValue switch
-            {
-                1 => new Vector2(botData.BotStats.DashForce, 0),
-                -1 => new Vector2(-botData.BotStats.DashForce, 0),
-                _ => velocity
-            };
-            botData.BotComponents.Rb.velocity = velocity;
+           
 
             botData.BotStats.HasDashed = true;
             botData.BotStats.CanDash = false;
@@ -65,6 +59,18 @@ namespace Character.CharacterScripts
             botData.BotStats.DirectionTime = 0;
             botData.BotStats.DashCooldownStart = 0;
             botData.BotComponents.Rb.velocity = new Vector2(0, botData.BotComponents.Rb.velocity.y);
+        }
+
+        public void Dash()
+        {
+            var velocity = botData.BotComponents.Rb.velocity;
+            velocity = botData.BotStats.CurrentDirectionValue switch
+            {
+                1 => new Vector2(botData.BotStats.DashForce, 0),
+                -1 => new Vector2(-botData.BotStats.DashForce, 0),
+                _ => velocity
+            };
+            botData.BotComponents.Rb.velocity = velocity;
         }
     }
 }

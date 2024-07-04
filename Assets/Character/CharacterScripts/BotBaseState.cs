@@ -9,17 +9,17 @@ namespace Character.CharacterScripts
         protected BotInput botInput;
         protected readonly BotData botData;
         protected readonly BotAnimatorController botAnimatorController;
-        protected readonly BotJump botJump;
+        protected readonly BotDash botDash;
         
         protected BotBaseState(BotStateMachine currentContext,BotMovement botMovement, BotInput botInput,
-           BotData botData, BotAnimatorController botAnimatorController, BotJump botJump)
+           BotData botData, BotAnimatorController botAnimatorController, BotDash botDash)
         {
             ctx = currentContext;
             this.botMovement = botMovement;
             this.botInput = botInput;
             this.botData = botData;
             this.botAnimatorController = botAnimatorController;
-            this.botJump = botJump;
+            this.botDash = botDash;
         }
 
         // Abstract methods for entering, updating, fixing, and exiting states

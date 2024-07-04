@@ -21,9 +21,12 @@ namespace Hover
         private void Update()
         {
             if (eventSystem.currentSelectedGameObject == lastSelectedObj) return;
-            lastSelectedObj.transform.localScale = defaultSize;
+            if (lastSelectedObj != null) lastSelectedObj.transform.localScale = defaultSize;
             lastSelectedObj = eventSystem.currentSelectedGameObject;
-            lastSelectedObj.transform.localScale = hoverSize;
+            if (lastSelectedObj != null)
+            {
+                lastSelectedObj.transform.localScale = hoverSize;
+            }
         }
     }
 }

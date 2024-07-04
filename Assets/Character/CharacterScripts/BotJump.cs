@@ -1,4 +1,3 @@
-using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -8,8 +7,14 @@ namespace Character.CharacterScripts
     {
         [SerializeField] private BotData botData;
         [SerializeField] private BotInput botInput;
-        private float maxHeight;
-        
+       
+        private bool isPressed;
+        private float pressStartTime;
+        private float jumpPressedTime;
+        private bool isTap;
+        private float dropTimer;
+        private bool shouldDrop;
+
         private void OnEnable()
         {
             botInput.Jump.action.started += JumpActionPress;
@@ -25,54 +30,57 @@ namespace Character.CharacterScripts
         private void JumpActionPress(InputAction.CallbackContext context)
         {
             if (botData.BotDetectionStats.IsGrounded && !botData.BotStats.IsDashing &&
-                !botData.BotStats.IsCrouching && botData.BotStats.CanGroundJump && !isJumping)
+                !botData.BotStats.IsCrouching)
             {
-                botData.BotStats.IsJump = true;
                 botData.BotStats.HasJumped = true;
-                botData.BotStats.CanGroundJump = false;
                 botData.BotDetectionStats.WallDetectionRadius = 0;
+
+                pressStartTime = Time.time;
+                isPressed = true;
+                isTap = false;
+                shouldDrop = false;
+                dropTimer = 0f;
+                
+            }
+        }
+
+        private void Update()
+        {
+            if (isPressed)
+            {
+                jumpPressedTime = Time.time - pressStartTime;
+                isTap = jumpPressedTime <= 0.1f;
             }
         }
 
         private void FixedUpdate()
         {
-            if (!botData.BotStats.HasJumped) return;
-            botData.BotComponents.Rb.velocity =
-                new Vector2(botData.BotComponents.Rb.velocity.x, Mathf.Max(botData.BotStats.JumpForce, botData.BotStats.InitialJumpForce));
-            botData.BotStats.HasJumped = false;
-        }
-
-        private float jumpTimer = 0f;
-        private bool isJumping = false;
-        private float jumpDuration = 0.08f;
-
-        private void Update()
-        {
-            if (botData.BotStats.IsJump)
+            if (botData.BotStats.HasJumped)
             {
-                isJumping = true;
-                jumpTimer = jumpDuration;
-                botData.BotStats.IsJump = false;
+                botData.BotComponents.Rb.velocity = new Vector2(botData.BotComponents.Rb.velocity.x, botData.BotStats.JumpForce);
+                botData.BotStats.HasJumped = false;
             }
-
-            if (isJumping)
+            
+            if (isTap && !shouldDrop)
             {
-                jumpTimer -= Time.deltaTime;
-
-                if (jumpTimer <= 0f)
+                dropTimer += Time.deltaTime;
+                if (dropTimer >= 0.12f)
                 {
-                    isJumping = false;
-                    botData.BotDetectionStats.WallDetectionRadius = 0.5f;
+                    botData.BotComponents.Rb.velocity = new Vector2(botData.BotComponents.Rb.velocity.x, botData.BotStats.InitialJumpForce);
+                    shouldDrop = true;
                 }
             }
         }
 
-
         private void OnButtonCancel(InputAction.CallbackContext context)
         {
-            if (botData.BotComponents.Rb.velocity.y > botData.BotStats.InitialJumpForce)
+            isPressed = false;
+
+            if (jumpPressedTime > 0.1f)
             {
-                botData.BotComponents.Rb.velocity = new Vector2(botData.BotComponents.Rb.velocity.x, botData.BotStats.InitialJumpForce);
+                isTap = false;
+                dropTimer = 0f;
+                shouldDrop = false;
             }
         }
     }

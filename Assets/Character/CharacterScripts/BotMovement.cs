@@ -19,7 +19,6 @@ namespace Character.CharacterScripts
         {
             HandleBotInput();
             if (botData.BotStats.IsDashing) return;
-            if(botData.BotStats.IsCrouching)return;
             botData.BotStats.CurrentDirectionValue = botData.BotStats.CurrentDirectionValue switch
             {
                 1 when botData.BotStats.MoveDirection.x < 0 => -1,
@@ -74,7 +73,6 @@ namespace Character.CharacterScripts
         
         private void SmoothRotate()
         {
-            if ( botData.BotStats.IsCrouching) return;
             if(botData.BotStats.IsDashing)return;
             botData.BotStats.TargetAngle = botData.BotStats.CurrentDirectionValue switch
             {

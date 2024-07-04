@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using Camera;
-using Player.PlayerMovement;
+using Character.CharacterScripts;
 using UnityEngine;
 
 namespace Save_Load
@@ -15,7 +15,7 @@ namespace Save_Load
         public GameData gameData;
 
         // References to other components for data management
-        [SerializeField] private CharacterStateMachine characterStateMachine;
+        [SerializeField] private BotStateMachine botStateMachine;
         [SerializeField] private CameraFollow cameraFollow;
 
         // Instance of the data persistence manager
@@ -62,7 +62,9 @@ namespace Save_Load
                 NewGame();
             
             // Load data for character state machine and camera follow components
-            characterStateMachine.LoadData(gameData);
+            
+            
+            botStateMachine.LoadData(gameData);
             cameraFollow.LoadData(gameData);
         }
 
@@ -70,7 +72,9 @@ namespace Save_Load
         public void SaveGame()
         {
             // Save data from character state machine and camera follow components
-            characterStateMachine.SaveData(ref gameData);
+            
+            
+            botStateMachine.SaveData(ref gameData);
             cameraFollow.SaveData(ref gameData);
             
             // Save game data to file

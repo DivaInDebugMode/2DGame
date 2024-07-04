@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace Character.CharacterScripts
@@ -9,18 +10,11 @@ namespace Character.CharacterScripts
         [SerializeField] private BotData botData;
         [SerializeField] private Transform ledgeDetectionTransform;
         [SerializeField] private Transform wallDetectionTransform;
-
-        public Transform LedgeDetectionTransform
-        {
-            get => ledgeDetectionTransform;
-        }
-
-
-        public Transform WallDetectionTransform
-        {
-            get => wallDetectionTransform;
-        }
         
+        private Transform LedgeDetectionTransform => ledgeDetectionTransform;
+        private Transform WallDetectionTransform => wallDetectionTransform;
+
+
         private void Update()
         {
             IsGrounded();
@@ -31,6 +25,12 @@ namespace Character.CharacterScripts
         {
             botData.BotDetectionStats.IsGrounded = botData.BotComponents.Rb.velocity.y <= 0.01f && Physics.CheckSphere(
                 groundTransform.position, 0.2f, botData.BotDetectionStats.Grounded);
+        }
+
+        public void IsNearOnGround()
+        {
+            botData.BotDetectionStats.IsNearOnGround = botData.BotComponents.Rb.velocity.y <= 0.01f && Physics.CheckSphere(
+                groundTransform.position, 0.6f, botData.BotDetectionStats.Grounded);
         }
 
         private void CheckLedge()
@@ -51,25 +51,5 @@ namespace Character.CharacterScripts
                     break;
             }
         }
-
-        private void OnDrawGizmos()
-        {
-            if (ledgeDetectionTransform != null)
-            {
-                Gizmos.color = Color.red;
-                Gizmos.DrawLine(ledgeDetectionTransform.position, ledgeDetectionTransform.position + Vector3.right * (botData.BotStats.CurrentDirectionValue == 1 ? 1f : -1f));
-            }
-
-            if (wallDetectionTransform != null)
-            {
-                Gizmos.color = Color.blue;
-                Gizmos.DrawLine(wallDetectionTransform.position, wallDetectionTransform.position + Vector3.right * (botData.BotStats.CurrentDirectionValue switch
-                {
-                    1 => botData.BotDetectionStats.WallDetectionRadius,
-                    _ => -botData.BotDetectionStats.WallDetectionRadius,
-                }));
-            }
-        }
-
     }
 }

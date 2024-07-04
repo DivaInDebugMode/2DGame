@@ -14,14 +14,14 @@ namespace Character.CharacterScripts
         private readonly Dictionary<States, BotBaseState> container = new();
 
         public BotStateFactory(BotStateMachine currentContext,
-            BotData botData, BotMovement botMovement, BotInput botInput, BotAnimatorController botAnimatorController,BotJump botJump)
+            BotData botData, BotMovement botMovement, BotInput botInput, BotAnimatorController botAnimatorController,BotDash botDash)
         {
             container[States.GroundedState] =
-                new BotGroundedState(currentContext,botMovement, botInput,botData, botAnimatorController,botJump);
+                new BotGroundedState(currentContext,botMovement, botInput,botData, botAnimatorController,botDash);
             container[States.AirState] =
-                new BotAirState(currentContext, botMovement, botInput, botData, botAnimatorController,botJump);
+                new BotAirState(currentContext, botMovement, botInput, botData, botAnimatorController,botDash);
             container[States.ClimbState] =
-                new BotClimbState(currentContext, botMovement, botInput, botData, botAnimatorController,botJump);
+                new BotClimbState(currentContext, botMovement, botInput, botData, botAnimatorController,botDash);
         }
         
         public BotBaseState Grounded()

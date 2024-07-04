@@ -1,4 +1,5 @@
 using Character.CharacterScriptable;
+using Save_Load;
 using UnityEngine;
 
 namespace Character.CharacterScripts
@@ -11,11 +12,11 @@ namespace Character.CharacterScripts
         [SerializeField] private BotInput botInput;
         [SerializeField] private BotMovement botMovement;
         [SerializeField] private BotAnimatorController botAnimatorController;
-        [SerializeField] private BotJump botJump;
+        [SerializeField] private BotDash botDash;
         public bool AnimationTrigger { get; set; }
         private void Awake()
         {
-            states = new BotStateFactory(this,botData,botMovement,botInput,botAnimatorController,botJump);
+            states = new BotStateFactory(this,botData,botMovement,botInput,botAnimatorController,botDash);
             currentState = states.Grounded();
             currentState.EnterState();
         }
@@ -31,7 +32,7 @@ namespace Character.CharacterScripts
         
         private void StateSwitcher()
         {
-            if (botData.BotDetectionStats.IsGrounded && !botData.BotStats.IsJump)
+            if (botData.BotDetectionStats.IsGrounded && botData.BotComponents.Rb.velocity.y == 0)
             {
                 CheckState(states.Grounded());
             }
@@ -55,6 +56,17 @@ namespace Character.CharacterScripts
             currentState.ExitState();
             currentState = newState;
             currentState.EnterState();
+        }
+        
+        public void LoadData(GameData data)
+        {
+            transform.position = data.playerPos;
+        }
+
+        // Saves character data to a save file
+        public void SaveData(ref GameData data)
+        {
+            data.playerPos = transform.position;
         }
     }
 }

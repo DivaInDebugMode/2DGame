@@ -1,5 +1,4 @@
 using Cinemachine;
-using Player.PlayerMovement;
 using Save_Load;
 using UnityEngine;
 
@@ -18,21 +17,6 @@ namespace Camera
         private void Update()
         {
             if (target is null) return;
-
-            // switch (characterComponents.Sr.flipX)
-            // {
-            //     case false:
-            //         targetPosition = target.position;
-            //         currentPosition = transform.position;
-            //         desiredPosition = new Vector3(targetPosition.x + 0.5f, targetPosition.y + 1, currentPosition.z);
-            //         break;
-            //     default:
-            //         targetPosition = target.position;
-            //         currentPosition = transform.position;
-            //         desiredPosition = new Vector3(targetPosition.x - 0.5f, targetPosition.y + 1, currentPosition.z);
-            //         break;
-            // }
-            
             targetPosition = target.position;
             currentPosition = transform.position;
             desiredPosition = new Vector3(targetPosition.x + 0.5f, targetPosition.y + 1, currentPosition.z);
