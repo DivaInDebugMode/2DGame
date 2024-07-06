@@ -18,7 +18,7 @@ namespace Character.CharacterScripts
         private void Update()
         {
             IsGrounded();
-            CheckLedge();
+            CheckWall();
         }
 
         private void IsGrounded()
@@ -33,7 +33,7 @@ namespace Character.CharacterScripts
                 groundTransform.position, 0.6f, botData.BotDetectionStats.Grounded);
         }
 
-        private void CheckLedge()
+        private void CheckWall()
         {
             switch (botData.BotStats.CurrentDirectionValue)
             {

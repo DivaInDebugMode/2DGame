@@ -32,7 +32,7 @@ namespace Character.CharacterScripts
             if (botData.BotDetectionStats.IsGrounded && !botData.BotStats.IsDashing &&
                 !botData.BotStats.IsCrouching)
             {
-                botData.BotStats.HasJumped = true;
+                botData.BotStats.IsJump = true;
                 botData.BotDetectionStats.WallDetectionRadius = 0;
 
                 pressStartTime = Time.time;
@@ -41,6 +41,8 @@ namespace Character.CharacterScripts
                 shouldDrop = false;
                 dropTimer = 0f;
                 
+                botData.BotComponents.Rb.velocity = new Vector2(botData.BotComponents.Rb.velocity.x, botData.BotStats.JumpForce);
+
             }
         }
 
@@ -54,13 +56,7 @@ namespace Character.CharacterScripts
         }
 
         private void FixedUpdate()
-        {
-            if (botData.BotStats.HasJumped)
-            {
-                botData.BotComponents.Rb.velocity = new Vector2(botData.BotComponents.Rb.velocity.x, botData.BotStats.JumpForce);
-                botData.BotStats.HasJumped = false;
-            }
-            
+        { 
             if (isTap && !shouldDrop)
             {
                 dropTimer += Time.deltaTime;
@@ -75,7 +71,6 @@ namespace Character.CharacterScripts
         private void OnButtonCancel(InputAction.CallbackContext context)
         {
             isPressed = false;
-
             if (jumpPressedTime > 0.1f)
             {
                 isTap = false;

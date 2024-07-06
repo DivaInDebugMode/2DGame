@@ -20,9 +20,9 @@ namespace Character.CharacterScripts
         public override void EnterState()
         {
             botData.BotStats.DashDuration = botData.BotStats.DashDurationGround;
-            Physics.gravity = botData.BotStats.GroundG;
-            botData.BotStats.IsJump = false;
+            Physics.gravity = botData.BotStats.GroundGForce;
             botAnimatorController.Animator.SetBool(WallSlide, false);
+            botData.BotStats.IsJump = false;
         }
 
         public override void UpdateState()
@@ -34,6 +34,7 @@ namespace Character.CharacterScripts
             HandleDashAnimation();
             DisableDashAnimation();
             HandleGroundedAnimation();
+            HandleJumpAnimation();
         }
 
         public override void FixedUpdate()
@@ -97,7 +98,7 @@ namespace Character.CharacterScripts
         private void Crouch()
         {
             if (!botData.BotStats.IsRotating && botInput.MoveDown.action.triggered && !botData.BotStats.IsCrouching
-                && !botData.BotStats.IsDashing && !botData.BotStats.IsJump&& crouchTimer <= 0)
+                && !botData.BotStats.IsDashing && !botData.BotStats.HasJumped && crouchTimer <= 0)
             {
                 botData.BotComponents.Rb.velocity = new Vector2(0, botData.BotComponents.Rb.velocity.y);
                 botData.BotComponents.Coll.enabled = false;
@@ -133,9 +134,8 @@ namespace Character.CharacterScripts
         {
             if (!botData.BotStats.IsDashing || !botData.BotStats.HasDashed) return;
             botAnimatorController.Animator.SetBool(Dash, true);
-            dashAnimatorReset = false;
-            botData.BotStats.DashCooldown = 1f;
             botData.BotStats.HasDashed = false;
+            dashAnimatorReset = false;
         }
 
         private void DisableDashAnimation()
@@ -144,6 +144,14 @@ namespace Character.CharacterScripts
             {
                 botAnimatorController.Animator.SetBool(Dash, false);
                 dashAnimatorReset = true;
+            }
+        }
+
+        private void HandleJumpAnimation()
+        {
+            if (botData.BotStats.HasJumped)
+            {
+                botData.BotStats.IsJump = true;
             }
         }
 

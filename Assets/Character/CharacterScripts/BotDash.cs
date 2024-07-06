@@ -44,13 +44,10 @@ namespace Character.CharacterScripts
             if(botData.BotStats.IsGliding) return;
             if (!botData.BotStats.CanDash) return;
             botData.BotStats.IsDashing = true;
-            botData.BotStats.CurrentSpeed = 0;
-            botData.BotStats.DashCooldownStart = 0;
-
-           
-
             botData.BotStats.HasDashed = true;
             botData.BotStats.CanDash = false;
+            botData.BotStats.CurrentSpeed = 0;
+            botData.BotStats.DashCooldownStart = 0;
         }
 
         private void EndDash()

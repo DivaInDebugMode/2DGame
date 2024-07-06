@@ -28,11 +28,12 @@ namespace Character.CharacterScripts
         {
             currentState.UpdateState();
             StateSwitcher();
+            
         }
         
         private void StateSwitcher()
         {
-            if (botData.BotDetectionStats.IsGrounded && botData.BotComponents.Rb.velocity.y == 0)
+            if (botData.BotDetectionStats.IsGrounded && !botData.BotStats.IsJump)
             {
                 CheckState(states.Grounded());
             }

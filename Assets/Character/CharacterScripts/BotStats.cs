@@ -189,15 +189,15 @@ namespace Character.CharacterScripts
         [Tooltip("Whether the character was glided.")]
         [SerializeField] private bool hasGlided;
         [Tooltip("Apply gravity in ground state.")]
-        [SerializeField] private Vector2 groundG;
+        [SerializeField] private Vector2 groundGForce;
         [Tooltip("Apply gravity in air state.")]
-        [SerializeField] private Vector2 airG;
+        [SerializeField] private Vector2 fallingGForce;
         [Tooltip("Apply gravity in gliding state.")]
-        [SerializeField] private Vector2 glidingG;
+        [SerializeField] private Vector2 glidingGForce;
 
-        public Vector2 GlidingG => glidingG;
-        public Vector2 AirG => airG;
-        public Vector2 GroundG => groundG;
+        public Vector2 GlidingGForce => glidingGForce;
+        public Vector2 FallingGForce => fallingGForce;
+        public Vector2 GroundGForce => groundGForce;
         
         public bool HasGlided
         {
