@@ -27780,7 +27780,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 919132149358643491}
   m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 21.44, y: -4.005, z: 1.5}
+  m_LocalPosition: {x: 21.44, y: -3.334, z: 1.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -27883,6 +27883,7 @@ GameObject:
   - component: {fileID: 5866666021710219762}
   - component: {fileID: 5866666021710219760}
   - component: {fileID: 5866666021710219761}
+  - component: {fileID: 5866666021710219763}
   m_Layer: 6
   m_Name: Y Bot-2
   m_TagString: Untagged
@@ -30053,6 +30054,7 @@ MonoBehaviour:
   collider: {fileID: 5866666021710219758}
   crouchCollider: {fileID: 5866666021710219759}
   airDashCollider: {fileID: 5866666021710219762}
+  jumpFallCollider: {fileID: 5866666021710219763}
 --- !u!114 &5866666021710219753
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -30222,6 +30224,27 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.5086599, y: 0.3732059, z: 2.1068769}
   m_Center: {x: 0.0027134717, y: 0.7681829, z: -0.007373929}
+--- !u!65 &5866666021710219763
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 919132149358643491}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 0
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 1.65, z: 0}
 --- !u!4 &5901452235461394714
 Transform:
   m_ObjectHideFlags: 0

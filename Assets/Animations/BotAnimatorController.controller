@@ -35,7 +35,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Jumping Up
-  m_Speed: 3
+  m_Speed: 2.2
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: -782992253468623410}
@@ -73,9 +73,9 @@ AnimatorStateTransition:
   m_Mute: 0
   m_IsExit: 0
   serializedVersion: 3
-  m_TransitionDuration: 0.0748904
+  m_TransitionDuration: 0
   m_TransitionOffset: 0
-  m_ExitTime: 8.3766e-11
+  m_ExitTime: 1.4794158e-10
   m_HasExitTime: 0
   m_HasFixedDuration: 1
   m_InterruptionSource: 0
@@ -551,15 +551,18 @@ AnimatorStateTransition:
   - m_ConditionMode: 2
     m_ConditionEvent: Gliding
     m_EventTreshold: 0
+  - m_ConditionMode: 2
+    m_ConditionEvent: GroundJump
+    m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 622068637132759883}
   m_Solo: 0
   m_Mute: 0
   m_IsExit: 0
   serializedVersion: 3
-  m_TransitionDuration: 0.15954234
+  m_TransitionDuration: 0.105595656
   m_TransitionOffset: 0
-  m_ExitTime: 0
+  m_ExitTime: 6.2361694e-10
   m_HasExitTime: 0
   m_HasFixedDuration: 1
   m_InterruptionSource: 0
@@ -995,7 +998,7 @@ AnimatorStateMachine:
   m_ChildStates:
   - serializedVersion: 1
     m_State: {fileID: 622068637132759883}
-    m_Position: {x: 160, y: 190, z: 0}
+    m_Position: {x: 170, y: 190, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -8735228510146741156}
     m_Position: {x: 160, y: 110, z: 0}
@@ -1004,7 +1007,7 @@ AnimatorStateMachine:
     m_Position: {x: -140, y: 200, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 2008892759092754971}
-    m_Position: {x: 160, y: 260, z: 0}
+    m_Position: {x: 170, y: 270, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 11029787118143625}
     m_Position: {x: 480, y: 320, z: 0}
@@ -1019,7 +1022,7 @@ AnimatorStateMachine:
     m_Position: {x: -140, y: 320, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -8621232400449797459}
-    m_Position: {x: 160, y: 330, z: 0}
+    m_Position: {x: 170, y: 340, z: 0}
   m_ChildStateMachines: []
   m_AnyStateTransitions: []
   m_EntryTransitions: []
