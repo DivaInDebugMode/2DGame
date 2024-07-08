@@ -8,10 +8,16 @@ namespace Character.CharacterScripts
         [SerializeField] private new CapsuleCollider collider;
         [SerializeField] private BoxCollider crouchCollider;
         [SerializeField] private BoxCollider airDashCollider;
+        [SerializeField] private BoxCollider jumpFallCollider;
 
         public BoxCollider AirDashCollider
         {
             get => airDashCollider;
+        }
+
+        public BoxCollider JumpFallCollider
+        {
+            get => jumpFallCollider;
         }
 
         public Rigidbody Rb
@@ -19,7 +25,7 @@ namespace Character.CharacterScripts
             get => rigidbody;
         }
 
-        public BoxCollider BoxCollider
+        public BoxCollider CrouchCollider
         {
             get => crouchCollider;
         }

@@ -34,7 +34,6 @@ namespace Character.CharacterScripts
             {
                 botData.BotStats.IsJump = true;
                 botData.BotDetectionStats.WallDetectionRadius = 0;
-
                 pressStartTime = Time.time;
                 isPressed = true;
                 isTap = false;
@@ -42,7 +41,6 @@ namespace Character.CharacterScripts
                 dropTimer = 0f;
                 
                 botData.BotComponents.Rb.velocity = new Vector2(botData.BotComponents.Rb.velocity.x, botData.BotStats.JumpForce);
-
             }
         }
 

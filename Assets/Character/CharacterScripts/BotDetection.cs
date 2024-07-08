@@ -10,7 +10,7 @@ namespace Character.CharacterScripts
         [SerializeField] private BotData botData;
         [SerializeField] private Transform ledgeDetectionTransform;
         [SerializeField] private Transform wallDetectionTransform;
-        
+
         private Transform LedgeDetectionTransform => ledgeDetectionTransform;
         private Transform WallDetectionTransform => wallDetectionTransform;
 
@@ -26,6 +26,7 @@ namespace Character.CharacterScripts
             botData.BotDetectionStats.IsGrounded = botData.BotComponents.Rb.velocity.y <= 0.01f && Physics.CheckSphere(
                 groundTransform.position, 0.2f, botData.BotDetectionStats.Grounded);
         }
+        
 
         public void IsNearOnGround()
         {

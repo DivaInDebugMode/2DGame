@@ -16,6 +16,7 @@ namespace Character.CharacterScripts
         private static readonly int Dash = Animator.StringToHash("Dash");
         private static readonly int Grounded = Animator.StringToHash("Grounded");
         private static readonly int WallSlide = Animator.StringToHash("Wall Slide");
+        private static readonly int Falling = Animator.StringToHash("Falling");
 
         public override void EnterState()
         {
@@ -34,7 +35,6 @@ namespace Character.CharacterScripts
             HandleDashAnimation();
             DisableDashAnimation();
             HandleGroundedAnimation();
-            HandleJumpAnimation();
         }
 
         public override void FixedUpdate()
@@ -102,7 +102,7 @@ namespace Character.CharacterScripts
             {
                 botData.BotComponents.Rb.velocity = new Vector2(0, botData.BotComponents.Rb.velocity.y);
                 botData.BotComponents.Coll.enabled = false;
-                botData.BotComponents.BoxCollider.enabled = true;
+                botData.BotComponents.CrouchCollider.enabled = true;
                 botData.BotStats.CurrentSpeed = 0;
                 botData.BotStats.DirectionTime = 0;
                 botAnimatorController.Animator.SetTrigger(Crouch1);
@@ -112,7 +112,7 @@ namespace Character.CharacterScripts
             }
             else if (!botInput.MoveDown.action.IsPressed() && botData.BotStats.IsCrouching && !botData.BotStats.HasCrouched && crouchTimer <= 0f)
             {
-                botData.BotComponents.BoxCollider.enabled = false;
+                botData.BotComponents.CrouchCollider.enabled = false;
                 botData.BotComponents.Coll.enabled = true;
                 botAnimatorController.Animator.SetTrigger(CrouchToStand);
                 botData.BotStats.IsCrouching = false;
@@ -144,14 +144,6 @@ namespace Character.CharacterScripts
             {
                 botAnimatorController.Animator.SetBool(Dash, false);
                 dashAnimatorReset = true;
-            }
-        }
-
-        private void HandleJumpAnimation()
-        {
-            if (botData.BotStats.HasJumped)
-            {
-                botData.BotStats.IsJump = true;
             }
         }
 

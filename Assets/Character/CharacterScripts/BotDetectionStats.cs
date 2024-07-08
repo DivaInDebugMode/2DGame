@@ -61,8 +61,3 @@ namespace Character.CharacterScriptable
         #endregion
     }
 }
-
-
-namespace Character.CharacterScripts
-{
-}

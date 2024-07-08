@@ -47,8 +47,6 @@ namespace Character.CharacterScripts
             {
                 CheckState(states.Climb());
             }
-            
-            
         }
     
         private void CheckState(BotBaseState newState)
