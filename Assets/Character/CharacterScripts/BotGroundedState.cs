@@ -166,6 +166,7 @@ namespace Character.CharacterScripts
         public override void ExitState()
         {
             botAnimatorController.Animator.SetBool(Grounded, false);
+            botAnimatorController.Animator.SetBool(Dash, false);
         }
 
 
