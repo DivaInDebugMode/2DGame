@@ -113,7 +113,7 @@ namespace Character.CharacterScripts
         
         private void HandleFallAnimation()
         {
-            if (botData.BotComponents.Rb.velocity.y <0 && !inFalling && !inGliding || !botData.BotStats.IsDashing)
+            if (botData.BotComponents.Rb.velocity.y <0 && !inFalling && !inGliding)
             {
                 inFalling = true;
                 botAnimatorController.Animator.SetBool(Falling, true);
@@ -142,7 +142,8 @@ namespace Character.CharacterScripts
                 botAnimatorController.Animator.SetBool(Gliding, true);
             }
         
-            if (botData.BotDetectionStats.IsNearOnGround && !cancelFallingAfterLanding && botData.BotComponents.Rb.velocity.y < 0f || !cancelGlidingAfterDash && botData.BotStats.IsDashing ||
+            if (botData.BotDetectionStats.IsNearOnGround && !cancelFallingAfterLanding &&
+                botData.BotComponents.Rb.velocity.y < 0f || !cancelGlidingAfterDash && botData.BotStats.IsDashing ||
                 inGliding && !botInput.Jump.action.IsPressed())
             {
                 if (!cancelGlidingAfterDash) cancelGlidingAfterDash = true;
@@ -202,6 +203,7 @@ namespace Character.CharacterScripts
         {
             botAnimatorController.Animator.SetBool(Gliding, false);
             botAnimatorController.Animator.SetBool(Falling, false);
+            botData.BotDetectionStats.IsNearOnGround = false;
         }
 
         public BotAirState(BotStateMachine currentContext, BotMovement botMovement, BotInput botInput, BotData botData, BotAnimatorController botAnimatorController, BotDash botDash) : base(currentContext, botMovement, botInput, botData, botAnimatorController, botDash)

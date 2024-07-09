@@ -49,7 +49,6 @@ namespace Character.CharacterScripts
             {
                 jumpPressedTime = Time.time - pressStartTime;
                 isTap = jumpPressedTime <= 0.1f;
-                Debug.Log("start");
             }
         }
 

@@ -40,7 +40,7 @@ namespace Character.CharacterScripts
         public override void FixedUpdate()
         {
             botMovement.MoveHorizontally(botData.BotStats.CurrentSpeed);
-            if (botData.BotStats.IsDashing)
+            if (botData.BotStats.IsDashing && !botData.BotDetectionStats.IsNearOnGround)
             {
                 botDash.Dash();
             }
