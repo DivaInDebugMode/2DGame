@@ -11,7 +11,8 @@ namespace Character.CharacterScripts
 
         [Header("Falling Variables")] private bool inFalling;
         private bool cancelFallingAfterDash;
-        private bool fallingCondition;
+        private bool cancelFallingAfterGliding;
+        private bool cancelFallingAfterLanding;
         private static readonly int Falling = Animator.StringToHash("Falling");
 
         [Header("Gliding Variables")] private bool inGliding;
@@ -28,12 +29,14 @@ namespace Character.CharacterScripts
             botData.BotStats.DashDuration = botData.BotStats.DashDurationAir;
             botData.BotDetectionStats.WallDetectionRadius = 0.5f;
             cancelJumpAnimation = false;
-            fallingCondition = false;
+            cancelFallingAfterGliding = true;
             hasJumped = false;
             inFalling = false;
             inGliding = false;
             hasGlided = false;
-            
+            cancelFallingAfterDash = true;
+            cancelFallingAfterLanding = false;
+
         }
 
         public override void UpdateState()
@@ -57,6 +60,7 @@ namespace Character.CharacterScripts
             HandleLanding();
             
             botData.BotDetection.IsNearOnGround();
+            
         }
 
         public override void FixedUpdate()
@@ -109,22 +113,22 @@ namespace Character.CharacterScripts
         
         private void HandleFallAnimation()
         {
-            if (botData.BotComponents.Rb.velocity.y < 0 && !inFalling && !inGliding)
+            if (botData.BotComponents.Rb.velocity.y <0 && !inFalling && !inGliding || !botData.BotStats.IsDashing)
             {
                 inFalling = true;
                 botAnimatorController.Animator.SetBool(Falling, true);
             }
-            else if (!cancelFallingAfterDash && botData.BotStats.IsDashing || !fallingCondition)// && inGliding) // es gadasaketebelia nito weria 
+            else if (!cancelFallingAfterDash && botData.BotStats.IsDashing || !cancelFallingAfterGliding && inGliding)
             {
                 if (!cancelFallingAfterDash) cancelFallingAfterDash = true;
-                fallingCondition = true;
+                if (!cancelFallingAfterGliding) cancelFallingAfterGliding = true;
                 botAnimatorController.Animator.SetBool(Falling, false);
             }
         }
         
         private void HandleGliding()
         {
-            if (botInput.Jump.action.IsPressed() && inFalling && !botData.BotStats.IsDashing)
+            if (botInput.Jump.action.IsPressed() && inFalling && !botData.BotStats.IsDashing && !botData.BotStats.IsJump)
             {
                 inGliding = true;
                 Physics.gravity = botData.BotStats.GlidingGForce;
@@ -138,13 +142,16 @@ namespace Character.CharacterScripts
                 botAnimatorController.Animator.SetBool(Gliding, true);
             }
         
-            if (botData.BotDetectionStats.IsNearOnGround || !cancelGlidingAfterDash && botData.BotStats.IsDashing ||
+            if (botData.BotDetectionStats.IsNearOnGround && !cancelFallingAfterLanding && botData.BotComponents.Rb.velocity.y < 0f || !cancelGlidingAfterDash && botData.BotStats.IsDashing ||
                 inGliding && !botInput.Jump.action.IsPressed())
             {
                 if (!cancelGlidingAfterDash) cancelGlidingAfterDash = true;
+                if (!cancelFallingAfterLanding) cancelFallingAfterLanding = true;
                 inGliding = false;
                 hasGlided = false;
+                cancelFallingAfterGliding = false;
                 botAnimatorController.Animator.SetBool(Gliding, false);
+                
             }
         }
         
@@ -179,6 +186,7 @@ namespace Character.CharacterScripts
             if (!inGliding && !botData.BotStats.IsDashing && !botData.BotDetectionStats.IsNearOnGround)
             {
                 Physics.gravity = botData.BotStats.FallingGForce;
+               
             }
         }
 

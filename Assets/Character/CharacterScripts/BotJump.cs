@@ -39,7 +39,6 @@ namespace Character.CharacterScripts
                 isTap = false;
                 shouldDrop = false;
                 dropTimer = 0f;
-                
                 botData.BotComponents.Rb.velocity = new Vector2(botData.BotComponents.Rb.velocity.x, botData.BotStats.JumpForce);
             }
         }
@@ -50,6 +49,7 @@ namespace Character.CharacterScripts
             {
                 jumpPressedTime = Time.time - pressStartTime;
                 isTap = jumpPressedTime <= 0.1f;
+                Debug.Log("start");
             }
         }
 
@@ -62,6 +62,7 @@ namespace Character.CharacterScripts
                 {
                     botData.BotComponents.Rb.velocity = new Vector2(botData.BotComponents.Rb.velocity.x, botData.BotStats.InitialJumpForce);
                     shouldDrop = true;
+                   
                 }
             }
         }
@@ -74,6 +75,7 @@ namespace Character.CharacterScripts
                 isTap = false;
                 dropTimer = 0f;
                 shouldDrop = false;
+               
             }
         }
     }
