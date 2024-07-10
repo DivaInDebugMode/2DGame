@@ -16,14 +16,13 @@ namespace Character.CharacterScripts
         private static readonly int Dash = Animator.StringToHash("Dash");
         private static readonly int Grounded = Animator.StringToHash("Grounded");
         private static readonly int WallSlide = Animator.StringToHash("Wall Slide");
-        private static readonly int Falling = Animator.StringToHash("Falling");
 
         public override void EnterState()
         {
             botData.BotStats.DashDuration = botData.BotStats.DashDurationGround;
             Physics.gravity = botData.BotStats.GroundGForce;
             botAnimatorController.Animator.SetBool(WallSlide, false);
-            botData.BotStats.IsJump = false;
+            // botData.BotStats.IsJump = false;
         }
 
         public override void UpdateState()
@@ -45,8 +44,6 @@ namespace Character.CharacterScripts
                 botDash.Dash();
             }
         }
-
-
         private void HandleMovementAnimation()
         {
             if (botData.BotStats.IsDashing) return;
