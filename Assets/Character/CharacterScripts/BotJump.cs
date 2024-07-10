@@ -29,10 +29,13 @@ namespace Character.CharacterScripts
 
         private void JumpActionPress(InputAction.CallbackContext context)
         {
-            if(botData.BotStats.IsFalling) return;
             if (botData.BotDetectionStats.IsGrounded && !botData.BotStats.IsDashing &&
-                !botData.BotStats.IsCrouching)
+                !botData.BotStats.IsCrouching && !botData.BotStats.HasJumped)
             {
+                //xs
+                botData.BotStats.HasJumped = true;
+                
+                
                 botData.BotStats.IsJump = true;
                 botData.BotDetectionStats.WallDetectionRadius = 0;
                 pressStartTime = Time.time;

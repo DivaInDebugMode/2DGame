@@ -17,12 +17,17 @@ namespace Character.CharacterScripts
         private static readonly int Grounded = Animator.StringToHash("Grounded");
         private static readonly int WallSlide = Animator.StringToHash("Wall Slide");
 
+        private bool jumpTimerOn;
+        private float jumpStartTimer;
+        private float jumpTimerDuration;
+
         public override void EnterState()
         {
             botData.BotStats.DashDuration = botData.BotStats.DashDurationGround;
             Physics.gravity = botData.BotStats.GroundGForce;
             botAnimatorController.Animator.SetBool(WallSlide, false);
-            // botData.BotStats.IsJump = false;
+            jumpStartTimer = Time.time;
+            jumpTimerOn = true;
         }
 
         public override void UpdateState()
@@ -34,6 +39,20 @@ namespace Character.CharacterScripts
             HandleDashAnimation();
             DisableDashAnimation();
             HandleGroundedAnimation();
+            HandleTimer();
+        }
+
+        private void HandleTimer()
+        {
+            if (jumpTimerOn)
+            {
+                jumpTimerDuration = Time.time - jumpStartTimer;
+                if (jumpTimerDuration >= 0.06f)
+                {
+                    botData.BotStats.HasJumped = false;
+                    jumpTimerOn = false;
+                }
+            }
         }
 
         public override void FixedUpdate()
@@ -95,7 +114,7 @@ namespace Character.CharacterScripts
         private void Crouch()
         {
             if (!botData.BotStats.IsRotating && botInput.MoveDown.action.triggered && !botData.BotStats.IsCrouching
-                && !botData.BotStats.IsDashing && !botData.BotStats.HasJumped && crouchTimer <= 0)
+                && !botData.BotStats.IsDashing && crouchTimer <= 0)
             {
                 botData.BotComponents.Rb.velocity = new Vector2(0, botData.BotComponents.Rb.velocity.y);
                 botData.BotComponents.Coll.enabled = false;

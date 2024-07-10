@@ -112,13 +112,14 @@ namespace Character.CharacterScripts
         
         private void HandleFallAnimation()
         {
-            if (botData.BotComponents.Rb.velocity.y < 0 && !inFalling && !inGliding && !botData.BotStats.IsJump)
+            if (botData.BotComponents.Rb.velocity.y < 0 && !inFalling && !inGliding)
             {
                 inFalling = true;
                 
                 //ss
                 cancelFallingAfterLanding = false;
 
+                Debug.Log("falling tru");
 
                 botAnimatorController.Animator.SetBool(Falling, true);
             }
@@ -132,7 +133,8 @@ namespace Character.CharacterScripts
         
         private void HandleGliding()
         {
-            if (botInput.Jump.action.IsPressed() && !botData.BotStats.IsDashing && botData.BotComponents.Rb.velocity.y <= 0)
+            if (botInput.Jump.action.IsPressed() && !botData.BotStats.IsDashing && 
+                botData.BotComponents.Rb.velocity.y <= 0 && !botData.BotDetectionStats.IsNearOnGround)
             {
                 inGliding = true;
                 Physics.gravity = botData.BotStats.GlidingGForce;
@@ -140,7 +142,8 @@ namespace Character.CharacterScripts
         }
         private void HandleGlidingAnimation()
         {
-            if (inGliding && botInput.Jump.action.IsPressed() && !hasGlided && botData.BotComponents.Rb.velocity.y <= 0)
+            if (inGliding && botInput.Jump.action.IsPressed() && !hasGlided &&
+                botData.BotComponents.Rb.velocity.y <= 0 && !botData.BotDetectionStats.IsNearOnGround)
             {
                 hasGlided = true;
                 botAnimatorController.Animator.SetBool(Gliding, true);
@@ -218,7 +221,6 @@ namespace Character.CharacterScripts
         {
             botAnimatorController.Animator.SetBool(Gliding, false);
             botAnimatorController.Animator.SetBool(Falling, false);
-            inFalling = false;
             botData.BotDetectionStats.IsNearOnGround = false;
         }
 

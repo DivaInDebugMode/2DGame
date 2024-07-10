@@ -220,6 +220,8 @@ namespace Character.CharacterScripts
             get => isJump;
             set => isJump = value;
         }
+        
+        
         public float JumpForce => jumpForce;
 
         public float InitialJumpForce => initialJumpForce;
