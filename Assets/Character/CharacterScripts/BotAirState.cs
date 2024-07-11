@@ -118,9 +118,6 @@ namespace Character.CharacterScripts
                 
                 //ss
                 cancelFallingAfterLanding = false;
-
-                Debug.Log("falling tru");
-
                 botAnimatorController.Animator.SetBool(Falling, true);
             }
             else if (!cancelFallingAfterDash && botData.BotStats.IsDashing || !cancelFallingAfterGliding && inGliding)

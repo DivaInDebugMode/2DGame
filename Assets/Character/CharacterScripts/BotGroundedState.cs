@@ -47,7 +47,7 @@ namespace Character.CharacterScripts
             if (jumpTimerOn)
             {
                 jumpTimerDuration = Time.time - jumpStartTimer;
-                if (jumpTimerDuration >= 0.06f)
+                if (jumpTimerDuration >= 0.08f)
                 {
                     botData.BotStats.HasJumped = false;
                     jumpTimerOn = false;

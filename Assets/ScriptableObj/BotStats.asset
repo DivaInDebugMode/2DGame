@@ -12,16 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e6555dc62174e405ba3886cb961c54a0, type: 3}
   m_Name: BotStats
   m_EditorClassIdentifier: 
-  currentSpeed: -0.45040822
+  currentSpeed: -0.0053172056
   maxSpeed: 6
   walkSpeed: 3.5
   moveDeceleration: 10
   smoothTime: 0.9
   moveDirection: {x: 0, y: 0, z: 0}
-  currentDirectionValue: 1
-  lastDirectionValue: 1
-  directionTime: 0.8999997
-  targetAngle: 90
+  currentDirectionValue: -1
+  lastDirectionValue: -1
+  directionTime: 2.5706315
+  targetAngle: 270
   dashForce: 8
   isDashing: 0
   hasDashed: 0
