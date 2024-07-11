@@ -37,7 +37,8 @@ namespace Character.CharacterScripts
                 
                 
                 botData.BotStats.IsJump = true;
-                botData.BotDetectionStats.WallDetectionRadius = 0;
+                
+                //botData.BotDetectionStats.WallDetectionRadius = 0;
                 pressStartTime = Time.time;
                 isPressed = true;
                 isTap = false;

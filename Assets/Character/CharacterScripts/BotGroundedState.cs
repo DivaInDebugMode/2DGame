@@ -113,7 +113,7 @@ namespace Character.CharacterScripts
 
         private void Crouch()
         {
-            if (!botData.BotStats.IsRotating && botInput.MoveDown.action.triggered && !botData.BotStats.IsCrouching
+            if (!botData.BotStats.IsRotating && !botData.BotStats.IsJump &&  botInput.MoveDown.action.triggered && !botData.BotStats.IsCrouching
                 && !botData.BotStats.IsDashing && crouchTimer <= 0)
             {
                 botData.BotComponents.Rb.velocity = new Vector2(0, botData.BotComponents.Rb.velocity.y);
