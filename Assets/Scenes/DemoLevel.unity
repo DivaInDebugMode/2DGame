@@ -27780,7 +27780,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 919132149358643491}
   m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: -1.16, y: -3.99, z: 1.5}
+  m_LocalPosition: {x: 9.18, y: -3.99, z: 1.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -27871,19 +27871,17 @@ GameObject:
   - component: {fileID: 5866666021710219747}
   - component: {fileID: 5866666021710219750}
   - component: {fileID: 5866666021710219749}
-  - component: {fileID: 5866666021710219753}
+  - component: {fileID: 5866666021710219758}
+  - component: {fileID: 5866666021710219762}
   - component: {fileID: 5866666021710219752}
   - component: {fileID: 5866666021710219751}
+  - component: {fileID: 5866666021710219753}
   - component: {fileID: 5866666021710219755}
   - component: {fileID: 5866666021710219754}
   - component: {fileID: 5866666021710219756}
   - component: {fileID: 5866666021710219757}
-  - component: {fileID: 5866666021710219758}
-  - component: {fileID: 5866666021710219759}
-  - component: {fileID: 5866666021710219762}
   - component: {fileID: 5866666021710219760}
   - component: {fileID: 5866666021710219761}
-  - component: {fileID: 5866666021710219763}
   m_Layer: 6
   m_Name: Y Bot-2
   m_TagString: Untagged
@@ -30051,10 +30049,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rigidbody: {fileID: 5866666021710219749}
-  collider: {fileID: 5866666021710219758}
-  crouchCollider: {fileID: 5866666021710219759}
-  airDashCollider: {fileID: 5866666021710219762}
-  jumpFallCollider: {fileID: 5866666021710219763}
+  moveCollider: {fileID: 5866666021710219758}
+  crouchCollider: {fileID: 5866666021710219762}
 --- !u!114 &5866666021710219753
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -30150,31 +30146,10 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.3748378
+  m_Radius: 0.3
   m_Height: 1.7
   m_Direction: 1
-  m_Center: {x: -1.0831434e-19, y: 0.85, z: 0.03124237}
---- !u!65 &5866666021710219759
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 919132149358643491}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 0
-  serializedVersion: 3
-  m_Size: {x: 1, y: 0.99402654, z: 0.8718869}
-  m_Center: {x: -1.78959e-17, y: 0.5020231, z: 0.045523524}
+  m_Center: {x: 0, y: 0.85, z: 0}
 --- !u!114 &5866666021710219760
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -30203,8 +30178,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   botData: {fileID: 5866666021710219757}
   botInput: {fileID: 5866666021710219751}
---- !u!65 &5866666021710219762
-BoxCollider:
+--- !u!136 &5866666021710219762
+CapsuleCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -30220,31 +30195,12 @@ BoxCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 0
-  serializedVersion: 3
-  m_Size: {x: 0.5086599, y: 0.3732059, z: 2.1068769}
-  m_Center: {x: 0.0027134717, y: 0.7681829, z: -0.007373929}
---- !u!65 &5866666021710219763
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 919132149358643491}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 0
-  serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 1.65, z: 0}
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.3
+  m_Height: 1.1
+  m_Direction: 1
+  m_Center: {x: 0, y: 0.55, z: 0}
 --- !u!4 &5901452235461394714
 Transform:
   m_ObjectHideFlags: 0

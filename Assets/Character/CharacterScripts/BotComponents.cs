@@ -5,34 +5,13 @@ namespace Character.CharacterScripts
     public class BotComponents : MonoBehaviour
     {
         [SerializeField] private new Rigidbody rigidbody;
-        [SerializeField] private new CapsuleCollider collider;
-        [SerializeField] private BoxCollider crouchCollider;
-        [SerializeField] private BoxCollider airDashCollider;
-        [SerializeField] private BoxCollider jumpFallCollider;
+        [SerializeField] private CapsuleCollider moveCollider;
+        [SerializeField] private CapsuleCollider crouchCollider;
 
-        public BoxCollider AirDashCollider
-        {
-            get => airDashCollider;
-        }
+        public Rigidbody Rb => rigidbody;
 
-        public BoxCollider JumpFallCollider
-        {
-            get => jumpFallCollider;
-        }
+        public CapsuleCollider CrouchCollider => crouchCollider;
 
-        public Rigidbody Rb
-        {
-            get => rigidbody;
-        }
-
-        public BoxCollider CrouchCollider
-        {
-            get => crouchCollider;
-        }
-
-        public CapsuleCollider Coll
-        {
-            get => collider;
-        }
+        public CapsuleCollider MoveCollider => moveCollider;
     }
 }

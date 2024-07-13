@@ -179,15 +179,13 @@ namespace Character.CharacterScripts
         [Tooltip("Whether the character is jumping.")]
         [SerializeField] private bool isJump;
         [Tooltip("Whether the character is falling.")]
-        [SerializeField] private bool isFalling;
+        [SerializeField] private bool canAirDash;
         [Tooltip("Whether the character is hasJumped.")]
         [SerializeField] private bool hasJumped;
         [Tooltip("Force of Minimum Jump")]
         [SerializeField] private float initialJumpForce;
         [Tooltip("Whether the character is gliding.")]
         [SerializeField] private bool isGliding;
-        [Tooltip("Whether the character was glided.")]
-        [SerializeField] private bool hasGlided;
         [Tooltip("Apply gravity in ground state.")]
         [SerializeField] private Vector2 groundGForce;
         [Tooltip("Apply gravity in air state.")]
@@ -199,21 +197,16 @@ namespace Character.CharacterScripts
         public Vector2 FallingGForce => fallingGForce;
         public Vector2 GroundGForce => groundGForce;
         
-        public bool HasGlided
-        {
-            get => hasGlided;
-            set => hasGlided = value;
-        }
         public bool IsGliding
         {
             get => isGliding;
             set => isGliding = value;
         }
 
-        public bool IsFalling
+        public bool CanAirDash
         {
-            get => isFalling;
-            set => isFalling = value;
+            get => canAirDash;
+            set => canAirDash = value;
         }
         public bool IsJump
         {
