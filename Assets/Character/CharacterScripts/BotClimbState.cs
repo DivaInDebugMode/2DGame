@@ -9,10 +9,10 @@ namespace Character.CharacterScripts
         
         public override void EnterState()
         {
-            Debug.Log("climb");
             Physics.gravity = new Vector2(0.0f, -3.5f);
             botData.BotComponents.Rb.velocity = Vector3.zero;
             botAnimatorController.Animator.SetBool(WallSlide, true);
+            botData.BotStats.IsWallJump = false;
         }
 
         public override void UpdateState()
@@ -21,10 +21,35 @@ namespace Character.CharacterScripts
             {
                 botData.BotDetectionStats.WallDetectionRadius = 0f;
             }
+
+            if (botInput.Jump.action.triggered && !botData.BotStats.IsWallJump)
+            {
+                botData.BotStats.IsWallJump = true;
+                botData.BotStats.WallJumpDurationStart = true;
+            }
         }
 
         public override void FixedUpdate()
         {
+            if (botData.BotStats.IsWallJump)
+            {
+                switch (botData.BotStats.CurrentDirectionValue)
+                {
+                    case 1:
+                        botData.BotComponents.Rb.velocity = new Vector2(-6, 9);
+                        botData.BotStats.TargetAngle = 270f;
+                        botData.BotStats.CurrentDirectionValue = -1;
+                        botData.BotStats.LastDirectionValue = -1;
+                        break;
+                    case -1:
+                        botData.BotComponents.Rb.velocity = new Vector2(6, 9);
+                        botData.BotStats.TargetAngle = 90f;
+                        botData.BotStats.CurrentDirectionValue = 1;
+                        botData.BotStats.LastDirectionValue = 1;
+                        break;
+                }
+                
+            }
         }
 
         public override void ExitState()

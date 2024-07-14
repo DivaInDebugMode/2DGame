@@ -32,7 +32,6 @@ namespace Character.CharacterScripts
             if (botData.BotDetectionStats.IsGrounded && !botData.BotStats.IsDashing &&
                 !botData.BotStats.IsCrouching && !botData.BotStats.HasJumped)
             {
-                //xs
                 botData.BotStats.HasJumped = true;
                 botData.BotStats.IsJump = true;
                 
@@ -70,13 +69,14 @@ namespace Character.CharacterScripts
 
         private void OnButtonCancel(InputAction.CallbackContext context)
         {
+            if(botData.BotDetectionStats.IsWall) return;
+
             isPressed = false;
             if (jumpPressedTime > 0.1f)
             {
                 isTap = false;
                 dropTimer = 0f;
                 shouldDrop = false;
-               
             }
         }
     }

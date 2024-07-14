@@ -31,6 +31,7 @@ namespace Character.CharacterScripts
 
         public override void EnterState()
         {
+            botData.BotDetectionStats.IsWall = false;
             botData.BotStats.DashDuration = botData.BotStats.DashDurationGround;
             Physics.gravity = botData.BotStats.GroundGForce;
             botData.BotComponents.Rb.velocity = Vector3.zero;
@@ -118,11 +119,6 @@ namespace Character.CharacterScripts
                 botData.BotComponents.MoveCollider.enabled = false;
                 botData.BotComponents.CrouchCollider.enabled = true;
                 
-                //es ori agar gvchirdeba ashkarad
-                //botData.BotStats.CurrentSpeed = 0;
-                //botData.BotStats.DirectionTime = 0;
-                
-                
                 botAnimatorController.Animator.SetTrigger(Crouch1);
                 botData.BotStats.HasCrouched = false;
                 botData.BotStats.IsCrouching = true;
@@ -149,11 +145,15 @@ namespace Character.CharacterScripts
         }
         private void JumpActionResetTimer()
         {
-            if (!jumpTimerOn) return;
-            jumpTimerDuration = Time.time - jumpStartTimer;
-            if (!(jumpTimerDuration >= 0.08f)) return;
-            botData.BotStats.HasJumped = false;
-            jumpTimerOn = false;
+            if (jumpTimerOn)
+            {
+                jumpTimerDuration = Time.time - jumpStartTimer;
+                if (jumpTimerDuration >= 0.08f)
+                {
+                    botData.BotStats.HasJumped = false;
+                    jumpTimerOn = false;
+                }
+            }
         }
         private void HandleDashAnimation()
         {
@@ -177,12 +177,6 @@ namespace Character.CharacterScripts
 
         private void HandleGroundedAnimation()
         {
-            // if (!botData.BotStats.IsDashing)
-            // {
-            //     botAnimatorController.Animator.SetBool(Grounded, true);
-            //     Debug.Log("grounded");
-            // }
-            
             if (!botData.BotStats.IsDashing && !inMove)
             {
                 inMove = true;

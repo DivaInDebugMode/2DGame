@@ -41,7 +41,7 @@ namespace Character.CharacterScripts
             }
 
             if (botData.BotDetectionStats.IsWall && !botData.BotDetectionStats.IsGrounded &&
-                botData.BotDetectionStats.WallDetectionRadius > 0f)
+                botData.BotDetectionStats.WallDetectionRadius > 0f && !botData.BotStats.IsJump)
             {
                 CheckState(states.Climb());
             }

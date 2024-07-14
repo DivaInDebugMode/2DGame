@@ -18,9 +18,7 @@ namespace Character.CharacterScripts
         private void Update()
         {
             IsGrounded();
-            IsGroundForClimb();
             CheckWall();
-            Debug.Log(botData.BotDetectionStats.IsGroundForClimb);
         }
 
         private void IsGrounded()
@@ -35,19 +33,10 @@ namespace Character.CharacterScripts
             botData.BotDetectionStats.IsNearOnGround = botData.BotComponents.Rb.velocity.y <= 0.01f && !botData.BotStats.IsDashing && Physics.CheckSphere(
                 groundTransform.position, 1f, botData.BotDetectionStats.Grounded);
         }
-        
-        
-        //mashin shevides climb shi roca miwas mashorebuli iqneba state switchershi iqneba gamosakenebeli es sworad 
-        private void IsGroundForClimb()
-        {
-            botData.BotDetectionStats.IsGroundForClimb = botData.BotComponents.Rb.velocity.y <= 0.01f && !botData.BotStats.IsDashing && Physics.CheckSphere(
-                groundTransform.position, 1f, botData.BotDetectionStats.Grounded);
-        }
-        
-        
 
         private void CheckWall()
         {
+            if(botData.BotDetectionStats.IsGrounded) return;
             switch (botData.BotStats.CurrentDirectionValue)
             {
                 case 1:

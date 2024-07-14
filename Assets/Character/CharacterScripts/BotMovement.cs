@@ -73,7 +73,7 @@ namespace Character.CharacterScripts
         
         private void SmoothRotate()
         {
-            if(botData.BotStats.IsDashing)return;
+            if(botData.BotStats.IsDashing) return;
             botData.BotStats.TargetAngle = botData.BotStats.CurrentDirectionValue switch
             {
                 > 0 when Math.Abs(botData.BotStats.TargetAngle - 90f) > 0.00001f => 90,
@@ -85,7 +85,6 @@ namespace Character.CharacterScripts
             botData.BotStats.DirectionTime += Time.deltaTime;
             var targetRotation = Quaternion.Euler(0, botData.BotStats.TargetAngle, 0);
             transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, Time.deltaTime * 15);
-
         }
         private void StandingFromCrouch() => botData.BotStats.IsCrouching = false;
     }
