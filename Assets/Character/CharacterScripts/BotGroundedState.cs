@@ -1,11 +1,12 @@
 using System;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Character.CharacterScripts
 {
     public class BotGroundedState : BotBaseState
     {
-        [Header("Move Variables")]
+        [Header("Move Variables")] private bool inMove;
         private static readonly int Velocity = Animator.StringToHash("Velocity");
         private static readonly int XDirection = Animator.StringToHash("XDirection");
         private static readonly int Grounded = Animator.StringToHash("Grounded");
@@ -33,6 +34,7 @@ namespace Character.CharacterScripts
             botData.BotStats.DashDuration = botData.BotStats.DashDurationGround;
             Physics.gravity = botData.BotStats.GroundGForce;
             botData.BotComponents.Rb.velocity = Vector3.zero;
+            inMove = false;
             jumpStartTimer = Time.time;
             jumpTimerOn = true;
         }
@@ -158,14 +160,11 @@ namespace Character.CharacterScripts
             if (botData.BotStats.IsDashing && dashAnimatorReset)
             {
                 botAnimatorController.Animator.SetBool(Dash, true);
-                Debug.Log("dash");
-                //botData.BotStats.HasDashed = false;
                 dashAnimatorReset = false;
             }
             else if (!botData.BotStats.IsDashing && !dashAnimatorReset)
             {
                 botAnimatorController.Animator.SetBool(Dash, false);
-                Debug.Log("cancel");
                 dashAnimatorReset = true;
             }
         }
@@ -178,9 +177,21 @@ namespace Character.CharacterScripts
 
         private void HandleGroundedAnimation()
         {
-            if (!botData.BotStats.IsDashing)
+            // if (!botData.BotStats.IsDashing)
+            // {
+            //     botAnimatorController.Animator.SetBool(Grounded, true);
+            //     Debug.Log("grounded");
+            // }
+            
+            if (!botData.BotStats.IsDashing && !inMove)
             {
+                inMove = true;
                 botAnimatorController.Animator.SetBool(Grounded, true);
+            }
+            else if (botData.BotStats.IsDashing && inMove)
+            {
+                inMove = false;
+                botAnimatorController.Animator.SetBool(Grounded, false);
             }
         }
         

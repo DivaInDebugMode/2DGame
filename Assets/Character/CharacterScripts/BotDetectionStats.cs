@@ -45,6 +45,13 @@ namespace Character.CharacterScriptable
 
         [SerializeField] private bool isNearOnGround;
 
+        [SerializeField] private bool isGroundForClimb;
+
+        public bool IsGroundForClimb
+        {
+            get => isGroundForClimb;
+            set => isGroundForClimb = value;
+        }
         public bool IsNearOnGround
         {
             get => isNearOnGround;

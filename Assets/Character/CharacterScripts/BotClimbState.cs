@@ -6,11 +6,10 @@ namespace Character.CharacterScripts
     public class BotClimbState : BotBaseState
     {
         private static readonly int WallSlide = Animator.StringToHash("Wall Slide");
-
-       
-
+        
         public override void EnterState()
         {
+            Debug.Log("climb");
             Physics.gravity = new Vector2(0.0f, -3.5f);
             botData.BotComponents.Rb.velocity = Vector3.zero;
             botAnimatorController.Animator.SetBool(WallSlide, true);
