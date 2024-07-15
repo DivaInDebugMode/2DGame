@@ -6436,7 +6436,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 500675422}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.957, z: 0}
+  m_LocalPosition: {x: 0, y: 1.7, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -19431,8 +19431,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1505063827}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -11.23, y: 7.58, z: 3.01}
-  m_LocalScale: {x: 7.3417935, y: 0.28198883, z: 7}
+  m_LocalPosition: {x: -11.23, y: 7.42, z: 3.01}
+  m_LocalScale: {x: 7.3417935, y: 0.1, z: 7}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 54387189}
@@ -24880,7 +24880,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1967805493}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.117, z: 0}
+  m_LocalPosition: {x: 0, y: 1.645, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -30245,6 +30245,7 @@ MonoBehaviour:
   moveLeft: {fileID: 4522197738781798675, guid: fa2b6866f7dc145ab9f96166a28a914a, type: 3}
   moveRight: {fileID: 1626459821549933194, guid: fa2b6866f7dc145ab9f96166a28a914a, type: 3}
   moveDown: {fileID: -1359881480486733995, guid: fa2b6866f7dc145ab9f96166a28a914a, type: 3}
+  moveUp: {fileID: 8532835909112001305, guid: fa2b6866f7dc145ab9f96166a28a914a, type: 3}
   run: {fileID: 3364377578063260321, guid: fa2b6866f7dc145ab9f96166a28a914a, type: 3}
   dash: {fileID: -5474854073648830051, guid: fa2b6866f7dc145ab9f96166a28a914a, type: 3}
   jump: {fileID: -9121203486731450044, guid: fa2b6866f7dc145ab9f96166a28a914a, type: 3}
@@ -30358,10 +30359,10 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.3
+  m_Radius: 0.365768
   m_Height: 1.7
   m_Direction: 1
-  m_Center: {x: 0, y: 0.85, z: 0}
+  m_Center: {x: 4.6441334e-17, y: 0.85, z: 0.065768}
 --- !u!114 &5866666021710219760
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -30407,7 +30408,7 @@ CapsuleCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Radius: 0.3
   m_Height: 1.1

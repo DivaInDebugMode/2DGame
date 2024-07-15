@@ -186,6 +186,7 @@ namespace Character.CharacterScripts
         [SerializeField] private bool canAirDash;
         [Tooltip("Whether the character is hasJumped.")]
         [SerializeField] private bool hasJumped;
+        [SerializeField] private bool isInLedgeClimbing;
         [Tooltip("Force of Minimum Jump")]
         [SerializeField] private float initialJumpForce;
         [Tooltip("Whether the character is gliding.")]
@@ -201,6 +202,11 @@ namespace Character.CharacterScripts
         public Vector2 FallingGForce => fallingGForce;
         public Vector2 GroundGForce => groundGForce;
 
+        public bool IsInLedgeClimbing
+        {
+            get => isInLedgeClimbing;
+            set => isInLedgeClimbing = value;
+        }
         public bool WallJumpDurationStart
         {
             get => wallJumpDurationStart;

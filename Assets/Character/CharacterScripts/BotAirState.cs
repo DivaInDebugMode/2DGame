@@ -83,8 +83,6 @@ namespace Character.CharacterScripts
                 if (durationOfWallJump >= 0.4f)
                 {
                     botData.BotStats.IsWallJump = false;
-                    // botInput.MoveLeft.action.Enable();
-                    // botInput.MoveRight.action.Enable();
                 }
             }
         }

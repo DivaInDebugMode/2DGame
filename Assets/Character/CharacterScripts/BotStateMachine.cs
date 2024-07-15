@@ -35,7 +35,7 @@ namespace Character.CharacterScripts
             {
                 CheckState(states.Grounded());
             }
-            if (!botData.BotDetectionStats.IsGrounded && !botData.BotDetectionStats.IsWall || botData.BotStats.IsJump)
+            if (!botData.BotDetectionStats.IsGrounded && !botData.BotDetectionStats.IsWall && !botData.BotStats.IsInLedgeClimbing || botData.BotStats.IsJump)
             {
                 CheckState(states.Air());
             }
