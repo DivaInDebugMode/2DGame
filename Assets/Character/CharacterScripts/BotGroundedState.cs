@@ -38,6 +38,7 @@ namespace Character.CharacterScripts
             inMove = false;
             jumpStartTimer = Time.time;
             jumpTimerOn = true;
+            botData.BotStats.IsWallJump = false;
         }
 
         public override void UpdateState()

@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.InputSystem.Interactions;
 
 namespace Character.CharacterScripts
 {
@@ -17,9 +18,19 @@ namespace Character.CharacterScripts
 
         public override void UpdateState()
         {
-            if (Math.Abs(botData.BotStats.TargetAngle - 270f) < 0.0001f && botInput.MoveRight.action.triggered)
+            if (Math.Abs(botData.BotStats.TargetAngle - 270f) < 0.0001f && botInput.MoveDown.action.triggered)
             {
                 botData.BotDetectionStats.WallDetectionRadius = 0f;
+                botData.BotStats.TargetAngle = 90f;
+                botData.BotStats.CurrentDirectionValue = 1;
+                botData.BotStats.LastDirectionValue = 1;
+            }
+            else if (Math.Abs(botData.BotStats.TargetAngle - 90f) < 0.0001f && botInput.MoveDown.action.triggered)
+            {
+                botData.BotDetectionStats.WallDetectionRadius = 0f;
+                botData.BotStats.TargetAngle = 270f;
+                botData.BotStats.CurrentDirectionValue = -1;
+                botData.BotStats.LastDirectionValue = -1;
             }
 
             if (botInput.Jump.action.triggered && !botData.BotStats.IsWallJump)

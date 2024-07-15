@@ -19,6 +19,8 @@ namespace Character.CharacterScripts
         {
             HandleBotInput();
             if (botData.BotStats.IsDashing) return;
+            if (botData.BotStats.IsWallJump) return;
+            if (botData.BotDetectionStats.IsWall) return;
             botData.BotStats.CurrentDirectionValue = botData.BotStats.CurrentDirectionValue switch
             {
                 1 when botData.BotStats.MoveDirection.x < 0 => -1,

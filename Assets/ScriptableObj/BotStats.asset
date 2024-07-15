@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e6555dc62174e405ba3886cb961c54a0, type: 3}
   m_Name: BotStats
   m_EditorClassIdentifier: 
-  currentSpeed: -0.045607366
+  currentSpeed: -0.13262011
   maxSpeed: 6
   walkSpeed: 3.5
   moveDeceleration: 10
@@ -20,7 +20,7 @@ MonoBehaviour:
   moveDirection: {x: 0, y: 0, z: 0}
   currentDirectionValue: 1
   lastDirectionValue: 1
-  directionTime: 0.93999964
+  directionTime: 2.0999987
   targetAngle: 90
   dashForce: 8
   isDashing: 0
