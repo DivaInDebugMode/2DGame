@@ -197,7 +197,20 @@ namespace Character.CharacterScripts
         [SerializeField] private Vector2 fallingGForce;
         [Tooltip("Apply gravity in gliding state.")]
         [SerializeField] private Vector2 glidingGForce;
+        [SerializeField] private float ledgeClimbingStartTime;
+        [SerializeField] private float durationOfLedgeClimbing;
 
+        public float LedgeClimbingStartTime
+        {
+            get => ledgeClimbingStartTime;
+            set => ledgeClimbingStartTime = value;
+        }
+
+        public float DurationOfLedgeClimbing
+        {
+            get => durationOfLedgeClimbing;
+            set => durationOfLedgeClimbing = value;
+        }
         public Vector2 GlidingGForce => glidingGForce;
         public Vector2 FallingGForce => fallingGForce;
         public Vector2 GroundGForce => groundGForce;

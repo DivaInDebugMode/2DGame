@@ -36,6 +36,7 @@ namespace Character.CharacterScripts
 
         private void CheckWall()
         {
+            if (botData.BotStats.IsInLedgeClimbing) return;
             if(botData.BotDetectionStats.IsGrounded) return;
             switch (botData.BotStats.CurrentDirectionValue)
             {

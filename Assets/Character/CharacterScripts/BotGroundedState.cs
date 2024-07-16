@@ -31,6 +31,7 @@ namespace Character.CharacterScripts
 
         public override void EnterState()
         {
+            
             botData.BotDetectionStats.IsWall = false;
             botData.BotStats.DashDuration = botData.BotStats.DashDurationGround;
             Physics.gravity = botData.BotStats.GroundGForce;

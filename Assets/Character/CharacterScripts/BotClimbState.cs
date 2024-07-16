@@ -9,8 +9,7 @@ namespace Character.CharacterScripts
         private static readonly int WallSlide = Animator.StringToHash("Wall Slide");
         private bool isOnLedge;
 
-        private float ledgeClimbingStartTime;
-        private float durationOfLedgeClimbing;
+       
         
         public override void EnterState()
         {
@@ -28,19 +27,7 @@ namespace Character.CharacterScripts
             JumpAction();
             LedgeAction();
 
-            if (botData.BotStats.IsInLedgeClimbing)
-            {
-                durationOfLedgeClimbing = Time.time - ledgeClimbingStartTime;
-                if (durationOfLedgeClimbing >= 1.3f)
-                {
-                    botData.BotStats.IsInLedgeClimbing = false;
-                    botAnimatorController.Animator.applyRootMotion = false;
-                    botData.BotComponents.MoveCollider.enabled = true;
-
-                    botAnimatorController.Animator.SetBool("LedgeClimb", false);
-
-                }
-            }
+            
         }
 
         public override void FixedUpdate()
@@ -73,11 +60,14 @@ namespace Character.CharacterScripts
         {
             if (isOnLedge && botInput.MoveUp.action.triggered && !botData.BotStats.IsInLedgeClimbing)
             {
-                botData.BotStats.IsInLedgeClimbing = true;
-                ledgeClimbingStartTime = Time.time;
-                botData.BotComponents.MoveCollider.enabled = false;
-                botAnimatorController.Animator.SetBool("LedgeClimb", true);
-                botAnimatorController.Animator.applyRootMotion = true;
+                botData.BotStats.LedgeClimbingStartTime = Time.time;
+                botData.BotComponents.MoveCollider.isTrigger = true;
+                botAnimatorController.Animator.SetBool("LedgeClimb",true);
+                botData.BotComponents.Rb.velocity = new Vector2(0f, 12f);
+                Physics.gravity = botData.BotStats.FallingGForce;
+               botData.BotDetectionStats.IsLedge = false;
+               botData.BotStats.IsInLedgeClimbing = true;
+               Debug.Log("shemovedi");
             } 
         }
 
@@ -126,12 +116,12 @@ namespace Character.CharacterScripts
         }
 
         public override void ExitState()
-        {
-            botAnimatorController.Animator.SetBool("LedgeClimb", false);
-
+        { 
             isOnLedge = false;
             botAnimatorController.Animator.SetBool(WallSlide, false);
-            botData.BotDetectionStats.WallDetectionRadius = 0.5f;
+            //botData.BotDetectionStats.WallDetectionRadius = 0.5f;
+            botAnimatorController.Animator.applyRootMotion = false;
+            botAnimatorController.Animator.SetBool("LedgeClimb",false);
         }
 
         public BotClimbState(BotStateMachine currentContext, BotMovement botMovement, BotInput botInput, BotData botData, BotAnimatorController botAnimatorController, BotDash botDash) : base(currentContext, botMovement, botInput, botData, botAnimatorController, botDash)

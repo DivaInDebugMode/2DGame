@@ -85,15 +85,31 @@ namespace Character.CharacterScripts
                     botData.BotStats.IsWallJump = false;
                 }
             }
+            
+            if (botData.BotStats.IsInLedgeClimbing)
+            {
+                botData.BotStats.DurationOfLedgeClimbing = Time.time - botData.BotStats.LedgeClimbingStartTime;
+                if (botData.BotStats.DurationOfLedgeClimbing >= 0.3f)
+                {
+                    botData.BotStats.IsInLedgeClimbing = false;
+                    botData.BotComponents.MoveCollider.isTrigger = false;
+                    botData.BotStats.LedgeClimbingStartTime = 0f;
+                    botData.BotStats.DurationOfLedgeClimbing = 0f;
+                    Debug.Log("gavedi");
+                    
+                }
+            }
         }
         public override void FixedUpdate()
         {
+            if (botData.BotStats.IsInLedgeClimbing) return;//aq
             if(botData.BotStats.IsWallJump) return;
             botMovement.MoveHorizontally(botData.BotStats.CurrentSpeed);
         }
 
         private void HandleMovementSpeed()
         {
+            if (botData.BotStats.IsInLedgeClimbing) return; // aq
             if(botData.BotStats.IsDashing) return;
             if (botData.BotStats.MoveDirection.x != 0)
             {
@@ -138,6 +154,7 @@ namespace Character.CharacterScripts
         
         private void HandleFallAnimation()
         {
+            if (botData.BotStats.IsInLedgeClimbing) return;
             if (botData.BotComponents.Rb.velocity.y < 0 && !inFalling && !inGliding && !botData.BotStats.IsWallJump)
             {
                 inFalling = true;
@@ -155,6 +172,7 @@ namespace Character.CharacterScripts
         
         private void HandleGliding()
         {
+            if (botData.BotStats.IsInLedgeClimbing) return;
             if (botInput.Jump.action.IsPressed() && !botData.BotStats.IsDashing && 
                 botData.BotComponents.Rb.velocity.y <= 0 && !botData.BotDetectionStats.IsNearOnGround && !botData.BotStats.IsWallJump)
             {
@@ -164,6 +182,7 @@ namespace Character.CharacterScripts
         }
         private void HandleGlidingAnimation()
         {
+            
             if (inGliding && botInput.Jump.action.IsPressed() && !hasGlided && !botData.BotStats.IsDashing &&
                 botData.BotComponents.Rb.velocity.y <= 0 && !botData.BotDetectionStats.IsNearOnGround && !botData.BotStats.IsWallJump)
             {

@@ -9,7 +9,7 @@ namespace Character.CharacterScripts
     {
         [SerializeField] private BotData botData;
         [SerializeField] private BotInput botInput;
-        
+        public Transform test;
         private void Start()
         {
             botData.BotStats.LastDirectionValue = botData.BotStats.CurrentDirectionValue;
@@ -89,5 +89,6 @@ namespace Character.CharacterScripts
             transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, Time.deltaTime * 15);
         }
         private void StandingFromCrouch() => botData.BotStats.IsCrouching = false;
+        private void Test() =>  botData.BotComponents.MoveCollider.transform.position = test.transform.position;
     }
 }
