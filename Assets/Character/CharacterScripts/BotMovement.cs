@@ -86,7 +86,7 @@ namespace Character.CharacterScripts
             if (!(Math.Abs(transform.eulerAngles.y - botData.BotStats.TargetAngle) > 0.00001f)) return;
             botData.BotStats.DirectionTime += Time.deltaTime;
             var targetRotation = Quaternion.Euler(0, botData.BotStats.TargetAngle, 0);
-            transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, Time.deltaTime * 15);
+            transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, Time.deltaTime * 25);
         }
         private void StandingFromCrouch() => botData.BotStats.IsCrouching = false;
         private void Test() =>  botData.BotComponents.MoveCollider.transform.position = test.transform.position;

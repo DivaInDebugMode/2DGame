@@ -27,7 +27,6 @@ namespace Character.CharacterScripts
         {
             currentState.UpdateState();
             StateSwitcher();
-            Debug.Log(currentState);
         }
         
         private void StateSwitcher()
@@ -36,7 +35,7 @@ namespace Character.CharacterScripts
             {
                 CheckState(states.Grounded());
             }
-            if (!botData.BotDetectionStats.IsGrounded && !botData.BotDetectionStats.IsWall && !botData.BotStats.IsInLedgeClimbing || botData.BotStats.IsJump || botData.BotStats.IsInLedgeClimbing)
+            if (!botData.BotDetectionStats.IsGrounded && !botData.BotDetectionStats.IsWall || botData.BotStats.IsJump || botData.BotStats.IsInLedgeClimbing)
             {
                 CheckState(states.Air());
             }

@@ -1,6 +1,5 @@
 using System;
 using UnityEngine;
-using UnityEngine.InputSystem.Interactions;
 
 namespace Character.CharacterScripts
 {
@@ -8,16 +7,14 @@ namespace Character.CharacterScripts
     {
         private static readonly int WallSlide = Animator.StringToHash("Wall Slide");
         private bool isOnLedge;
-
-       
         
         public override void EnterState()
         {
-            Physics.gravity = new Vector2(0.0f, -3.5f);
+            Physics.gravity = botData.BotStats.WallGForce;
             botData.BotComponents.Rb.velocity = Vector3.zero;
+            
             botAnimatorController.Animator.SetBool(WallSlide, true);
             botData.BotStats.IsWallJump = false;
-
             botData.BotStats.IsInLedgeClimbing = false;
         }
 
@@ -26,8 +23,6 @@ namespace Character.CharacterScripts
             RotateFromWall();
             JumpAction();
             LedgeAction();
-
-            
         }
 
         public override void FixedUpdate()
@@ -38,8 +33,6 @@ namespace Character.CharacterScripts
 
         private void RotateFromWall()
         {
-            if(botData.BotStats.IsInLedgeClimbing) return;
-            
             if (Math.Abs(botData.BotStats.TargetAngle - 270f) < 0.0001f && botInput.MoveDown.action.triggered)
             {
                 botData.BotDetectionStats.WallDetectionRadius = 0f;
@@ -62,15 +55,13 @@ namespace Character.CharacterScripts
             {
                 botData.BotStats.LedgeClimbingStartTime = Time.time;
                 botData.BotComponents.MoveCollider.isTrigger = true;
-                botAnimatorController.Animator.SetBool("LedgeClimb",true);
-                botData.BotComponents.Rb.velocity = new Vector2(0f, 12f);
+                botData.BotComponents.Rb.velocity = botData.BotStats.LedgeJumpForce; 
                 Physics.gravity = botData.BotStats.FallingGForce;
-               botData.BotDetectionStats.IsLedge = false;
-               botData.BotStats.IsInLedgeClimbing = true;
-               Debug.Log("shemovedi");
+                botData.BotDetectionStats.IsLedge = false;
+                botData.BotStats.IsInLedgeClimbing = true;
             } 
         }
-
+        
         private void HandleLedgeGrab()
         {
             if (botData.BotDetectionStats.IsLedge && !isOnLedge)
@@ -83,11 +74,9 @@ namespace Character.CharacterScripts
 
         private void JumpAction()
         {
-            if(botData.BotStats.IsInLedgeClimbing) return;
-
             if (botInput.Jump.action.triggered && !botData.BotStats.IsWallJump)
             {
-                Physics.gravity = new Vector2(0.0f, -3.5f);
+                Physics.gravity = botData.BotStats.WallGForce;
                 botData.BotStats.IsWallJump = true;
                 botData.BotStats.WallJumpDurationStart = true;
             }
@@ -119,9 +108,6 @@ namespace Character.CharacterScripts
         { 
             isOnLedge = false;
             botAnimatorController.Animator.SetBool(WallSlide, false);
-            //botData.BotDetectionStats.WallDetectionRadius = 0.5f;
-            botAnimatorController.Animator.applyRootMotion = false;
-            botAnimatorController.Animator.SetBool("LedgeClimb",false);
         }
 
         public BotClimbState(BotStateMachine currentContext, BotMovement botMovement, BotInput botInput, BotData botData, BotAnimatorController botAnimatorController, BotDash botDash) : base(currentContext, botMovement, botInput, botData, botAnimatorController, botDash)

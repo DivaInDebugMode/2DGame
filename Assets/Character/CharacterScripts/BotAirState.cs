@@ -28,8 +28,7 @@ namespace Character.CharacterScripts
         private bool canDash;
         private bool canDashAnimation;
         private static readonly int AirDash = Animator.StringToHash("AirDash");
-
-
+        
         public override void EnterState()
         {
             botData.BotDetectionStats.IsWall = false;
@@ -46,70 +45,36 @@ namespace Character.CharacterScripts
             canDashAnimation = true;
             cancelFallingAfterDash = true;
             cancelFallingAfterLanding = false;
-
         }
 
         public override void UpdateState()
         {
             HandleMovementSpeed();
-            
             HandleAirDash();
-            
             HandleGliding();
-            
             HandleJumpAnimation();
-            
             HandleFallAnimation();
-            
             HandleAirDashAnimation();
-            
             HandleGlidingAnimation();
-            
             HandleFallingGravity();
-
             HandleLanding();
-            
+            WallJumpTimerHandler();
+            HandleLedgeJumpTimer();
             botData.BotDetection.IsNearOnGround();
-
-            if (botData.BotStats.IsWallJump && botData.BotStats.WallJumpDurationStart)
-            {
-                startTimeOfWallJump = Time.time;
-                botData.BotStats.WallJumpDurationStart = false;
-            }
-
-            if (botData.BotStats.IsWallJump)
-            {
-                durationOfWallJump = Time.time - startTimeOfWallJump;
-                if (durationOfWallJump >= 0.4f)
-                {
-                    botData.BotStats.IsWallJump = false;
-                }
-            }
             
-            if (botData.BotStats.IsInLedgeClimbing)
-            {
-                botData.BotStats.DurationOfLedgeClimbing = Time.time - botData.BotStats.LedgeClimbingStartTime;
-                if (botData.BotStats.DurationOfLedgeClimbing >= 0.3f)
-                {
-                    botData.BotStats.IsInLedgeClimbing = false;
-                    botData.BotComponents.MoveCollider.isTrigger = false;
-                    botData.BotStats.LedgeClimbingStartTime = 0f;
-                    botData.BotStats.DurationOfLedgeClimbing = 0f;
-                    Debug.Log("gavedi");
-                    
-                }
-            }
+            Debug.Log(botData.BotComponents.Rb.velocity.y);
+
         }
         public override void FixedUpdate()
         {
-            if (botData.BotStats.IsInLedgeClimbing) return;//aq
+            if (botData.BotStats.IsInLedgeClimbing) return;
             if(botData.BotStats.IsWallJump) return;
             botMovement.MoveHorizontally(botData.BotStats.CurrentSpeed);
         }
 
         private void HandleMovementSpeed()
         {
-            if (botData.BotStats.IsInLedgeClimbing) return; // aq
+            if (botData.BotStats.IsInLedgeClimbing) return; 
             if(botData.BotStats.IsDashing) return;
             if (botData.BotStats.MoveDirection.x != 0)
             {
@@ -136,6 +101,39 @@ namespace Character.CharacterScripts
             }
         }
 
+        private void WallJumpTimerHandler()
+        {
+            switch (botData.BotStats.IsWallJump)
+            {
+                case true when botData.BotStats.WallJumpDurationStart:
+                    startTimeOfWallJump = Time.time;
+                    botData.BotStats.WallJumpDurationStart = false;
+                    break;
+                case false:
+                    return;
+            }
+
+            durationOfWallJump = Time.time - startTimeOfWallJump;
+            if (durationOfWallJump >= 0.2f)
+            {
+                botData.BotStats.IsWallJump = false;
+            }
+        }
+
+        private void HandleLedgeJumpTimer()
+        {
+            if (botData.BotStats.IsInLedgeClimbing)
+            {
+                botData.BotStats.DurationOfLedgeClimbing = Time.time - botData.BotStats.LedgeClimbingStartTime;
+                if (botData.BotStats.DurationOfLedgeClimbing >= 0.3f)
+                {
+                    botData.BotStats.IsInLedgeClimbing = false;
+                    botData.BotComponents.MoveCollider.isTrigger = false;
+                    botData.BotStats.LedgeClimbingStartTime = 0f;
+                    botData.BotStats.DurationOfLedgeClimbing = 0f;
+                }
+            }
+        }
         private void HandleJumpAnimation()
         {
             if (botData.BotStats.IsJump && botData.BotComponents.Rb.velocity.y > 0f && !hasJumped)
@@ -206,25 +204,24 @@ namespace Character.CharacterScripts
                 botAnimatorController.Animator.SetBool(Gliding, false);
             }
         }
-        
+
         private void HandleAirDash()
         {
             if (!botInput.Jump.action.IsPressed() && canDash && botData.BotStats.IsDashing &&
-                !botData.BotStats.IsJump && !botData.BotDetectionStats.IsNearOnGround && !botData.BotStats.IsWallJump)
+                !botData.BotDetectionStats.IsNearOnGround && !botData.BotStats.IsWallJump)
             {
+                botDash.Dash();
                 Physics.gravity = Vector3.zero;
                 canDash = false;
                 botData.BotStats.CanAirDash = false;
-                botDash.Dash();
             }
         }
 
         private void HandleAirDashAnimation()
         {
             if (!botInput.Jump.action.IsPressed() && canDashAnimation && botData.BotStats.IsDashing &&
-                botData.BotStats.HasDashed && !botData.BotStats.IsJump && !botData.BotDetectionStats.IsNearOnGround && !botData.BotStats.IsWallJump)
+                botData.BotStats.HasDashed  && !botData.BotDetectionStats.IsNearOnGround && !botData.BotStats.IsWallJump)
             {
-                
                 cancelFallingAfterDash = false;
                 cancelDashAnimation = false;
                 cancelGlidingAfterDash = false;
@@ -270,9 +267,8 @@ namespace Character.CharacterScripts
             botData.BotStats.IsJump = false;
             botData.BotDetectionStats.IsNearOnGround = false;
 
-            //ss
+            botData.BotStats.IsInLedgeClimbing = false;
             botData.BotStats.CanAirDash = true;
-
         }
 
         public BotAirState(BotStateMachine currentContext, BotMovement botMovement, BotInput botInput, BotData botData, BotAnimatorController botAnimatorController, BotDash botDash) : base(currentContext, botMovement, botInput, botData, botAnimatorController, botDash)
