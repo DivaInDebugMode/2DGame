@@ -23,3 +23,5 @@ MonoBehaviour:
   wallDetectionRadius: 0.5
   isGrounded: 1
   isNearOnGround: 0
+  isDistanceForDash: 0
+  isGroundForClimb: 0

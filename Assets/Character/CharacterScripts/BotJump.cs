@@ -15,7 +15,7 @@ namespace Character.CharacterScripts
         private float dropTimer;
         private bool shouldDrop;
 
-        private void OnEnable()
+ private void OnEnable()
         {
             botInput.Jump.action.started += JumpActionPress;
             botInput.Jump.action.canceled += OnButtonCancel;
@@ -32,9 +32,11 @@ namespace Character.CharacterScripts
             if (botData.BotDetectionStats.IsGrounded && !botData.BotStats.IsDashing &&
                 !botData.BotStats.IsCrouching && !botData.BotStats.HasJumped)
             {
+                botData.BotStats.CanDash = false;//ss
+                botData.BotStats.IsDashing = false;//ss
+                
                 botData.BotStats.HasJumped = true;
                 botData.BotStats.IsJump = true;
-                
                 pressStartTime = Time.time;
                 isPressed = true;
                 isTap = false;
@@ -46,8 +48,10 @@ namespace Character.CharacterScripts
 
         private void Update()
         {
+            if(botData.BotStats.IsDashing) return;
             if (isPressed)
             {
+                Debug.Log("ss");
                 jumpPressedTime = Time.time - pressStartTime;
                 isTap = jumpPressedTime <= 0.1f;
             }
@@ -55,6 +59,7 @@ namespace Character.CharacterScripts
 
         private void FixedUpdate()
         { 
+            if(botData.BotStats.IsDashing) return;
             if (isTap && !shouldDrop)
             {
                 dropTimer += Time.deltaTime;
@@ -62,14 +67,13 @@ namespace Character.CharacterScripts
                 {
                     botData.BotComponents.Rb.velocity = new Vector2(botData.BotComponents.Rb.velocity.x, botData.BotStats.InitialJumpForce);
                     shouldDrop = true;
-                   
                 }
             }
         }
 
         private void OnButtonCancel(InputAction.CallbackContext context)
         {
-            if(botData.BotDetectionStats.IsWall) return;
+            if (botData.BotDetectionStats.IsWall) return;
 
             isPressed = false;
             if (jumpPressedTime > 0.1f)

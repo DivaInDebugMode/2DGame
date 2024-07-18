@@ -150,7 +150,7 @@ namespace Character.CharacterScripts
             if (jumpTimerOn)
             {
                 jumpTimerDuration = Time.time - jumpStartTimer;
-                if (jumpTimerDuration >= 0.08f)
+                if (jumpTimerDuration >= 0.1f)
                 {
                     botData.BotStats.HasJumped = false;
                     jumpTimerOn = false;
@@ -163,6 +163,7 @@ namespace Character.CharacterScripts
             {
                 botAnimatorController.Animator.SetBool(Dash, true);
                 dashAnimatorReset = false;
+                botData.BotStats.DashCooldown = 0.8f;
             }
             else if (!botData.BotStats.IsDashing && !dashAnimatorReset)
             {

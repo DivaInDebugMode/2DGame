@@ -44,6 +44,7 @@ namespace Character.CharacterScripts
             if(botData.BotStats.IsGliding) return;
             if (!botData.BotStats.CanDash) return;
             if(botData.BotStats.IsWallJump) return;
+            if(botData.BotDetectionStats.IsDistanceForDash) return;
             botData.BotStats.IsDashing = true;
             botData.BotStats.HasDashed = true;
             botData.BotStats.CanDash = false;

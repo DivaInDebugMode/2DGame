@@ -14,6 +14,8 @@ namespace Character.CharacterScripts
         private Transform LedgeDetectionTransform => ledgeDetectionTransform;
         private Transform WallDetectionTransform => wallDetectionTransform;
 
+        public Transform GroundTransform => groundTransform;
+
 
         private void Update()
         {
@@ -27,13 +29,12 @@ namespace Character.CharacterScripts
                 groundTransform.position, 0.2f, botData.BotDetectionStats.Grounded);
         }
         
-
         public void IsNearOnGround()
         {
             botData.BotDetectionStats.IsNearOnGround = botData.BotComponents.Rb.velocity.y <= 0.01f && !botData.BotStats.IsDashing && Physics.CheckSphere(
-                groundTransform.position, 0.7f, botData.BotDetectionStats.Grounded);
+                groundTransform.position, 1f, botData.BotDetectionStats.Grounded);
         }
-
+        
         private void CheckWall()
         {
             if (botData.BotStats.IsInLedgeClimbing) return;
