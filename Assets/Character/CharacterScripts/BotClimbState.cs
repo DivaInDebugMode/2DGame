@@ -110,7 +110,9 @@ namespace Character.CharacterScripts
             botAnimatorController.Animator.SetBool(WallSlide, false);
         }
 
-        public BotClimbState(BotStateMachine currentContext, BotMovement botMovement, BotInput botInput, BotData botData, BotAnimatorController botAnimatorController, BotDash botDash) : base(currentContext, botMovement, botInput, botData, botAnimatorController, botDash)
+        public BotClimbState(BotStateMachine currentContext, BotMovement botMovement, BotInput botInput,
+            BotData botData, BotAnimatorController botAnimatorController) : base(currentContext, botMovement, botInput,
+            botData, botAnimatorController)
         {
         }
     }

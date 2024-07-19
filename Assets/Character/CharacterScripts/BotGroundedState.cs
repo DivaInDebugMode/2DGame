@@ -1,10 +1,9 @@
 using System;
-using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Character.CharacterScripts
 {
-    public class BotGroundedState : BotBaseState
+    public class BotGroundedState : BotBaseState, IDash
     {
         [Header("Move Variables")] private bool inMove;
         private static readonly int Velocity = Animator.StringToHash("Velocity");
@@ -33,13 +32,17 @@ namespace Character.CharacterScripts
         {
             
             botData.BotDetectionStats.IsWall = false;
-            botData.BotStats.DashDuration = botData.BotStats.DashDurationGround;
             Physics.gravity = botData.BotStats.GroundGForce;
             botData.BotComponents.Rb.velocity = Vector3.zero;
             inMove = false;
             jumpStartTimer = Time.time;
             jumpTimerOn = true;
             botData.BotStats.IsWallJump = false;
+            
+            botData.BotStats.GroundDashTimer = 0f;
+            botData.BotStats.CanGroundDash = true;
+            botData.BotStats.HasGroundDashed = false;
+
         }
 
         public override void UpdateState()
@@ -55,24 +58,32 @@ namespace Character.CharacterScripts
             
             CrouchActionResetTimer();
             JumpActionResetTimer();
+
+            HandleDashTimer();//ss
+            HandleDashAction();
+
         }
         
         public override void FixedUpdate()
         {
-            botMovement.MoveHorizontally(botData.BotStats.CurrentSpeed);
-            HandleDashAction();
+            if (!botData.BotStats.IsGroundDashing)
+            {
+                botMovement.MoveHorizontally(botData.BotStats.CurrentSpeed);
+            }
+            
+            StartDash();
 
         }
         private void HandleMovementAnimation()
         {
-            if (botData.BotStats.IsDashing) return;
+            if (botData.BotStats.IsGroundDashing) return;
             botAnimatorController.Animator.SetFloat(XDirection,botData.BotStats.CurrentDirectionValue);
             botAnimatorController.Animator.SetFloat(Velocity,botData.BotStats.CurrentSpeed);
         }
         
         private void HandleMovementSpeed()
         {
-            if(botData.BotStats.IsCrouching || botData.BotStats.IsDashing) return;
+            if(botData.BotStats.IsCrouching || botData.BotStats.IsGroundDashing) return;
             if (botData.BotStats.MoveDirection.x != 0)
             {
                 
@@ -101,7 +112,7 @@ namespace Character.CharacterScripts
 
         private void SetCurrentDirectionValue()
         {
-            if(botData.BotStats.IsDashing) return;
+            if(botData.BotStats.IsGroundDashing) return;
             switch (botData.BotStats.CurrentDirectionValue)
             {
                 case 1 when botInput.Run.action.IsPressed() && botData.BotStats.MoveDirection.x != 0:
@@ -115,12 +126,9 @@ namespace Character.CharacterScripts
         {
             if (!botData.BotStats.IsRotating && !botData.BotStats.IsJump &&
                 botInput.MoveDown.action.triggered && !botData.BotStats.IsCrouching
-                && !botData.BotStats.IsDashing && crouchTimer <= 0)
+                && !botData.BotStats.IsGroundDashing && crouchTimer <= 0)
             {
                 botData.BotComponents.Rb.velocity = Vector3.zero;
-                botData.BotComponents.MoveCollider.enabled = false;
-                botData.BotComponents.CrouchCollider.enabled = true;
-                
                 botAnimatorController.Animator.SetTrigger(Crouch1);
                 botData.BotStats.HasCrouched = false;
                 botData.BotStats.IsCrouching = true;
@@ -129,9 +137,6 @@ namespace Character.CharacterScripts
             else if (!botInput.MoveDown.action.IsPressed() && botData.BotStats.IsCrouching &&
                      !botData.BotStats.HasCrouched && crouchTimer <= 0f)
             {
-                botData.BotComponents.CrouchCollider.enabled = false;
-                botData.BotComponents.MoveCollider.enabled = true;
-                
                 botAnimatorController.Animator.SetTrigger(CrouchToStand);
                 botData.BotStats.IsCrouching = false;
                 botData.BotStats.HasCrouched = true;
@@ -159,13 +164,12 @@ namespace Character.CharacterScripts
         }
         private void HandleDashAnimation()
         {
-            if (botData.BotStats.IsDashing && dashAnimatorReset)
+            if (botData.BotStats.IsGroundDashing && dashAnimatorReset)
             {
                 botAnimatorController.Animator.SetBool(Dash, true);
                 dashAnimatorReset = false;
-                botData.BotStats.DashCooldown = 0.8f;
             }
-            else if (!botData.BotStats.IsDashing && !dashAnimatorReset)
+            else if (!botData.BotStats.IsGroundDashing && !dashAnimatorReset)
             {
                 botAnimatorController.Animator.SetBool(Dash, false);
                 dashAnimatorReset = true;
@@ -174,18 +178,71 @@ namespace Character.CharacterScripts
 
         private void HandleDashAction()
         {
-            if (botData.BotStats.IsDashing && !botData.BotDetectionStats.IsNearOnGround) botDash.Dash();
+            if (botData.BotStats.IsCrouching) return;
+            if (botData.BotStats.IsRotating) return;
+            if (botInput.Dash.action.triggered && botData.BotStats.CanGroundDash)
+            {
+                botData.BotComponents.MoveCollider.direction = 2;
+                botData.BotStats.IsGroundDashing = true;
+                botData.BotStats.GroundDashCooldownStart = Time.time;
+                botData.BotStats.CanGroundDash = false;
+            }
+        }
+
+        private void HandleDashTimer()
+        {
+            if (botData.BotStats.IsGroundDashing)
+            {
+                botData.BotStats.GroundDashDuration = Time.time - botData.BotStats.GroundDashCooldownStart;
+                if (botData.BotStats.GroundDashDuration >= botData.BotStats.DashLengthTimeInGround) EndDash();
+            }
+
+            if (!botData.BotStats.CanGroundDash)
+            {
+                botData.BotStats.GroundDashTimer = Time.time - botData.BotStats.GroundDashCooldownStart;
+                if (botData.BotStats.GroundDashTimer >= botData.BotStats.GroundDashCooldown)
+                {
+                    botData.BotStats.CanGroundDash = true;
+                    botData.BotStats.HasGroundDashed = false;
+                    botData.BotStats.GroundDashTimer = 0;
+                }
+            }
+        }
+
+        public void StartDash()
+        {
+            if (botData.BotStats.IsGroundDashing && !botData.BotStats.HasGroundDashed)
+            {
+                var velocity = botData.BotComponents.Rb.velocity;
+                velocity = botData.BotStats.CurrentDirectionValue switch
+                {
+                    1 => new Vector2(botData.BotStats.DashForce, 0),
+                    -1 => new Vector2(-botData.BotStats.DashForce, 0),
+                    _ => velocity
+                };
+                botData.BotComponents.Rb.velocity = velocity;
+                botData.BotStats.HasGroundDashed = true;
+            }
+        }
+
+        public void EndDash()
+        {
+            botData.BotStats.IsGroundDashing = false;
+            botData.BotComponents.MoveCollider.direction = 1;
+
+           // botData.BotStats.DirectionTime = 0;
+            botData.BotComponents.Rb.velocity = Vector3.zero;
         }
 
 
         private void HandleGroundedAnimation()
         {
-            if (!botData.BotStats.IsDashing && !inMove)
+            if (!botData.BotStats.IsGroundDashing && !inMove)
             {
                 inMove = true;
                 botAnimatorController.Animator.SetBool(Grounded, true);
             }
-            else if (botData.BotStats.IsDashing && inMove)
+            else if (botData.BotStats.IsGroundDashing && inMove)
             {
                 inMove = false;
                 botAnimatorController.Animator.SetBool(Grounded, false);
@@ -194,13 +251,19 @@ namespace Character.CharacterScripts
         
         public override void ExitState()
         {
+            botData.BotStats.GroundDashTimer = 0;
+            botData.BotStats.HasGroundDashed = false;
+            botData.BotStats.IsGroundDashing = false;
             botAnimatorController.Animator.SetBool(Grounded, false);
             botAnimatorController.Animator.SetBool(Dash, false);
         }
 
 
-        public BotGroundedState(BotStateMachine currentContext, BotMovement botMovement, BotInput botInput, BotData botData, BotAnimatorController botAnimatorController, BotDash botDash) : base(currentContext, botMovement, botInput, botData, botAnimatorController, botDash)
+        public BotGroundedState(BotStateMachine currentContext, BotMovement botMovement, BotInput botInput,
+            BotData botData, BotAnimatorController botAnimatorController) : base(currentContext,
+            botMovement, botInput, botData, botAnimatorController)
         {
         }
+        
     }
 }

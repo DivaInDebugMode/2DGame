@@ -29,12 +29,9 @@ namespace Character.CharacterScripts
 
         private void JumpActionPress(InputAction.CallbackContext context)
         {
-            if (botData.BotDetectionStats.IsGrounded && !botData.BotStats.IsDashing &&
+            if (botData.BotDetectionStats.IsGrounded && !botData.BotStats.IsGroundDashing &&
                 !botData.BotStats.IsCrouching && !botData.BotStats.HasJumped)
             {
-                botData.BotStats.CanDash = false;//ss
-                botData.BotStats.IsDashing = false;//ss
-                
                 botData.BotStats.HasJumped = true;
                 botData.BotStats.IsJump = true;
                 pressStartTime = Time.time;
@@ -48,10 +45,10 @@ namespace Character.CharacterScripts
 
         private void Update()
         {
-            if(botData.BotStats.IsDashing) return;
+            if(botData.BotStats.IsAirDashing) return;
+
             if (isPressed)
             {
-                Debug.Log("ss");
                 jumpPressedTime = Time.time - pressStartTime;
                 isTap = jumpPressedTime <= 0.1f;
             }
@@ -59,7 +56,7 @@ namespace Character.CharacterScripts
 
         private void FixedUpdate()
         { 
-            if(botData.BotStats.IsDashing) return;
+            if(botData.BotStats.IsAirDashing) return;
             if (isTap && !shouldDrop)
             {
                 dropTimer += Time.deltaTime;

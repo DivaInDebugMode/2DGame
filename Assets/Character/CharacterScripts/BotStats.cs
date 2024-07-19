@@ -78,63 +78,109 @@ namespace Character.CharacterScripts
         [Tooltip("The force applied during a dash.")]
         [SerializeField] private int dashForce;
         [Tooltip("Whether the character is currently dashing.")]
-        [SerializeField] private bool isDashing;
+        [SerializeField] private bool isGroundDashing;
         [Tooltip("Whether the character has dashed.")]
-        [SerializeField] private bool hasDashed;
+        [SerializeField] private bool hasGroundDashed;
         [Tooltip("Whether the character can dash.")]
-        [SerializeField] private bool canDash;
+        [SerializeField] private bool canGroundDash;
         [Tooltip("The duration of the dash.")]
-        [SerializeField] private float dashDuration;
+        [SerializeField] private float groundDashDuration;
         [Tooltip("The timer for the dash duration.")]
-        [SerializeField] private float dashTimer;
+        [SerializeField] private float groundDashTimer;
         [Tooltip("The start time of the dash cooldown.")]
-        [SerializeField] private float dashCooldownStart;
+        [SerializeField] private float groundDashCooldownStart;
         [Tooltip("The cooldown time before the character can dash again.")]
-        [SerializeField] private float dashCooldown;
-        [Tooltip("The duration of the dash in air.")]
-        [SerializeField] private float dashDurationAir;
+        [SerializeField] private float groundDashCooldown;
         [Tooltip("The duration of the dash on ground.")]
-        [SerializeField] private float dashDurationGround;
+        [SerializeField] private float dashLengthTimeInGround;
 
-        public float DashDurationAir => dashDurationAir;
-        public float DashDurationGround => dashDurationGround;
-        public bool HasDashed
+        [Tooltip("Air Dash Variables")]
+        [SerializeField] private bool isAirDashing;
+        [Tooltip("Whether the character has dashed.")]
+        [SerializeField] private bool hasAirDashed;
+        [Tooltip("Whether the character can dash.")]
+        [SerializeField] private bool canAirDash;
+        [Tooltip("The duration of the dash.")]
+        [SerializeField] private float airDashDuration;
+        [Tooltip("The start time of the dash cooldown.")]
+        [SerializeField] private float airDashCooldownStart;
+        [Tooltip("The duration of the dash in air.")]
+        [SerializeField] private float dashLengthTimeInAir;
+
+        public float DashLengthTimeInAir => dashLengthTimeInAir;
+
+        public bool HasAirDashed
         {
-            get => hasDashed;
-            set => hasDashed = value;
-        }
-        public float DashCooldownStart
-        {
-            get => dashCooldownStart;
-            set => dashCooldownStart = value;
-        }
-        public float DashTimer
-        {
-            get => dashTimer;
-            set => dashTimer = value;
-        }
-        public float DashCooldown
-        {
-            get => dashCooldown;
-            set => dashCooldown = value;
+            get => hasAirDashed;
+            set => hasAirDashed = value;
         }
 
-        public float DashDuration
+        public float AirDashDuration
         {
-            get => dashDuration;
-            set => dashDuration = value;
+            get => airDashDuration;
+            set => airDashDuration = value;
         }
-        public bool CanDash
+
+        public float AirDashCooldownStart
         {
-            get => canDash;
-            set => canDash = value;
+            get => airDashCooldownStart;
+            set => airDashCooldownStart = value;
         }
+        public bool CanAirDash
+        {
+            get => canAirDash;
+            set => canAirDash = value;
+        }
+
+        public bool IsAirDashing
+        {
+            get => isAirDashing;
+            set => isAirDashing = value;
+        }
+        
+        
+        
+        public float DashLengthTimeInGround => dashLengthTimeInGround;
+        public bool HasGroundDashed
+        {
+            get => hasGroundDashed;
+            set => hasGroundDashed = value;
+        }
+        public float GroundDashCooldownStart
+        {
+            get => groundDashCooldownStart;
+            set => groundDashCooldownStart = value;
+        }
+        public float GroundDashTimer
+        {
+            get => groundDashTimer;
+            set => groundDashTimer = value;
+        }
+        public float GroundDashCooldown
+        {
+            get => groundDashCooldown;
+            set => groundDashCooldown = value;
+        }
+
+        public float GroundDashDuration
+        {
+            get => groundDashDuration;
+            set => groundDashDuration = value;
+        }
+        public bool CanGroundDash
+        {
+            get => canGroundDash;
+            set => canGroundDash = value;
+        }
+
+        public bool IsGroundDashing
+        {
+            get => isGroundDashing;
+            set => isGroundDashing = value;
+        }
+
         public int DashForce => dashForce;
-        public bool IsDashing
-        {
-            get => isDashing;
-            set => isDashing = value;
-        }
+
         #endregion
 
         #region Character Move States
@@ -182,8 +228,6 @@ namespace Character.CharacterScripts
         [SerializeField] private bool isWallJump;
         [Tooltip("When player is in wall jump action")]
         [SerializeField] private bool wallJumpDurationStart;
-        [Tooltip("Whether the character is falling.")]
-        [SerializeField] private bool canAirDash;
         [Tooltip("Whether the character is hasJumped.")]
         [SerializeField] private bool hasJumped;
         [Tooltip("Whether the character is ledge climbing.")]
@@ -244,11 +288,6 @@ namespace Character.CharacterScripts
             set => isGliding = value;
         }
 
-        public bool CanAirDash
-        {
-            get => canAirDash;
-            set => canAirDash = value;
-        }
         public bool IsJump
         {
             get => isJump;

@@ -28115,7 +28115,6 @@ GameObject:
   - component: {fileID: 5866666021710219750}
   - component: {fileID: 5866666021710219749}
   - component: {fileID: 5866666021710219758}
-  - component: {fileID: 5866666021710219762}
   - component: {fileID: 5866666021710219752}
   - component: {fileID: 5866666021710219751}
   - component: {fileID: 5866666021710219753}
@@ -28123,7 +28122,6 @@ GameObject:
   - component: {fileID: 5866666021710219754}
   - component: {fileID: 5866666021710219756}
   - component: {fileID: 5866666021710219757}
-  - component: {fileID: 5866666021710219760}
   - component: {fileID: 5866666021710219761}
   m_Layer: 6
   m_Name: Y Bot-2
@@ -30294,7 +30292,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rigidbody: {fileID: 5866666021710219749}
   moveCollider: {fileID: 5866666021710219758}
-  crouchCollider: {fileID: 5866666021710219762}
 --- !u!114 &5866666021710219753
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -30342,7 +30339,6 @@ MonoBehaviour:
   botInput: {fileID: 5866666021710219751}
   botMovement: {fileID: 5866666021710219753}
   botAnimatorController: {fileID: 5866666021710219756}
-  botDash: {fileID: 5866666021710219760}
 --- !u!114 &5866666021710219756
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -30395,20 +30391,6 @@ CapsuleCollider:
   m_Height: 1.7
   m_Direction: 1
   m_Center: {x: 4.8462937e-17, y: 0.85, z: -0.01221472}
---- !u!114 &5866666021710219760
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 919132149358643491}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f629d10e1fba4ed99ee0d849c5b7f1e2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  botData: {fileID: 5866666021710219757}
-  botInput: {fileID: 5866666021710219751}
 --- !u!114 &5866666021710219761
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -30423,29 +30405,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   botData: {fileID: 5866666021710219757}
   botInput: {fileID: 5866666021710219751}
---- !u!136 &5866666021710219762
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 919132149358643491}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 0
-  serializedVersion: 2
-  m_Radius: 0.3
-  m_Height: 1.1
-  m_Direction: 1
-  m_Center: {x: 0, y: 0.55, z: 0}
 --- !u!4 &5901452235461394714
 Transform:
   m_ObjectHideFlags: 0

@@ -18,7 +18,7 @@ namespace Character.CharacterScripts
         private void Update()
         {
             HandleBotInput();
-            if (botData.BotStats.IsDashing) return;
+            if (botData.BotStats.IsGroundDashing) return;
             if (botData.BotStats.IsWallJump) return;
             if (botData.BotDetectionStats.IsWall) return;
             botData.BotStats.CurrentDirectionValue = botData.BotStats.CurrentDirectionValue switch
@@ -55,7 +55,7 @@ namespace Character.CharacterScripts
 
         public void MoveHorizontally(float horizontalSpeed)
         {
-            if(botData.BotStats.IsCrouching || botData.BotStats.IsDashing) return;
+            if(botData.BotStats.IsCrouching || botData.BotStats.IsGroundDashing) return;
             if (botData.BotStats.MoveDirection.x != 0)
             {
                 botData.BotStats.VelocityX = Mathf.MoveTowards(botData.BotComponents.Rb.velocity.x,
@@ -75,7 +75,7 @@ namespace Character.CharacterScripts
         
         private void SmoothRotate()
         {
-            if(botData.BotStats.IsDashing) return;
+            if(botData.BotStats.IsGroundDashing || botData.BotStats.IsAirDashing) return;
             botData.BotStats.TargetAngle = botData.BotStats.CurrentDirectionValue switch
             {
                 > 0 when Math.Abs(botData.BotStats.TargetAngle - 90f) > 0.00001f => 90,

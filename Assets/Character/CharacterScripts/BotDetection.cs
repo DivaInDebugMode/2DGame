@@ -31,7 +31,7 @@ namespace Character.CharacterScripts
         
         public void IsNearOnGround()
         {
-            botData.BotDetectionStats.IsNearOnGround = botData.BotComponents.Rb.velocity.y <= 0.01f && !botData.BotStats.IsDashing && Physics.CheckSphere(
+            botData.BotDetectionStats.IsNearOnGround = botData.BotComponents.Rb.velocity.y <= 0.01f && !botData.BotStats.IsGroundDashing && Physics.CheckSphere(
                 groundTransform.position, 1f, botData.BotDetectionStats.Grounded);
         }
         
