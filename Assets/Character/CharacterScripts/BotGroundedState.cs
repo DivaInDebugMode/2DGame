@@ -42,7 +42,6 @@ namespace Character.CharacterScripts
             botData.BotStats.GroundDashTimer = 0f;
             botData.BotStats.CanGroundDash = true;
             botData.BotStats.HasGroundDashed = false;
-
         }
 
         public override void UpdateState()

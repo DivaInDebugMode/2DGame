@@ -18,10 +18,18 @@ MonoBehaviour:
   wall:
     serializedVersion: 2
     m_Bits: 128
+  rope:
+    serializedVersion: 2
+    m_Bits: 256
+  ropeTail:
+    serializedVersion: 2
+    m_Bits: 512
   isLedge: 0
   isWall: 0
   wallDetectionRadius: 0.5
   isGrounded: 1
+  isRope: 0
+  isRopeTail: 0
   isNearOnGround: 0
   isDistanceForDash: 0
   isGroundForClimb: 0
