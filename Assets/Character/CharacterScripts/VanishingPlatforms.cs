@@ -9,9 +9,9 @@ namespace Character.CharacterScripts
         [SerializeField] private LayerMask playerLayer;
         public event Action<int> OnPlayerDetected;
 
-        private void OnTriggerEnter(Collider other)
+        private void OnCollisionEnter(Collision collision)
         {
-            if (((1 << other.gameObject.layer) & playerLayer) == 0) return;
+            if (((1 << collision.gameObject.layer) & playerLayer) == 0) return;
             OnPlayerDetected?.Invoke(platformIndex);
         }
         

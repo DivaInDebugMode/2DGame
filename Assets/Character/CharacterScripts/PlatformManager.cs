@@ -7,6 +7,8 @@ namespace Character.CharacterScripts
     public class PlatformManager : MonoBehaviour
     {
         [SerializeField] private List<VanishingPlatforms> platformsList = new();
+        [SerializeField] private float spawnTimer;
+        [SerializeField] private float vanishTimer;
 
         private void OnEnable()
         {
@@ -29,9 +31,9 @@ namespace Character.CharacterScripts
         }
         private IEnumerator CubeDisappearingTimer(int index)
         {
-            yield return new WaitForSecondsRealtime(1f);
+            yield return new WaitForSecondsRealtime(vanishTimer);
             platformsList[index].gameObject.SetActive(false);
-            yield return new WaitForSecondsRealtime(10f); 
+            yield return new WaitForSecondsRealtime(spawnTimer); 
             platformsList[index].gameObject.SetActive(true);
         }
     }

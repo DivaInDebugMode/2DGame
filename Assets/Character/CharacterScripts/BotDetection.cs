@@ -61,14 +61,14 @@ namespace Character.CharacterScripts
             {
                 case 1:
                     botData.BotDetectionStats.IsLedge = Physics.Raycast(LedgeDetectionTransform.position, Vector3.right,
-                        0.5f, botData.BotDetectionStats.Grounded);
+                        0.5f, botData.BotDetectionStats.Grounded  | botData.BotDetectionStats.Platform);
                     botData.BotDetectionStats.IsWall = Physics.Raycast(WallDetectionTransform.position, Vector3.right,
                         botData.BotDetectionStats.WallDetectionRadius, botData.BotDetectionStats.Wall);
                     break;
                 case -1:
                     botData.BotDetectionStats.IsLedge = Physics.Raycast(LedgeDetectionTransform.position,
                         -Vector3.right,
-                        0.5f, botData.BotDetectionStats.Grounded);
+                        0.5f, botData.BotDetectionStats.Grounded | botData.BotDetectionStats.Platform);
                     botData.BotDetectionStats.IsWall = Physics.Raycast(WallDetectionTransform.position, -Vector3.right,
                         botData.BotDetectionStats.WallDetectionRadius, botData.BotDetectionStats.Wall);
                     break;
