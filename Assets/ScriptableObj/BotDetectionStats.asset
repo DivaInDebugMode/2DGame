@@ -24,9 +24,13 @@ MonoBehaviour:
   ropeTail:
     serializedVersion: 2
     m_Bits: 512
+  platform:
+    serializedVersion: 2
+    m_Bits: 1024
   isLedge: 0
   isWall: 0
   wallDetectionRadius: 0.5
+  isOnPlatform: 0
   isGrounded: 1
   isRope: 0
   isRopeTail: 0

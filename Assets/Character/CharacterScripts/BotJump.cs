@@ -15,7 +15,7 @@ namespace Character.CharacterScripts
         private float dropTimer;
         private bool shouldDrop;
 
- private void OnEnable()
+        private void OnEnable()
         {
             botInput.Jump.action.started += JumpActionPress;
             botInput.Jump.action.canceled += OnButtonCancel;
@@ -29,7 +29,7 @@ namespace Character.CharacterScripts
 
         private void JumpActionPress(InputAction.CallbackContext context)
         {
-            if (botData.BotDetectionStats.IsGrounded && !botData.BotStats.IsGroundDashing &&
+            if (botData.BotDetectionStats.IsGrounded | botData.BotDetectionStats.IsOnPlatform && !botData.BotStats.IsGroundDashing &&
                 !botData.BotStats.IsCrouching && !botData.BotStats.HasJumped)
             {
                 botData.BotStats.HasJumped = true;

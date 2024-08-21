@@ -63,9 +63,9 @@ namespace Character.CharacterScripts
             HandleLedgeJumpTimer();
             botData.BotDetection.IsNearOnGround();
             IsInDashDistanceRange();
-
             HandleDashAction();
             HandleDashTimer();
+
 
         }
         public override void FixedUpdate()
@@ -181,6 +181,9 @@ namespace Character.CharacterScripts
             {
                 botData.BotStats.IsGliding = true;
                 Physics.gravity = botData.BotStats.GlidingGForce;
+            }else if (botData.BotComponents.Rb.velocity.y > 0 && botData.BotStats.IsGliding)
+            {
+                botData.BotStats.IsGliding = false;
             }
         }
         private void HandleGlidingAnimation()
@@ -212,7 +215,7 @@ namespace Character.CharacterScripts
         
         private void HandleAirDashAnimation()
         {
-            if (canDashAnimation && botData.BotStats.IsAirDashing && !botData.BotDetectionStats.IsNearOnGround && !botData.BotStats.IsWallJump)
+            if (canDashAnimation && botData.BotStats.IsAirDashing && !botData.BotStats.IsWallJump)
             {
                 cancelFallingAfterDash = false;
                 cancelDashAnimation = false;
@@ -220,6 +223,7 @@ namespace Character.CharacterScripts
                 cancelFallingAfterLanding = false;
                 canDashAnimation = false;
                 botAnimatorController.Animator.SetBool(AirDash, true);
+              
             }
             else if (!botData.BotStats.IsAirDashing && !cancelDashAnimation)
             {
@@ -239,31 +243,25 @@ namespace Character.CharacterScripts
             if(botData.BotStats.IsWallJump) return;
             if(botData.BotDetectionStats.IsWall) return;
             if(botData.BotDetectionStats.IsDistanceForDash) return;
-            
-            if (botInput.Dash.action.triggered && botData.BotStats.CanAirDash)
-            {
-                botData.BotComponents.MoveCollider.direction = 2;
-                botData.BotStats.IsAirDashing = true;
-                botData.BotStats.AirDashCooldownStart = Time.time;
-                Physics.gravity = Vector3.zero;
-                botData.BotStats.CanAirDash = false;
-            }
+            if (!botInput.Dash.action.triggered || !botData.BotStats.CanAirDash) return;
+            botData.BotStats.IsAirDashing = true;
+            botData.BotStats.AirDashCooldownStart = Time.time;
+            Physics.gravity = Vector3.zero;
+            botData.BotStats.CanAirDash = false;
         }
 
         public void StartDash()
         {
-            if (botData.BotStats.IsAirDashing && !botData.BotStats.HasAirDashed)
+            if (!botData.BotStats.IsAirDashing || botData.BotStats.HasAirDashed) return;
+            var velocity = botData.BotComponents.Rb.velocity;
+            velocity = botData.BotStats.CurrentDirectionValue switch
             {
-                var velocity = botData.BotComponents.Rb.velocity;
-                velocity = botData.BotStats.CurrentDirectionValue switch
-                {
-                    1 => new Vector2(botData.BotStats.DashForce, 0),
-                    -1 => new Vector2(-botData.BotStats.DashForce, 0),
-                    _ => velocity
-                };
-                botData.BotComponents.Rb.velocity = velocity;
-                botData.BotStats.HasAirDashed = true;
-            }
+                1 => new Vector2(botData.BotStats.DashForce, 0),
+                -1 => new Vector2(-botData.BotStats.DashForce, 0),
+                _ => velocity
+            };
+            botData.BotComponents.Rb.velocity = velocity;
+            botData.BotStats.HasAirDashed = true;
         }
 
         private void HandleDashTimer()
@@ -283,7 +281,7 @@ namespace Character.CharacterScripts
             botData.BotStats.IsAirDashing = false;
             botData.BotStats.HasAirDashed = false;
            // botData.BotStats.DirectionTime = 0; 
-           botData.BotComponents.MoveCollider.direction = 1;
+           Physics.gravity = botData.BotStats.FallingGForce;
 
             botData.BotComponents.Rb.velocity = Vector3.zero;
         }
@@ -295,19 +293,27 @@ namespace Character.CharacterScripts
                 Physics.gravity = botData.BotStats.FallingGForce;
             }
         }
-
+        
         private void HandleLanding()
         {
             if (botData.BotDetectionStats.IsNearOnGround && botData.BotComponents.Rb.velocity.y <= 0 && !botData.BotStats.IsAirDashing)
             {
                 Physics.gravity = botData.BotStats.FallingGForce;
+                
             }
         }
+
+      
         
         private void IsInDashDistanceRange()
         {
             botData.BotDetectionStats.IsDistanceForDash = Physics.CheckSphere(
                 botData.BotDetection.GroundTransform.position, 0.5f, botData.BotDetectionStats.Grounded);
+            // Vector3 bottom = botData.BotComponents.MoveCollider.bounds.center - new Vector3(0, botData.BotComponents.MoveCollider.bounds.extents.y, 0);
+            //
+            // // შემოწმება, რომ ბოტი მიწაზე ან პლატფორმაზე დგას
+            // botData.BotDetectionStats.IsDistanceForDash = Physics.CheckSphere(
+            //     bottom, 0.2f, botData.BotDetectionStats.Grounded | botData.BotDetectionStats.Platform);
         }
 
         public override void ExitState()
@@ -323,6 +329,8 @@ namespace Character.CharacterScripts
             botData.BotDetectionStats.IsDistanceForDash = false;
             
             botData.BotStats.IsAirDashing = false;
+            botAnimatorController.Animator.SetBool("NearGround",false);
+
         }
 
         public BotAirState(BotStateMachine currentContext, BotMovement botMovement, BotInput botInput, BotData botData,

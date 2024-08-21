@@ -14,10 +14,12 @@ namespace Character.CharacterScriptable
 
         [SerializeField] private LayerMask rope;
         [SerializeField] private LayerMask ropeTail;
+        [SerializeField] private LayerMask platform;
         
         [SerializeField] private bool isLedge;
         [SerializeField] private bool isWall;
         [SerializeField] private float wallDetectionRadius;
+        [SerializeField] private bool isOnPlatform;
 
         public float WallDetectionRadius
         {
@@ -25,6 +27,11 @@ namespace Character.CharacterScriptable
             set => wallDetectionRadius = value;
         }
 
+        public bool IsOnPlatform
+        {
+            get => isOnPlatform;
+            set => isOnPlatform = value;
+        }
         public bool IsWall
         {
             get => isWall;
@@ -41,6 +48,7 @@ namespace Character.CharacterScriptable
         public LayerMask Wall => wall;
         public LayerMask Rope => rope;
         public LayerMask RopeTail => ropeTail;
+        public LayerMask Platform => platform;
         #endregion
 
         #region Grounded State

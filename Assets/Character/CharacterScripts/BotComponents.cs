@@ -5,8 +5,11 @@ namespace Character.CharacterScripts
     public class BotComponents : MonoBehaviour
     {
         [SerializeField] private new Rigidbody rigidbody;
-        [SerializeField] private CapsuleCollider moveCollider;
+        [SerializeField] private BoxCollider moveCollider;
+       
         public Rigidbody Rb => rigidbody;
-        public CapsuleCollider MoveCollider => moveCollider;
+        public BoxCollider MoveCollider => moveCollider;
+
+       
     }
 }

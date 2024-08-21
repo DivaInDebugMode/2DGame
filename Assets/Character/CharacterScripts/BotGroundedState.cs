@@ -60,6 +60,7 @@ namespace Character.CharacterScripts
 
             HandleDashTimer();//ss
             HandleDashAction();
+            SetParent();
 
         }
         
@@ -181,7 +182,6 @@ namespace Character.CharacterScripts
             if (botData.BotStats.IsRotating) return;
             if (botInput.Dash.action.triggered && botData.BotStats.CanGroundDash)
             {
-                botData.BotComponents.MoveCollider.direction = 2;
                 botData.BotStats.IsGroundDashing = true;
                 botData.BotStats.GroundDashCooldownStart = Time.time;
                 botData.BotStats.CanGroundDash = false;
@@ -227,7 +227,6 @@ namespace Character.CharacterScripts
         public void EndDash()
         {
             botData.BotStats.IsGroundDashing = false;
-            botData.BotComponents.MoveCollider.direction = 1;
 
            // botData.BotStats.DirectionTime = 0;
             botData.BotComponents.Rb.velocity = Vector3.zero;
@@ -247,7 +246,13 @@ namespace Character.CharacterScripts
                 botAnimatorController.Animator.SetBool(Grounded, false);
             }
         }
-        
+
+        private void SetParent()
+        {
+            if (!botData.BotDetectionStats.IsOnPlatform) return;
+            
+
+        }
         public override void ExitState()
         {
             botData.BotStats.GroundDashTimer = 0;
