@@ -12,35 +12,35 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e6555dc62174e405ba3886cb961c54a0, type: 3}
   m_Name: BotStats
   m_EditorClassIdentifier: 
-  currentSpeed: -0.064693935
+  currentSpeed: -0.4020418
   maxSpeed: 6
   walkSpeed: 3.5
   moveDeceleration: 10
-  smoothTime: 0.9
+  smoothTime: 0.1
   moveDirection: {x: 0, y: 0, z: 0}
   currentDirectionValue: -1
   lastDirectionValue: -1
-  directionTime: 0.73999983
+  directionTime: 0.48000008
   targetAngle: 270
   dashForce: 10
   isGroundDashing: 0
   hasGroundDashed: 0
   canGroundDash: 1
-  groundDashDuration: 0.5025234
+  groundDashDuration: 0.50964355
   groundDashTimer: 0
-  groundDashCooldownStart: 19.436157
+  groundDashCooldownStart: 65.38003
   groundDashCooldown: 1
   dashLengthTimeInGround: 0.5
   isAirDashing: 0
   hasAirDashed: 0
-  canAirDash: 0
-  airDashDuration: 0.516613
-  airDashCooldownStart: 61.185818
+  canAirDash: 1
+  airDashDuration: 0.5056381
+  airDashCooldownStart: 68.49057
   dashLengthTimeInAir: 0.5
   isRotating: 0
   isCrouching: 0
   hasCrouched: 1
-  hasStopped: 1
+  hasStopped: 0
   jumpForce: 14
   isJump: 0
   isWallJump: 0

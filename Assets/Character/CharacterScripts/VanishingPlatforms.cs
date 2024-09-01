@@ -14,8 +14,7 @@ namespace Character.CharacterScripts
             if (((1 << collision.gameObject.layer) & playerLayer) == 0) return;
             OnPlayerDetected?.Invoke(platformIndex);
         }
-        
     }
-  
+ 
+    
 }
-

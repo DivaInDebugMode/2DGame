@@ -31,9 +31,13 @@ MonoBehaviour:
   isWall: 0
   wallDetectionRadius: 0.5
   isOnPlatform: 0
-  isGrounded: 1
+  isGrounded: 0
   isRope: 0
   isRopeTail: 0
   isNearOnGround: 0
   isDistanceForDash: 0
   isGroundForClimb: 0
+  isOnIce: 1
+  ice:
+    serializedVersion: 2
+    m_Bits: 4096

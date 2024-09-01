@@ -1,5 +1,4 @@
 using System;
-using Character.CharacterScriptable;
 using UnityEngine;
 
 namespace Character.CharacterScripts
@@ -53,28 +52,53 @@ namespace Character.CharacterScripts
             ).normalized;
         }
 
+        // public void MoveHorizontally(float horizontalSpeed)
+        // {
+        //    
+        //     if(botData.BotStats.IsCrouching || botData.BotStats.IsGroundDashing) return;
+        //     if (botData.BotStats.MoveDirection.x != 0)
+        //     {
+        //         botData.BotStats.VelocityX = Mathf.MoveTowards(botData.BotComponents.Rb.velocity.x,
+        //             botData.BotStats.MoveDirection.x * horizontalSpeed, botData.BotStats.SmoothTime * Time.fixedTime);
+        //         botData.BotComponents.Rb.velocity =
+        //             new Vector2(botData.BotStats.VelocityX, botData.BotComponents.Rb.velocity.y);
+        //         botData.BotStats.HasStopped = false;
+        //
+        //     }
+        //     else if(botData.BotStats.CurrentSpeed <= 4f  && !botData.BotStats.HasStopped)
+        //     {
+        //         botData.BotComponents.Rb.velocity =
+        //             new Vector2(0, botData.BotComponents.Rb.velocity.y);
+        //         botData.BotStats.HasStopped = true;
+        //       
+        //     }
+        // }
+        //
         public void MoveHorizontally(float horizontalSpeed)
         {
-            if(botData.BotStats.IsCrouching || botData.BotStats.IsGroundDashing) return;
+            if (botData.BotStats.IsCrouching || botData.BotStats.IsGroundDashing) return;
+
+            // პირდაპირი ველოსიტის მინიჭება MoveDirection-ის გამოყენებით
             if (botData.BotStats.MoveDirection.x != 0)
             {
-                botData.BotStats.VelocityX = Mathf.MoveTowards(botData.BotComponents.Rb.velocity.x,
-                    botData.BotStats.MoveDirection.x * horizontalSpeed, botData.BotStats.SmoothTime * Time.fixedTime);
-                botData.BotComponents.Rb.velocity =
-                    new Vector2(botData.BotStats.VelocityX, botData.BotComponents.Rb.velocity.y);
-                botData.BotStats.HasStopped = false;
+                botData.BotComponents.Rb.velocity = new Vector2(
+                    botData.BotStats.MoveDirection.x * horizontalSpeed, 
+                    botData.BotComponents.Rb.velocity.y
+                );
 
+                botData.BotStats.HasStopped = false;
             }
-            else if(botData.BotStats.CurrentSpeed <= 4f  && !botData.BotStats.HasStopped)
+            else if (botData.BotStats.CurrentSpeed <= 4f && !botData.BotStats.HasStopped)
             {
-                botData.BotComponents.Rb.velocity =
-                    new Vector2(0, botData.BotComponents.Rb.velocity.y);
+                botData.BotComponents.Rb.velocity = new Vector2(0, botData.BotComponents.Rb.velocity.y);
                 botData.BotStats.HasStopped = true;
             }
         }
-        
+
+
         private void SmoothRotate()
         {
+            
             if(botData.BotStats.IsGroundDashing || botData.BotStats.IsAirDashing) return;
             botData.BotStats.TargetAngle = botData.BotStats.CurrentDirectionValue switch
             {

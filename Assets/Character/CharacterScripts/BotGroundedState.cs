@@ -52,13 +52,10 @@ namespace Character.CharacterScripts
             HandleMovementAnimation();
             HandleDashAnimation();
             HandleGroundedAnimation();
-            
             Crouch();
-            
             CrouchActionResetTimer();
             JumpActionResetTimer();
-
-            HandleDashTimer();//ss
+            HandleDashTimer();
             HandleDashAction();
             SetParent();
 
@@ -267,7 +264,8 @@ namespace Character.CharacterScripts
             BotData botData, BotAnimatorController botAnimatorController) : base(currentContext,
             botMovement, botInput, botData, botAnimatorController)
         {
-        }
         
+        }
+       
     }
 }

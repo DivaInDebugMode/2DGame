@@ -65,6 +65,7 @@ namespace Character.CharacterScripts
             IsInDashDistanceRange();
             HandleDashAction();
             HandleDashTimer();
+         
 
 
         }
@@ -141,7 +142,7 @@ namespace Character.CharacterScripts
         }
         private void HandleJumpAnimation()
         {
-            if (botData.BotStats.IsJump && botData.BotComponents.Rb.velocity.y > 0f && !hasJumped)
+            if (botData.BotStats.IsJump && botData.BotComponents.Rb.velocity.y > 0f && !hasJumped  || botData.BotComponents.Rb.velocity.y > 0f )
             {
                 hasJumped = true;
                 botAnimatorController.Animator.SetBool(GroundJump, true);

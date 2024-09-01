@@ -1,8 +1,5 @@
-using System;
+
 using System.Linq;
-using System.Runtime.InteropServices.ComTypes;
-using Unity.VisualScripting;
-using UnityEditor.Localization.Plugins.XLIFF.V12;
 using UnityEngine;
 
 namespace Character.CharacterScripts
@@ -15,7 +12,8 @@ namespace Character.CharacterScripts
         [SerializeField] private Transform wallDetectionTransform;
         [SerializeField] private Transform ropeDetectionTransform;
         private RaycastHit ropeTrailHit;
-
+        [SerializeField] private Transform test;
+        
         public RaycastHit RopeTrailHit
         {
             get => ropeTrailHit;
@@ -32,6 +30,9 @@ namespace Character.CharacterScripts
         {
             IsGrounded();
             CheckWall();
+            CheckIce();
+            
+           
         }
 
 
@@ -50,7 +51,7 @@ namespace Character.CharacterScripts
             var bottom = bounds.center -
                          new Vector3(0, bounds.extents.y, 0);
             botData.BotDetectionStats.IsNearOnGround = Physics.CheckSphere(
-                bottom, 1f, botData.BotDetectionStats.Grounded | botData.BotDetectionStats.Platform);
+                bottom, 1f, botData.BotDetectionStats.Grounded | botData.BotDetectionStats.Platform | botData.BotDetectionStats.Ice );
         }
 
         private void CheckWall()
@@ -74,49 +75,19 @@ namespace Character.CharacterScripts
                     break;
             }
         }
-
         
-        private void OnCollisionEnter(Collision collision)
+
+        private void CheckIce()
         {
-            if (collision.contacts.Length == 0) return;
-            if (((1 << collision.gameObject.layer) & botData.BotDetectionStats.Platform) == 0) return;
-            if (!collision.contacts.Any(contact => contact.normal.y > 0.9f)) return;
-            transform.SetParent(collision.transform, true);
-            botData.BotComponents.Rb.interpolation = RigidbodyInterpolation.None;
+            var bounds = botData.BotComponents.MoveCollider.bounds;
+            var bottom = bounds.center - new Vector3(0, bounds.extents.y, 0);
+            var size = Mathf.Max(bounds.extents.x, bounds.extents.z); 
+            botData.BotDetectionStats.IsOnIce = Physics.CheckSphere(
+                bottom, size, botData.BotDetectionStats.Ice);
+        }
+     
+     
         }
 
-        private void OnCollisionStay(Collision collision)
-        {
-          
-                if (collision.contacts.Length == 0) return;
-                if (((1 << collision.gameObject.layer) & botData.BotDetectionStats.Platform) == 0) return;
-                foreach (var contact in collision.contacts)
-                {
-                    if (contact.normal.y > 0.9f) 
-                    {
-                        if (botData.BotStats.MoveDirection == Vector3.zero && transform.parent != collision.transform)
-                        {
-                            transform.SetParent(collision.transform);
-                            botData.BotComponents.Rb.interpolation = RigidbodyInterpolation.None;
-
-                        }
-                        
-                    }
-
-                    if (botData.BotStats.MoveDirection == Vector3.zero || transform.parent == null) continue;
-                    transform.SetParent(null);
-                    botData.BotComponents.Rb.interpolation = RigidbodyInterpolation.Interpolate;
-
-                }
-         
-        }
-
-        private void OnCollisionExit(Collision collision)
-        {
-            if (((1 << collision.gameObject.layer) & botData.BotDetectionStats.Platform) == 0) return;
-            if (transform.parent != collision.transform) return;
-            transform.parent = null;
-            botData.BotComponents.Rb.interpolation = RigidbodyInterpolation.Interpolate;
-        }
-    }
+    
 }

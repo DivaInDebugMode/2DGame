@@ -97,5 +97,28 @@ namespace Character.CharacterScriptable
         
         
         #endregion
+
+        [Header("Grounded State")] 
+        [SerializeField] private bool isOnIce;
+        [SerializeField] private LayerMask ice;
+        [SerializeField] private LayerMask water;
+        
+        public bool IsOnIce
+        {
+            get => isOnIce;
+            set => isOnIce = value;
+        }
+
+        public LayerMask Ice
+        {
+            get => ice;
+            set => ice = value;
+        }
+        public LayerMask Water
+        {
+            get => water;
+            set => water = value;
+        }
+        
     }
 }

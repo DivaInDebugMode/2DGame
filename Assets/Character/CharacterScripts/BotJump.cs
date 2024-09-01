@@ -29,7 +29,7 @@ namespace Character.CharacterScripts
 
         private void JumpActionPress(InputAction.CallbackContext context)
         {
-            if (botData.BotDetectionStats.IsGrounded | botData.BotDetectionStats.IsOnPlatform && !botData.BotStats.IsGroundDashing &&
+            if (botData.BotDetectionStats.IsGrounded | botData.BotDetectionStats.IsOnPlatform |  botData.BotDetectionStats.IsOnIce  && !botData.BotStats.IsGroundDashing &&
                 !botData.BotStats.IsCrouching && !botData.BotStats.HasJumped)
             {
                 botData.BotStats.HasJumped = true;

@@ -39,27 +39,27 @@ namespace Character.CharacterScripts
         {
             JumpPhysicsFromWall();
             HandleLedgeGrab();
-            if (botData.BotDetectionStats.IsRopeTail)
-            {
-                botData.BotComponents.Rb.velocity = Vector3.zero;
-                if (ctx.transform.GetComponent<HingeJoint>() == null)
-                {
-                    test = ctx.transform.AddComponent<HingeJoint>();
-                    test.connectedBody = botData.BotDetection.RopeTrailHit.rigidbody;
-                    botData.BotDetection.RopeTrailHit.rigidbody.velocity = new Vector2(8, 6);
-                    Debug.Log("hit");
-                }
-                
-                botData.BotStats.VelocityX = Mathf.MoveTowards(botData.BotComponents.Rb.velocity.x,
-                    botData.BotStats.MoveDirection.x * 3, botData.BotStats.SmoothTime * Time.fixedTime);
-                
-                
-                botData.BotDetection.RopeTrailHit.rigidbody.AddForce(
-                    new Vector2(botData.BotStats.VelocityX, botData.BotDetection.RopeTrailHit.rigidbody.velocity.y),
-                    ForceMode.Acceleration);
-
-                Physics.gravity = new Vector2(0, 0f);
-            }
+            // if (botData.BotDetectionStats.IsRopeTail)
+            // {
+            //     botData.BotComponents.Rb.velocity = Vector3.zero;
+            //     if (ctx.transform.GetComponent<HingeJoint>() == null)
+            //     {
+            //         test = ctx.transform.AddComponent<HingeJoint>();
+            //         test.connectedBody = botData.BotDetection.RopeTrailHit.rigidbody;
+            //         botData.BotDetection.RopeTrailHit.rigidbody.velocity = new Vector2(8, 6);
+            //         Debug.Log("hit");
+            //     }
+            //     
+            //     botData.BotStats.VelocityX = Mathf.MoveTowards(botData.BotComponents.Rb.velocity.x,
+            //         botData.BotStats.MoveDirection.x * 3, botData.BotStats.SmoothTime * Time.fixedTime);
+            //     
+            //     
+            //     botData.BotDetection.RopeTrailHit.rigidbody.AddForce(
+            //         new Vector2(botData.BotStats.VelocityX, botData.BotDetection.RopeTrailHit.rigidbody.velocity.y),
+            //         ForceMode.Acceleration);
+            //
+            //     Physics.gravity = new Vector2(0, 0f);
+            // }
         }
 
         private void RotateFromWall()

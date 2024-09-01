@@ -248,7 +248,7 @@ namespace Character.CharacterScripts
         [SerializeField] private Vector2 ledgeJumpForce;
         [SerializeField] private float ledgeClimbingStartTime;
         [SerializeField] private float durationOfLedgeClimbing;
-
+      
         public Vector2 LedgeJumpForce => ledgeJumpForce;
 
         public float LedgeClimbingStartTime

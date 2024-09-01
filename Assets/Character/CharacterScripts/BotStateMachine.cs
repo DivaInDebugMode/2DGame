@@ -36,7 +36,7 @@ namespace Character.CharacterScripts
                 CheckState(states.Grounded());
             }
             if (!botData.BotDetectionStats.IsGrounded && !botData.BotDetectionStats.IsWall &&
-                !botData.BotDetectionStats.IsRopeTail &&
+                !botData.BotDetectionStats.IsOnIce &&
                 !botData.BotStats.IsGroundDashing
                 || botData.BotStats.IsJump || botData.BotStats.IsInLedgeClimbing)
             {
@@ -48,6 +48,11 @@ namespace Character.CharacterScripts
                 botData.BotDetectionStats.IsRopeTail && !botData.BotStats.IsInLedgeClimbing)
             {
                 CheckState(states.Climb());
+            }
+
+            if (botData.BotDetectionStats.IsOnIce)
+            {
+                CheckState(states.Ice());
             }
         }
     
