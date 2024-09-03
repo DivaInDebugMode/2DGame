@@ -244,10 +244,36 @@ namespace Character.CharacterScripts
         [SerializeField] private Vector2 glidingGForce;
         [Tooltip("Apply gravity in wall state.")]
         [SerializeField] private Vector2 wallGForce;
-
         [SerializeField] private Vector2 ledgeJumpForce;
         [SerializeField] private float ledgeClimbingStartTime;
         [SerializeField] private float durationOfLedgeClimbing;
+        [SerializeField] private bool isHurricaneBounce;
+        [SerializeField] private bool isMegaBounce;
+        [SerializeField] private bool hasHurricaned;
+        [SerializeField] private bool canAirDashAnimation;
+
+        public bool CanAirDashAnimation
+        {
+            get => canAirDashAnimation;
+            set => canAirDashAnimation = value;
+        }
+
+        public bool HasHurricaned
+        {
+            get => hasHurricaned;
+            set => hasHurricaned = value;
+        }
+        public bool IsHurricaneBounce
+        {
+            get => isHurricaneBounce;
+            set => isHurricaneBounce = value;
+        }
+        public bool IsMegaBounce
+        {
+            get => isMegaBounce;
+            set => isMegaBounce = value;
+
+        }
       
         public Vector2 LedgeJumpForce => ledgeJumpForce;
 

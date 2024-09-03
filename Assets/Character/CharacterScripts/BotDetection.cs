@@ -1,5 +1,7 @@
 
+using System;
 using System.Linq;
+using Character.CharacterScriptable;
 using UnityEngine;
 
 namespace Character.CharacterScripts
@@ -10,32 +12,16 @@ namespace Character.CharacterScripts
         [SerializeField] private BotData botData;
         [SerializeField] private Transform ledgeDetectionTransform;
         [SerializeField] private Transform wallDetectionTransform;
-        [SerializeField] private Transform ropeDetectionTransform;
-        private RaycastHit ropeTrailHit;
-        [SerializeField] private Transform test;
-        
-        public RaycastHit RopeTrailHit
-        {
-            get => ropeTrailHit;
-            set => ropeTrailHit = value;
-        }
-
         private Transform LedgeDetectionTransform => ledgeDetectionTransform;
         private Transform WallDetectionTransform => wallDetectionTransform;
-
         public Transform GroundTransform => groundTransform;
-
 
         private void Update()
         {
             IsGrounded();
             CheckWall();
             CheckIce();
-            
-           
         }
-
-
         private void IsGrounded()
         {
             var bounds = botData.BotComponents.MoveCollider.bounds;
@@ -85,9 +71,19 @@ namespace Character.CharacterScripts
             botData.BotDetectionStats.IsOnIce = Physics.CheckSphere(
                 bottom, size, botData.BotDetectionStats.Ice);
         }
-     
-     
-        }
 
-    
+        private void OnTriggerEnter(Collider other)
+        {
+            if (((1 << other.gameObject.layer) & botData.BotDetectionStats.HurricaneBounce.value) != 0)
+            {
+                botData.BotStats.IsHurricaneBounce = true;
+                botData.BotStats.CanAirDash = true;
+
+            }else if (((1 << other.gameObject.layer) & botData.BotDetectionStats.MegaJumpBounce.value) != 0)
+            {
+                botData.BotStats.IsMegaBounce = true;
+                botData.BotStats.CanAirDash = true;
+            }
+        }
+    }
 }

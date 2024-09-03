@@ -15,6 +15,4 @@ namespace Character.CharacterScripts
             OnPlayerDetected?.Invoke(platformIndex);
         }
     }
- 
-    
 }

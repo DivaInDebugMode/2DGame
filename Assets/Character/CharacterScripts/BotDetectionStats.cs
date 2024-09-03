@@ -1,3 +1,4 @@
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 namespace Character.CharacterScriptable
@@ -55,24 +56,11 @@ namespace Character.CharacterScriptable
         [Header("Grounded State")]
         [Tooltip("Indicates whether the bot is currently grounded.")]
         [SerializeField] private bool isGrounded;
-
-        [SerializeField] private bool isRope;
-        [SerializeField] private bool isRopeTail;
         [SerializeField] private bool isNearOnGround;
         [SerializeField] private bool isDistanceForDash;
-
         [SerializeField] private bool isGroundForClimb;
-
-        public bool IsRopeTail
-        {
-            get => isRopeTail;
-            set => isRopeTail = value;
-        }
-        public bool IsRope
-        {
-            get => isRope;
-            set => isRope = value;
-        }
+        
+        
         public bool IsDistanceForDash
         {
             get => isDistanceForDash;
@@ -102,6 +90,8 @@ namespace Character.CharacterScriptable
         [SerializeField] private bool isOnIce;
         [SerializeField] private LayerMask ice;
         [SerializeField] private LayerMask water;
+        [SerializeField] private LayerMask hurricaneBounce;
+        [SerializeField] private LayerMask megaJumpBounce;
         
         public bool IsOnIce
         {
@@ -118,6 +108,16 @@ namespace Character.CharacterScriptable
         {
             get => water;
             set => water = value;
+        }
+
+        public LayerMask HurricaneBounce
+        {
+            get => hurricaneBounce;
+        }
+
+        public LayerMask MegaJumpBounce
+        {
+            get => megaJumpBounce;
         }
         
     }

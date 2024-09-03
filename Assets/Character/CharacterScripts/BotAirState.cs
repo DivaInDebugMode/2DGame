@@ -26,7 +26,6 @@ namespace Character.CharacterScripts
 
         [Header("AirDash Variables")] private bool cancelDashAnimation;
         private bool canDash;
-        private bool canDashAnimation;
         private static readonly int AirDash = Animator.StringToHash("AirDash");
         
         public override void EnterState()
@@ -40,7 +39,7 @@ namespace Character.CharacterScripts
             inFalling = false;
             botData.BotStats.IsGliding = false; //ss
             hasGlided = false;
-            canDashAnimation = true;
+            botData.BotStats.CanAirDashAnimation = true;
             cancelFallingAfterDash = true;
             cancelFallingAfterLanding = false;
 
@@ -216,13 +215,13 @@ namespace Character.CharacterScripts
         
         private void HandleAirDashAnimation()
         {
-            if (canDashAnimation && botData.BotStats.IsAirDashing && !botData.BotStats.IsWallJump)
+            if (botData.BotStats.CanAirDashAnimation && botData.BotStats.IsAirDashing && !botData.BotStats.IsWallJump)
             {
                 cancelFallingAfterDash = false;
                 cancelDashAnimation = false;
                 cancelGlidingAfterDash = false;
                 cancelFallingAfterLanding = false;
-                canDashAnimation = false;
+                botData.BotStats.CanAirDashAnimation = false;
                 botAnimatorController.Animator.SetBool(AirDash, true);
               
             }
@@ -270,7 +269,7 @@ namespace Character.CharacterScripts
             if (botData.BotStats.IsAirDashing)
             {
                 botData.BotStats.AirDashDuration = Time.time - botData.BotStats.AirDashCooldownStart;
-                if (botData.BotStats.AirDashDuration >= botData.BotStats.DashLengthTimeInAir)
+                if (botData.BotStats.AirDashDuration >= botData.BotStats.DashLengthTimeInAir || botData.BotStats.IsHurricaneBounce || botData.BotStats.IsMegaBounce)
                 {
                     EndDash();
                 }

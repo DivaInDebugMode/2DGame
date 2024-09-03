@@ -30,7 +30,6 @@ namespace Character.CharacterScripts
 
         public override void EnterState()
         {
-            
             botData.BotDetectionStats.IsWall = false;
             Physics.gravity = botData.BotStats.GroundGForce;
             botData.BotComponents.Rb.velocity = Vector3.zero;
@@ -48,7 +47,6 @@ namespace Character.CharacterScripts
         {
             SetCurrentDirectionValue();
             HandleMovementSpeed();
-            
             HandleMovementAnimation();
             HandleDashAnimation();
             HandleGroundedAnimation();
@@ -57,8 +55,6 @@ namespace Character.CharacterScripts
             JumpActionResetTimer();
             HandleDashTimer();
             HandleDashAction();
-            SetParent();
-
         }
         
         public override void FixedUpdate()
@@ -69,7 +65,6 @@ namespace Character.CharacterScripts
             }
             
             StartDash();
-
         }
         private void HandleMovementAnimation()
         {
@@ -83,7 +78,6 @@ namespace Character.CharacterScripts
             if(botData.BotStats.IsCrouching || botData.BotStats.IsGroundDashing) return;
             if (botData.BotStats.MoveDirection.x != 0)
             {
-                
                 if (botInput.Run.action.IsPressed())
                 {
                     if (Math.Abs(botData.BotStats.CurrentSpeed - botData.BotStats.MaxSpeed) > 0.0001f)
@@ -98,7 +92,6 @@ namespace Character.CharacterScripts
                         botData.BotStats.DirectionTime = 0;
                         botData.BotStats.CurrentSpeed = botData.BotStats.WalkSpeed;
                     }
-
                 }
             }
             if (botData.BotStats.MoveDirection.x == 0 && botData.BotStats.CurrentSpeed >= 0f)
@@ -243,13 +236,7 @@ namespace Character.CharacterScripts
                 botAnimatorController.Animator.SetBool(Grounded, false);
             }
         }
-
-        private void SetParent()
-        {
-            if (!botData.BotDetectionStats.IsOnPlatform) return;
-            
-
-        }
+        
         public override void ExitState()
         {
             botData.BotStats.GroundDashTimer = 0;
