@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e6555dc62174e405ba3886cb961c54a0, type: 3}
   m_Name: BotStats
   m_EditorClassIdentifier: 
-  currentSpeed: -0.040966064
+  currentSpeed: -0.0648438
   maxSpeed: 6
   walkSpeed: 3.5
   moveDeceleration: 10
@@ -26,7 +26,7 @@ MonoBehaviour:
   isGroundDashing: 0
   hasGroundDashed: 0
   canGroundDash: 1
-  groundDashDuration: 0.5009155
+  groundDashDuration: -11.206099
   groundDashTimer: 0
   groundDashCooldownStart: 37.022755
   groundDashCooldown: 1
@@ -34,8 +34,8 @@ MonoBehaviour:
   isAirDashing: 0
   hasAirDashed: 0
   canAirDash: 1
-  airDashDuration: 0.5045433
-  airDashCooldownStart: 8.203504
+  airDashDuration: 0.500082
+  airDashCooldownStart: 18.272163
   dashLengthTimeInAir: 0.5
   isRotating: 0
   isCrouching: 0
@@ -59,3 +59,4 @@ MonoBehaviour:
   isHurricaneBounce: 0
   isMegaBounce: 0
   hasHurricaned: 0
+  canAirDashAnimation: 1

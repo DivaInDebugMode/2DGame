@@ -85,7 +85,7 @@ namespace Character.CharacterScripts
         {
             if(botData.BotStats.IsHurricaneBounce || botData.BotStats.IsMegaBounce) return;
             if (botData.BotStats.IsCrouching || botData.BotStats.IsGroundDashing) return;
-
+            if(botData.BotDetectionStats.IsOnEdge) return;
             if (botData.BotStats.MoveDirection.x != 0)
             {
                 botData.BotComponents.Rb.velocity = new Vector2(
@@ -101,6 +101,7 @@ namespace Character.CharacterScripts
                 botData.BotStats.HasStopped = true;
             }
         }
+        
 
         private void BounceMovement()
         {

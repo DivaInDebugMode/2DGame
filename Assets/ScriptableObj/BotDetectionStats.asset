@@ -23,7 +23,7 @@ MonoBehaviour:
     m_Bits: 256
   ropeTail:
     serializedVersion: 2
-    m_Bits: 512
+    m_Bits: 0
   platform:
     serializedVersion: 2
     m_Bits: 1024
@@ -35,16 +35,20 @@ MonoBehaviour:
   isNearOnGround: 0
   isDistanceForDash: 0
   isGroundForClimb: 0
-  isOnIce: 0
-  ice:
-    serializedVersion: 2
-    m_Bits: 4096
-  water:
-    serializedVersion: 2
-    m_Bits: 0
   hurricaneBounce:
     serializedVersion: 2
     m_Bits: 16384
   megaJumpBounce:
     serializedVersion: 2
     m_Bits: 2048
+  isOnEdge: 0
+  isOnEdgeWithSecondFoot: 1
+  isClimbingGround: 1
+  isClimbingGroundFront: 1
+  isOnIce: 0
+  ice:
+    serializedVersion: 2
+    m_Bits: 4096
+  edge:
+    serializedVersion: 2
+    m_Bits: 256

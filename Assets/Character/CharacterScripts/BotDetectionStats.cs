@@ -59,17 +59,34 @@ namespace Character.CharacterScriptable
         [SerializeField] private bool isNearOnGround;
         [SerializeField] private bool isDistanceForDash;
         [SerializeField] private bool isGroundForClimb;
+        [SerializeField] private LayerMask hurricaneBounce;
+        [SerializeField] private LayerMask megaJumpBounce;
+        [SerializeField] private bool isOnEdge;
+        [SerializeField] private bool isOnEdgeWithSecondFoot;
+        [SerializeField] private bool isClimbingGround;
         
-        
+        public bool IsClimbingGround
+        {
+            get => isClimbingGround;
+            set => isClimbingGround = value;
+        }
+
+        public bool IsOnEdgeWithSecondFoot
+        {
+            get => isOnEdgeWithSecondFoot;
+            set => isOnEdgeWithSecondFoot = value;
+        }
+
+        public bool IsOnEdge
+        {
+            get => isOnEdge;
+            set => isOnEdge = value;
+        }
+
         public bool IsDistanceForDash
         {
             get => isDistanceForDash;
             set => isDistanceForDash = value;
-        }
-        public bool IsGroundForClimb
-        {
-            get => isGroundForClimb;
-            set => isGroundForClimb = value;
         }
         public bool IsNearOnGround
         {
@@ -89,9 +106,13 @@ namespace Character.CharacterScriptable
         [Header("Grounded State")] 
         [SerializeField] private bool isOnIce;
         [SerializeField] private LayerMask ice;
-        [SerializeField] private LayerMask water;
-        [SerializeField] private LayerMask hurricaneBounce;
-        [SerializeField] private LayerMask megaJumpBounce;
+        [SerializeField] private LayerMask edge;
+
+        public LayerMask Edge
+        {
+            get => edge;
+        }
+        
         
         public bool IsOnIce
         {
@@ -103,11 +124,6 @@ namespace Character.CharacterScriptable
         {
             get => ice;
             set => ice = value;
-        }
-        public LayerMask Water
-        {
-            get => water;
-            set => water = value;
         }
 
         public LayerMask HurricaneBounce

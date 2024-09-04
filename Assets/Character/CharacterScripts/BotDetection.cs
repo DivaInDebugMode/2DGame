@@ -9,6 +9,7 @@ namespace Character.CharacterScripts
     public class BotDetection : MonoBehaviour
     {
         [SerializeField] private Transform groundTransform;
+        [SerializeField] private Transform groundLedgeTransform;
         [SerializeField] private BotData botData;
         [SerializeField] private Transform ledgeDetectionTransform;
         [SerializeField] private Transform wallDetectionTransform;
@@ -21,6 +22,7 @@ namespace Character.CharacterScripts
             IsGrounded();
             CheckWall();
             CheckIce();
+            PanchuriKidezeWithFeet();
         }
         private void IsGrounded()
         {
@@ -28,9 +30,9 @@ namespace Character.CharacterScripts
             var bottom = bounds.center -
                          new Vector3(0, bounds.extents.y, 0);
             botData.BotDetectionStats.IsGrounded = Physics.CheckSphere(
-                   bottom, 0.1f, botData.BotDetectionStats.Grounded | botData.BotDetectionStats.Platform);
+                bottom, 0.2f, botData.BotDetectionStats.Grounded | botData.BotDetectionStats.Platform);
         }
-
+        
         public void IsNearOnGround()
         {
             var bounds = botData.BotComponents.MoveCollider.bounds;
@@ -61,7 +63,15 @@ namespace Character.CharacterScripts
                     break;
             }
         }
-        
+
+        private void PanchuriKidezeWithFeet()
+        {
+            botData.BotDetectionStats.IsOnEdgeWithSecondFoot = Physics.Raycast(groundTransform.position,
+                Vector3.down, 0.2f, botData.BotDetectionStats.Grounded | botData.BotDetectionStats.Platform | botData.BotDetectionStats.Edge);
+            
+            botData.BotDetectionStats.IsClimbingGround = Physics.Raycast(groundLedgeTransform.position,
+                Vector3.down, 1f, botData.BotDetectionStats.Grounded | botData.BotDetectionStats.Platform | botData.BotDetectionStats.Edge);
+        }
 
         private void CheckIce()
         {

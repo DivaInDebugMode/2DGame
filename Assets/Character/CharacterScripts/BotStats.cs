@@ -251,7 +251,7 @@ namespace Character.CharacterScripts
         [SerializeField] private bool isMegaBounce;
         [SerializeField] private bool hasHurricaned;
         [SerializeField] private bool canAirDashAnimation;
-
+        
         public bool CanAirDashAnimation
         {
             get => canAirDashAnimation;
