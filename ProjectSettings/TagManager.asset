@@ -14,7 +14,7 @@ TagManager:
   - Player
   - Wall
   - Edge
-  - 
+  - Rock
   - Platform
   - Bounce
   - Ice

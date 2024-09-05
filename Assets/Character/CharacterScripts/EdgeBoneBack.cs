@@ -17,10 +17,16 @@ namespace Character.CharacterScripts
                 switch (botData.BotStats.CurrentDirectionValue)
                 {
                     case 1:
-                        botData.BotComponents.Rb.velocity = new Vector2(1.5f, -2f);
+                        if (botData.BotComponents.Rb.velocity == Vector3.zero)
+                        {
+                            botData.BotComponents.Rb.velocity = new Vector2(1.5f, -1.5f);
+                        }
                         break;
                     case -1:
-                        botData.BotComponents.Rb.velocity = new Vector2(-1.5f, -2f);
+                        if (botData.BotComponents.Rb.velocity == Vector3.zero)
+                        {
+                            botData.BotComponents.Rb.velocity = new Vector2(-1.5f, -1.5f);
+                        }
                         break;
                 }
             }
@@ -38,14 +44,13 @@ namespace Character.CharacterScripts
                     case 1:
                         if (botData.BotComponents.Rb.velocity == Vector3.zero)
                         {
-                            botData.BotComponents.Rb.velocity = new Vector2(2f, -2f);
+                            botData.BotComponents.Rb.velocity = new Vector2(1.5f, -1.5f);
                         }
-                        
                         break;
                     case -1:
                         if (botData.BotComponents.Rb.velocity == Vector3.zero)
                         {
-                            botData.BotComponents.Rb.velocity = new Vector2(-2f, -2f);
+                            botData.BotComponents.Rb.velocity = new Vector2(-1.5f, -1.5f);
                         }
                         break;
                 }

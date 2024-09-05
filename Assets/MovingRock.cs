@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-public class MovingPlatform : MonoBehaviour
+public class MovingRock : MonoBehaviour
 {
     [SerializeField] private float startMovingTime;
     [SerializeField] private float movingSpeed;
@@ -35,18 +35,6 @@ public class MovingPlatform : MonoBehaviour
         gameObject.transform.Translate(moveDirection * (movingSpeed * direction * Time.deltaTime));
       
     }
-
-    private void OnCollisionEnter(Collision collision)
-    {
-        collision.transform.parent = transform;
-        
-    }
-
-    private void OnCollisionExit(Collision other)
-    {
-        other.transform.parent = null;
-    }
-
     private IEnumerator StopPlatform()
     {
         isStopped = true;

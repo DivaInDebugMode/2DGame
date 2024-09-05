@@ -21,6 +21,7 @@ namespace Character.CharacterScripts
         public override void EnterState()
         {
             Physics.gravity = botData.BotStats.GroundGForce;
+            botData.BotComponents.Rb.AddForce(Vector3.right * 5f, ForceMode.Impulse);
             jumpStartTimer = Time.time;
             jumpTimerOn = true;
             botData.BotStats.IsWallJump = false;

@@ -43,8 +43,7 @@ MonoBehaviour:
     m_Bits: 2048
   isOnEdge: 0
   isOnEdgeWithSecondFoot: 1
-  isClimbingGround: 1
-  isClimbingGroundFront: 1
+  isClimbingGround: 0
   isOnIce: 0
   ice:
     serializedVersion: 2
