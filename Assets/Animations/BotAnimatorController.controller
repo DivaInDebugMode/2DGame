@@ -243,18 +243,21 @@ AnimatorStateTransition:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: 
-  m_Conditions: []
+  m_Conditions:
+  - m_ConditionMode: 1
+    m_ConditionEvent: Grounded
+    m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 622068637132759883}
   m_Solo: 0
   m_Mute: 0
   m_IsExit: 0
   serializedVersion: 3
-  m_TransitionDuration: 0.18
+  m_TransitionDuration: 0.24810088
   m_TransitionOffset: 0
-  m_ExitTime: 0.0000000021906397
-  m_HasExitTime: 1
-  m_HasFixedDuration: 1
+  m_ExitTime: 0.000000012352967
+  m_HasExitTime: 0
+  m_HasFixedDuration: 0
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
   m_CanTransitionToSelf: 1
@@ -406,7 +409,7 @@ BlendTree:
   m_Name: Blend Tree
   m_Childs:
   - serializedVersion: 2
-    m_Motion: {fileID: 7400000, guid: f1d1f526f3b89474490bebcd9fac2f52, type: 2}
+    m_Motion: {fileID: 7400000, guid: 07c9e283b2015f54bb0086c4b69aec04, type: 2}
     m_Threshold: -1
     m_Position: {x: 0, y: 0}
     m_TimeScale: 1
@@ -414,7 +417,7 @@ BlendTree:
     m_DirectBlendParameter: Velocity
     m_Mirror: 0
   - serializedVersion: 2
-    m_Motion: {fileID: 7400000, guid: 9e949a098d791400ebdf2ef6cfcf4c94, type: 2}
+    m_Motion: {fileID: 7400000, guid: 4d01bfb9e4285fd45845d357f0e60624, type: 2}
     m_Threshold: 1
     m_Position: {x: 0, y: 0}
     m_TimeScale: 1
@@ -1074,7 +1077,7 @@ AnimatorController:
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
-    m_DefaultBool: 1
+    m_DefaultBool: 0
     m_Controller: {fileID: 9100000}
   - m_Name: Dash
     m_Type: 4

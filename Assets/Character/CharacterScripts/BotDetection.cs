@@ -30,7 +30,7 @@ namespace Character.CharacterScripts
             var bottom = bounds.center -
                          new Vector3(0, bounds.extents.y, 0);
             botData.BotDetectionStats.IsGrounded = Physics.CheckSphere(
-                bottom, 0.2f, botData.BotDetectionStats.Grounded | botData.BotDetectionStats.Platform);
+                bottom, 0.35f, botData.BotDetectionStats.Grounded | botData.BotDetectionStats.Platform);
         }
         
         public void IsNearOnGround()
@@ -94,6 +94,26 @@ namespace Character.CharacterScripts
                 botData.BotStats.IsMegaBounce = true;
                 botData.BotStats.CanAirDash = true;
             }
+            
+            
+        }
+        
+        private void OnDrawGizmos()
+        {
+            if (botData == null || botData.BotComponents.MoveCollider == null)
+                return;
+
+            // Draw bounds of the collider
+            var bounds = botData.BotComponents.MoveCollider.bounds;
+            Gizmos.color = Color.green;
+            Gizmos.DrawWireCube(bounds.center, bounds.size);
+
+            // Calculate bottom position of the bounds
+            var bottom = bounds.center - new Vector3(0, bounds.extents.y, 0);
+
+            // Draw sphere at the bottom of the collider
+            Gizmos.color = Color.red;
+            Gizmos.DrawWireSphere(bottom, 0.35f);
         }
     }
 }

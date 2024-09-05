@@ -26,6 +26,7 @@ namespace Character.CharacterScripts
         {
             currentState.UpdateState();
             StateSwitcher();
+          
         }
         
         private void StateSwitcher()

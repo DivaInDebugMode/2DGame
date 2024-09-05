@@ -51,15 +51,32 @@ namespace Character.CharacterScripts
 
         private void LedgeAction()
         {
-            if (isOnLedge && botInput.MoveUp.action.triggered && !botData.BotStats.IsInLedgeClimbing)
+            switch ( botData.BotStats.CurrentDirectionValue)
             {
-                botData.BotStats.LedgeClimbingStartTime = Time.time;
-                botData.BotComponents.MoveCollider.isTrigger = true;
-                botData.BotComponents.Rb.velocity = botData.BotStats.LedgeJumpForce; 
-                Physics.gravity = botData.BotStats.FallingGForce;
-                botData.BotDetectionStats.IsLedge = false;
-                botData.BotStats.IsInLedgeClimbing = true;
-            } 
+                case 1:
+                    if (isOnLedge && botInput.MoveUp.action.IsPressed() | botInput.MoveRight.action.IsPressed()  && !botData.BotStats.IsInLedgeClimbing)
+                    {
+                        botData.BotStats.LedgeClimbingStartTime = Time.time;
+                        botData.BotComponents.MoveCollider.isTrigger = true;
+                        botData.BotComponents.Rb.velocity = botData.BotStats.LedgeJumpForce; 
+                        Physics.gravity = botData.BotStats.FallingGForce;
+                        botData.BotDetectionStats.IsLedge = false;
+                        botData.BotStats.IsInLedgeClimbing = true;
+                    } 
+                    break;
+                case -1:
+                    if (isOnLedge && botInput.MoveUp.action.IsPressed() | botInput.MoveLeft.action.IsPressed()  && !botData.BotStats.IsInLedgeClimbing)
+                    {
+                        botData.BotStats.LedgeClimbingStartTime = Time.time;
+                        botData.BotComponents.MoveCollider.isTrigger = true;
+                        botData.BotComponents.Rb.velocity = botData.BotStats.LedgeJumpForce; 
+                        Physics.gravity = botData.BotStats.FallingGForce;
+                        botData.BotDetectionStats.IsLedge = false;
+                        botData.BotStats.IsInLedgeClimbing = true;
+                    } 
+                    break;
+            }
+           
         }
         
         private void HandleLedgeGrab()

@@ -37,7 +37,7 @@ namespace Character.CharacterScripts
             jumpStartTimer = Time.time;
             jumpTimerOn = true;
             botData.BotStats.IsWallJump = false;
-            
+            botData.BotStats.CurrentSpeed = 0;
             botData.BotStats.GroundDashTimer = 0f;
             botData.BotStats.CanGroundDash = true;
             botData.BotStats.HasGroundDashed = false;

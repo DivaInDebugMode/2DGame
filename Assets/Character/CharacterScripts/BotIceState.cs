@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 namespace Character.CharacterScripts
 {
@@ -17,15 +18,26 @@ namespace Character.CharacterScripts
         private bool jumpTimerOn;
         private float jumpStartTimer;
         private float jumpTimerDuration;
+        private bool test;
 
         public override void EnterState()
         {
+            // test = true;
             Physics.gravity = botData.BotStats.GroundGForce;
-            botData.BotComponents.Rb.AddForce(Vector3.right * 5f, ForceMode.Impulse);
+            // switch (botData.BotStats.CurrentDirectionValue)
+            // {
+            //     case 1:
+            //         botData.BotComponents.Rb.AddForce(Vector3.right * 5f, ForceMode.Impulse);
+            //         break;
+            //     case -1:
+            //         botData.BotComponents.Rb.velocity = new Vector2(-5f, 0f);
+            //         break;
+            // }
             jumpStartTimer = Time.time;
             jumpTimerOn = true;
             botData.BotStats.IsWallJump = false;
             botData.BotDetectionStats.IsWall = false;
+          
         }
 
         public override void UpdateState()
@@ -33,13 +45,17 @@ namespace Character.CharacterScripts
           HandleIceSpeed();
           HandleIceAnimations();
           JumpActionResetTimer();
-         
+          // if (botInput.MoveLeft.action.IsPressed() | botInput.MoveRight.action.IsPressed())
+          // { 
+          //     ctx.StartCoroutine(Timer());
+          // }
+          //
 
         }
 
         public override void FixedUpdate()
         {
-            IceMovement(currentSpeed);
+           IceMovement(currentSpeed);
            
         }
 
@@ -47,11 +63,19 @@ namespace Character.CharacterScripts
         {
             botAnimatorController.Animator.SetBool(SlideRun,false);
             botAnimatorController.Animator.SetBool(SlideIdle,false);
+            botData.BotComponents.Rb.velocity = Vector3.zero;
           
         }
-        
+
+        private IEnumerator Timer()
+        {
+            if (test)
+                yield return new WaitForSecondsRealtime(0.5f);
+            test = false;
+        }
         private void IceMovement(float horizontalSpeed)
         {
+           // if(test)return;
             if (botData.BotStats.IsCrouching || botData.BotStats.IsGroundDashing) return;
 
             // თუ მოძრაობის მიმართულება != 0, მივანიჭოთ ველოსიტი
