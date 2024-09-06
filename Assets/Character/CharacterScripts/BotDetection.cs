@@ -13,6 +13,7 @@ namespace Character.CharacterScripts
         [SerializeField] private BotData botData;
         [SerializeField] private Transform ledgeDetectionTransform;
         [SerializeField] private Transform wallDetectionTransform;
+        [SerializeField] private Transform groundDetectionFrontFoot;
         private Transform LedgeDetectionTransform => ledgeDetectionTransform;
         private Transform WallDetectionTransform => wallDetectionTransform;
         public Transform GroundTransform => groundTransform;
@@ -22,7 +23,7 @@ namespace Character.CharacterScripts
             IsGrounded();
             CheckWall();
             CheckIce();
-            PanchuriKidezeWithFeet();
+            KickFromEdge();
         }
         private void IsGrounded()
         {
@@ -64,12 +65,15 @@ namespace Character.CharacterScripts
             }
         }
 
-        private void PanchuriKidezeWithFeet()
+        private void KickFromEdge()
         {
             botData.BotDetectionStats.IsOnEdgeWithSecondFoot = Physics.Raycast(groundTransform.position,
                 Vector3.down, 0.2f, botData.BotDetectionStats.Grounded | botData.BotDetectionStats.Platform | botData.BotDetectionStats.Edge);
             
             botData.BotDetectionStats.IsClimbingGround = Physics.Raycast(groundLedgeTransform.position,
+                Vector3.down, 1f, botData.BotDetectionStats.Grounded | botData.BotDetectionStats.Platform | botData.BotDetectionStats.Edge);
+            
+            botData.BotDetectionStats.IsGroundFrontFoot = Physics.Raycast(groundDetectionFrontFoot.position,
                 Vector3.down, 1f, botData.BotDetectionStats.Grounded | botData.BotDetectionStats.Platform | botData.BotDetectionStats.Edge);
         }
 
@@ -94,26 +98,7 @@ namespace Character.CharacterScripts
                 botData.BotStats.IsMegaBounce = true;
                 botData.BotStats.CanAirDash = true;
             }
-            
-            
         }
-        
-        private void OnDrawGizmos()
-        {
-            if (botData == null || botData.BotComponents.MoveCollider == null)
-                return;
 
-            // Draw bounds of the collider
-            var bounds = botData.BotComponents.MoveCollider.bounds;
-            Gizmos.color = Color.green;
-            Gizmos.DrawWireCube(bounds.center, bounds.size);
-
-            // Calculate bottom position of the bounds
-            var bottom = bounds.center - new Vector3(0, bounds.extents.y, 0);
-
-            // Draw sphere at the bottom of the collider
-            Gizmos.color = Color.red;
-            Gizmos.DrawWireSphere(bottom, 0.35f);
-        }
     }
 }

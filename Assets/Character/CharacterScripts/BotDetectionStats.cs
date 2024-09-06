@@ -58,13 +58,18 @@ namespace Character.CharacterScriptable
         [SerializeField] private bool isGrounded;
         [SerializeField] private bool isNearOnGround;
         [SerializeField] private bool isDistanceForDash;
-        [SerializeField] private bool isGroundForClimb;
+        [SerializeField] private bool isGroundFrontFoot;
         [SerializeField] private LayerMask hurricaneBounce;
         [SerializeField] private LayerMask megaJumpBounce;
         [SerializeField] private bool isOnEdge;
         [SerializeField] private bool isOnEdgeWithSecondFoot;
         [SerializeField] private bool isClimbingGround;
-        
+
+        public bool IsGroundFrontFoot
+        {
+            get => isGroundFrontFoot;
+            set => isGroundFrontFoot = value;
+        }
         public bool IsClimbingGround
         {
             get => isClimbingGround;

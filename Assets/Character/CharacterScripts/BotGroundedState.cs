@@ -65,6 +65,8 @@ namespace Character.CharacterScripts
             }
             
             StartDash();
+
+            LedgeSlide();
         }
         private void HandleMovementAnimation()
         {
@@ -236,6 +238,30 @@ namespace Character.CharacterScripts
                 botAnimatorController.Animator.SetBool(Grounded, false);
             }
         }
+
+        private void LedgeSlide()
+        {
+            if (!botData.BotDetectionStats.IsClimbingGround && botData.BotDetectionStats.IsGroundFrontFoot)
+            {
+                switch (botData.BotStats.CurrentDirectionValue)
+                {
+                    case 1:
+                        if (botData.BotComponents.Rb.velocity == Vector3.zero)
+                        {
+                            botData.BotDetectionStats.IsOnEdge = true;
+                            botData.BotComponents.Rb.velocity = new Vector2(-1.5f, -1.5f);
+                        }
+                        break;
+                    case -1:
+                        if (botData.BotComponents.Rb.velocity == Vector3.zero)
+                        {
+                            botData.BotDetectionStats.IsOnEdge = true;
+                            botData.BotComponents.Rb.velocity = new Vector2(1.5f, -1.5f);
+                        }
+                        break;
+                }
+            }
+        }
         
         public override void ExitState()
         {
@@ -244,6 +270,7 @@ namespace Character.CharacterScripts
             botData.BotStats.IsGroundDashing = false;
             botAnimatorController.Animator.SetBool(Grounded, false);
             botAnimatorController.Animator.SetBool(Dash, false);
+            botData.BotDetectionStats.IsOnEdge = false;
         }
 
 
