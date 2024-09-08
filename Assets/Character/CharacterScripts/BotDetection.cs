@@ -71,10 +71,10 @@ namespace Character.CharacterScripts
                 Vector3.down, 0.2f, botData.BotDetectionStats.Grounded | botData.BotDetectionStats.Platform | botData.BotDetectionStats.Edge);
             
             botData.BotDetectionStats.IsClimbingGround = Physics.Raycast(groundLedgeTransform.position,
-                Vector3.down, 1f, botData.BotDetectionStats.Grounded | botData.BotDetectionStats.Platform | botData.BotDetectionStats.Edge);
+                Vector3.down, 1.2f, botData.BotDetectionStats.Grounded | botData.BotDetectionStats.Platform | botData.BotDetectionStats.Edge);
             
             botData.BotDetectionStats.IsGroundFrontFoot = Physics.Raycast(groundDetectionFrontFoot.position,
-                Vector3.down, 1f, botData.BotDetectionStats.Grounded | botData.BotDetectionStats.Platform | botData.BotDetectionStats.Edge);
+                Vector3.down, 1.2f, botData.BotDetectionStats.Grounded | botData.BotDetectionStats.Platform | botData.BotDetectionStats.Edge);
         }
 
         private void CheckIce()

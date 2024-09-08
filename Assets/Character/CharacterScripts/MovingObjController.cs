@@ -2,9 +2,9 @@ using UnityEngine;
 
 namespace Character.CharacterScripts
 {
-    public class LaserController : MonoBehaviour
+    public class MovingObjController : MonoBehaviour
     {
-        public enum LaserType
+        private enum LaserType
         {
             Rotating,
             Moving,
@@ -20,7 +20,7 @@ namespace Character.CharacterScripts
         [SerializeField] private float rotationSpeed = 100f; // Rotation speed
         [SerializeField] private float rotationAngle = 360f; // Max angle to rotate (e.g. 45, 90, 360 degrees)
 
-        private float currentRotation = 0f; // Track the current rotation
+        private float currentRotation; // Track the current rotation
         private bool rotatingForward = true; // Control direction of rotation
 
         [Header("Movement Settings")] [SerializeField]
@@ -29,9 +29,16 @@ namespace Character.CharacterScripts
         [SerializeField] private float moveDistance = 5f; // Distance to move from the starting position
         [SerializeField] private float moveSpeed = 5f; // Speed to move
 
+        [Header("Stop Durations")] 
+        [SerializeField] private float stopDurationAtStart = 1f; // Duration to stop at start position
+        [SerializeField] private float stopDurationAtEnd = 1f; // Duration to stop at end position
+
         private Vector3 startPosition;
         private Vector3 targetPosition;
         private bool movingForward = true;
+
+        private float stopTimer;
+        private bool isStopped;
 
         void Start()
         {
@@ -98,13 +105,28 @@ namespace Character.CharacterScripts
         // Moves the laser between the starting position and the relative target position
         private void MoveLaserBetweenRelativePoints()
         {
+            if (isStopped)
+            {
+                stopTimer -= Time.deltaTime;
+                if (stopTimer <= 0)
+                {
+                    isStopped = false; // Resume moving
+                }
+                return;
+            }
+
             transform.position = Vector3.MoveTowards(transform.position, targetPosition, moveSpeed * Time.deltaTime);
 
             if (Vector3.Distance(transform.position, targetPosition) < 0.01f)
             {
+                // Stop the movement when reaching either side
+                stopTimer = movingForward ? stopDurationAtEnd : stopDurationAtStart;
+                isStopped = true;
+
                 targetPosition = movingForward
                     ? startPosition - moveDirection * moveDistance
                     : startPosition + moveDirection * moveDistance;
+                
                 movingForward = !movingForward;
             }
         }

@@ -250,6 +250,7 @@ namespace Character.CharacterScripts
                         {
                             botData.BotDetectionStats.IsOnEdge = true;
                             botData.BotComponents.Rb.velocity = new Vector2(-1.5f, -1.5f);
+                            Debug.Log("haha");
                         }
                         break;
                     case -1:
@@ -257,6 +258,7 @@ namespace Character.CharacterScripts
                         {
                             botData.BotDetectionStats.IsOnEdge = true;
                             botData.BotComponents.Rb.velocity = new Vector2(1.5f, -1.5f);
+                            Debug.Log("haha");
                         }
                         break;
                 }
