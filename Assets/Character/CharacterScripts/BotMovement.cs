@@ -17,32 +17,8 @@ namespace Character.CharacterScripts
         private void Update()
         {
             HandleBotInput();
-            var transformPosition = transform.position;
-            if (Mathf.Abs(transformPosition.z) > 0.0001f || Mathf.Abs(transformPosition.z) < -0.0001f)
-            {
-                transformPosition.z = 0;
-                transform.position = transformPosition; 
-            }
-            if (botData.BotStats.IsGroundDashing) return;
-            if (botData.BotStats.IsWallJump) return;
-            if (botData.BotDetectionStats.IsWall) return;
-            botData.BotStats.CurrentDirectionValue = botData.BotStats.CurrentDirectionValue switch
-            {
-                1 when botData.BotStats.MoveDirection.x < 0 => -1,
-                -1 when botData.BotStats.MoveDirection.x > 0 => 1,
-                _ => botData.BotStats.CurrentDirectionValue
-            };
-            
-            if (!botData.BotStats.IsRotating && botData.BotStats.LastDirectionValue!= botData.BotStats.CurrentDirectionValue)
-            {
-                botData.BotStats.IsRotating = true;
-                botData.BotStats.DirectionTime = 0;
-                botData.BotStats.LastDirectionValue = botData.BotStats.CurrentDirectionValue;
-            }
-            if (botData.BotStats.IsRotating && botData.BotStats.DirectionTime >=0.15f)
-            {
-                botData.BotStats.IsRotating = false;
-            }
+            BackTransformToZ();
+            PlayerDirectionSet();
         }
 
         private void FixedUpdate()
@@ -59,28 +35,6 @@ namespace Character.CharacterScripts
             ).normalized;
         }
 
-        // public void MoveHorizontally(float horizontalSpeed)
-        // {
-        //    
-        //     if(botData.BotStats.IsCrouching || botData.BotStats.IsGroundDashing) return;
-        //     if (botData.BotStats.MoveDirection.x != 0)
-        //     {
-        //         botData.BotStats.VelocityX = Mathf.MoveTowards(botData.BotComponents.Rb.velocity.x,
-        //             botData.BotStats.MoveDirection.x * horizontalSpeed, botData.BotStats.SmoothTime * Time.fixedTime);
-        //         botData.BotComponents.Rb.velocity =
-        //             new Vector2(botData.BotStats.VelocityX, botData.BotComponents.Rb.velocity.y);
-        //         botData.BotStats.HasStopped = false;
-        //
-        //     }
-        //     else if(botData.BotStats.CurrentSpeed <= 4f  && !botData.BotStats.HasStopped)
-        //     {
-        //         botData.BotComponents.Rb.velocity =
-        //             new Vector2(0, botData.BotComponents.Rb.velocity.y);
-        //         botData.BotStats.HasStopped = true;
-        //       
-        //     }
-        // }
-        //
         public void MoveHorizontally(float horizontalSpeed)
         {
             if(botData.BotStats.IsHurricaneBounce || botData.BotStats.IsMegaBounce) return;
@@ -90,9 +44,7 @@ namespace Character.CharacterScripts
             {
                 botData.BotComponents.Rb.velocity = new Vector2(
                     botData.BotStats.MoveDirection.x * horizontalSpeed, 
-                    botData.BotComponents.Rb.velocity.y
-                );
-
+                    botData.BotComponents.Rb.velocity.y);
                 botData.BotStats.HasStopped = false;
             }
             else if (botData.BotStats.CurrentSpeed <= 4f && !botData.BotStats.HasStopped)
@@ -102,6 +54,7 @@ namespace Character.CharacterScripts
             }
         }
         
+        #region BounceActions
 
         private void BounceMovement()
         {
@@ -130,11 +83,10 @@ namespace Character.CharacterScripts
 
             }else if (botData.BotStats.IsMegaBounce)
             {
-                botData.BotComponents.Rb.velocity = new Vector2(0,22);
+                botData.BotComponents.Rb.velocity = new Vector2(botData.BotComponents.Rb.velocity.x,22);
                 StartCoroutine(BounceTimer());
             }
         }
-
         private IEnumerator HurricaneTimer()
         {
             yield return new WaitForSecondsRealtime(1f);
@@ -142,6 +94,7 @@ namespace Character.CharacterScripts
             botData.BotStats.CanAirDashAnimation = true;
             botData.BotStats.HasHurricaned = false;
             botData.BotStats.IsHurricaneBounce = false;
+            botData.BotStats.StopGlide = false;
         }
 
         private IEnumerator BounceTimer()
@@ -150,12 +103,13 @@ namespace Character.CharacterScripts
             botData.BotStats.IsMegaBounce = false;
             botData.BotStats.CanAirDash = true;
             botData.BotStats.CanAirDashAnimation = true;
+            botData.BotStats.StopGlide = false;
         }
 
-
+        #endregion
+        
         private void SmoothRotate()
         {
-            
             if(botData.BotStats.IsGroundDashing || botData.BotStats.IsAirDashing) return;
             botData.BotStats.TargetAngle = botData.BotStats.CurrentDirectionValue switch
             {
@@ -169,6 +123,63 @@ namespace Character.CharacterScripts
             var targetRotation = Quaternion.Euler(0, botData.BotStats.TargetAngle, 0);
             transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, Time.deltaTime * 25);
         }
+        
+        private void PlayerDirectionSet()
+        {
+            if (botData.BotStats.IsGroundDashing) return;
+            if (botData.BotStats.IsWallJump) return;
+            if (botData.BotDetectionStats.IsWall) return;
+            botData.BotStats.CurrentDirectionValue = botData.BotStats.CurrentDirectionValue switch
+            {
+                1 when botData.BotStats.MoveDirection.x < 0 => -1,
+                -1 when botData.BotStats.MoveDirection.x > 0 => 1,
+                _ => botData.BotStats.CurrentDirectionValue
+            };
+            
+            if (!botData.BotStats.IsRotating && botData.BotStats.LastDirectionValue!= botData.BotStats.CurrentDirectionValue)
+            {
+                botData.BotStats.IsRotating = true;
+                botData.BotStats.DirectionTime = 0;
+                botData.BotStats.LastDirectionValue = botData.BotStats.CurrentDirectionValue;
+            }
+            if (botData.BotStats.IsRotating && botData.BotStats.DirectionTime >=0.15f)
+            {
+                botData.BotStats.IsRotating = false;
+            }
+        }
+        
+        private void BackTransformToZ()
+        {
+            var transformPosition = transform.position;
+            if (!(Mathf.Abs(transformPosition.z) > 0.0001f) && !(Mathf.Abs(transformPosition.z) < -0.0001f)) return;
+            transformPosition.z = 0;
+            transform.position = transformPosition;
+        }
+        
         private void StandingFromCrouch() => botData.BotStats.IsCrouching = false;
+        
+        
+        // public void MoveHorizontally(float horizontalSpeed)
+        // {
+        //    
+        //     if(botData.BotStats.IsCrouching || botData.BotStats.IsGroundDashing) return;
+        //     if (botData.BotStats.MoveDirection.x != 0)
+        //     {
+        //         botData.BotStats.VelocityX = Mathf.MoveTowards(botData.BotComponents.Rb.velocity.x,
+        //             botData.BotStats.MoveDirection.x * horizontalSpeed, botData.BotStats.SmoothTime * Time.fixedTime);
+        //         botData.BotComponents.Rb.velocity =
+        //             new Vector2(botData.BotStats.VelocityX, botData.BotComponents.Rb.velocity.y);
+        //         botData.BotStats.HasStopped = false;
+        //
+        //     }
+        //     else if(botData.BotStats.CurrentSpeed <= 4f  && !botData.BotStats.HasStopped)
+        //     {
+        //         botData.BotComponents.Rb.velocity =
+        //             new Vector2(0, botData.BotComponents.Rb.velocity.y);
+        //         botData.BotStats.HasStopped = true;
+        //       
+        //     }
+        // }
+        //
     }
 }

@@ -29,12 +29,12 @@ MonoBehaviour:
     m_Bits: 1024
   isLedge: 0
   isWall: 0
-  wallDetectionRadius: 0.5
+  wallDetectionRadius: 0.3
   isOnPlatform: 0
   isGrounded: 1
   isNearOnGround: 0
   isDistanceForDash: 0
-  isGroundForClimb: 0
+  isGroundFrontFoot: 1
   hurricaneBounce:
     serializedVersion: 2
     m_Bits: 16384
@@ -42,8 +42,8 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 2048
   isOnEdge: 0
-  isOnEdgeWithSecondFoot: 1
-  isClimbingGround: 0
+  isOnEdgeWithSecondFoot: 0
+  isClimbingGround: 1
   isOnIce: 0
   ice:
     serializedVersion: 2

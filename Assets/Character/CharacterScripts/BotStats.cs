@@ -236,6 +236,8 @@ namespace Character.CharacterScripts
         [SerializeField] private float initialJumpForce;
         [Tooltip("Whether the character is gliding.")]
         [SerializeField] private bool isGliding;
+
+        [SerializeField] private bool stopGliding;
         [Tooltip("Apply gravity in ground state.")]
         [SerializeField] private Vector2 groundGForce;
         [Tooltip("Apply gravity in air state.")]
@@ -251,7 +253,12 @@ namespace Character.CharacterScripts
         [SerializeField] private bool isMegaBounce;
         [SerializeField] private bool hasHurricaned;
         [SerializeField] private bool canAirDashAnimation;
-        
+
+        public bool StopGlide
+        {
+            get => stopGliding;
+            set => stopGliding = value;
+        }
         public bool CanAirDashAnimation
         {
             get => canAirDashAnimation;

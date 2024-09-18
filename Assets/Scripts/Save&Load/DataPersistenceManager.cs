@@ -16,7 +16,7 @@ namespace Save_Load
 
         // References to other components for data management
         [SerializeField] private BotStateMachine botStateMachine;
-        [SerializeField] private CameraFollow cameraFollow;
+        // [SerializeField] private CameraFollow cameraFollow;
 
         // Instance of the data persistence manager
         private FileDataHandler fileDataHandler;
@@ -65,7 +65,7 @@ namespace Save_Load
             
             
             botStateMachine.LoadData(gameData);
-            cameraFollow.LoadData(gameData);
+           // cameraFollow.LoadData(gameData);
         }
 
         // Saves the game data
@@ -75,7 +75,7 @@ namespace Save_Load
             
             
             botStateMachine.SaveData(ref gameData);
-            cameraFollow.SaveData(ref gameData);
+            //cameraFollow.SaveData(ref gameData);
             
             // Save game data to file
             fileDataHandler.SaveGame(gameData);

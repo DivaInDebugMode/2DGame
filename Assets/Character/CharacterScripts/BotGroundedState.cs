@@ -37,7 +37,7 @@ namespace Character.CharacterScripts
             jumpStartTimer = Time.time;
             jumpTimerOn = true;
             botData.BotStats.IsWallJump = false;
-            botData.BotStats.CurrentSpeed = 0;
+           // botData.BotStats.CurrentSpeed = 0;
             botData.BotStats.GroundDashTimer = 0f;
             botData.BotStats.CanGroundDash = true;
             botData.BotStats.HasGroundDashed = false;
@@ -98,7 +98,9 @@ namespace Character.CharacterScripts
             }
             if (botData.BotStats.MoveDirection.x == 0 && botData.BotStats.CurrentSpeed >= 0f)
             {
-                botData.BotStats.CurrentSpeed -= Time.deltaTime * botData.BotStats.MoveDeceleration * 2f;
+                // botData.BotStats.CurrentSpeed -= Time.deltaTime * botData.BotStats.MoveDeceleration * 50f;
+                botData.BotStats.CurrentSpeed = 0;
+
             }
         }
 
@@ -147,7 +149,7 @@ namespace Character.CharacterScripts
             if (jumpTimerOn)
             {
                 jumpTimerDuration = Time.time - jumpStartTimer;
-                if (jumpTimerDuration >= 0.1f)
+                if (jumpTimerDuration >= 0.0f)
                 {
                     botData.BotStats.HasJumped = false;
                     jumpTimerOn = false;
@@ -185,7 +187,10 @@ namespace Character.CharacterScripts
             if (botData.BotStats.IsGroundDashing)
             {
                 botData.BotStats.GroundDashDuration = Time.time - botData.BotStats.GroundDashCooldownStart;
-                if (botData.BotStats.GroundDashDuration >= botData.BotStats.DashLengthTimeInGround) EndDash();
+                if (botData.BotStats.GroundDashDuration >= botData.BotStats.DashLengthTimeInGround)
+                {
+                    EndDash();
+                }
             }
 
             if (!botData.BotStats.CanGroundDash)
@@ -220,8 +225,15 @@ namespace Character.CharacterScripts
         {
             botData.BotStats.IsGroundDashing = false;
 
-           // botData.BotStats.DirectionTime = 0;
-            botData.BotComponents.Rb.velocity = Vector3.zero;
+            //botData.BotStats.DirectionTime = 0;
+            if (botData.BotStats.MoveDirection.x == 0)
+            {
+                botData.BotComponents.Rb.velocity = Vector3.zero;
+            }
+            else
+            {
+                botData.BotComponents.Rb.velocity = new Vector2(botData.BotComponents.Rb.velocity.x, 0);
+            }
         }
 
 
@@ -241,27 +253,23 @@ namespace Character.CharacterScripts
 
         private void LedgeSlide()
         {
-            if (!botData.BotDetectionStats.IsClimbingGround && botData.BotDetectionStats.IsGroundFrontFoot)
+            if (botData.BotDetectionStats.IsClimbingGround || !botData.BotDetectionStats.IsGroundFrontFoot) return;
+            switch (botData.BotStats.CurrentDirectionValue)
             {
-                switch (botData.BotStats.CurrentDirectionValue)
-                {
-                    case 1:
-                        if (botData.BotComponents.Rb.velocity == Vector3.zero)
-                        {
-                            botData.BotDetectionStats.IsOnEdge = true;
-                            botData.BotComponents.Rb.velocity = new Vector2(-1.5f, -1.5f);
-                            Debug.Log("haha");
-                        }
-                        break;
-                    case -1:
-                        if (botData.BotComponents.Rb.velocity == Vector3.zero)
-                        {
-                            botData.BotDetectionStats.IsOnEdge = true;
-                            botData.BotComponents.Rb.velocity = new Vector2(1.5f, -1.5f);
-                            Debug.Log("haha");
-                        }
-                        break;
-                }
+                case 1:
+                    if (botData.BotComponents.Rb.velocity == Vector3.zero)
+                    {
+                        botData.BotDetectionStats.IsOnEdge = true;
+                        botData.BotComponents.Rb.velocity = new Vector2(-1.5f, -1.5f);
+                    }
+                    break;
+                case -1:
+                    if (botData.BotComponents.Rb.velocity == Vector3.zero)
+                    {
+                        botData.BotDetectionStats.IsOnEdge = true;
+                        botData.BotComponents.Rb.velocity = new Vector2(1.5f, -1.5f);
+                    }
+                    break;
             }
         }
         
@@ -274,8 +282,7 @@ namespace Character.CharacterScripts
             botAnimatorController.Animator.SetBool(Dash, false);
             botData.BotDetectionStats.IsOnEdge = false;
         }
-
-
+        
         public BotGroundedState(BotStateMachine currentContext, BotMovement botMovement, BotInput botInput,
             BotData botData, BotAnimatorController botAnimatorController) : base(currentContext,
             botMovement, botInput, botData, botAnimatorController)

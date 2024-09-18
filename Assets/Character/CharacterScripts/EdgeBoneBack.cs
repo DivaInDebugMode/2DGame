@@ -26,6 +26,8 @@ namespace Character.CharacterScripts
                         if (botData.BotComponents.Rb.velocity == Vector3.zero)
                         {
                             botData.BotComponents.Rb.velocity = new Vector2(-1.5f, -1.5f);
+                            Debug.Log("wahahaha enter");
+
                         }
                         break;
                 }
@@ -51,6 +53,7 @@ namespace Character.CharacterScripts
                         if (botData.BotComponents.Rb.velocity == Vector3.zero)
                         {
                             botData.BotComponents.Rb.velocity = new Vector2(-1.5f, -1.5f);
+                            Debug.Log("wahahaha");
                         }
                         break;
                 }

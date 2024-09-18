@@ -57,8 +57,9 @@ namespace Character.CharacterScripts
                     if (isOnLedge && botInput.MoveUp.action.IsPressed() | botInput.MoveRight.action.IsPressed()  && !botData.BotStats.IsInLedgeClimbing)
                     {
                         botData.BotStats.LedgeClimbingStartTime = Time.time;
-                        botData.BotComponents.MoveCollider.isTrigger = true;
-                        botData.BotComponents.Rb.velocity = botData.BotStats.LedgeJumpForce; 
+                        //botData.BotComponents.MoveCollider.isTrigger = true;
+                        botData.BotComponents.Rb.velocity = 
+                            new Vector2(-botData.BotStats.LedgeJumpForce.x, botData.BotStats.LedgeJumpForce.y); 
                         Physics.gravity = botData.BotStats.FallingGForce;
                         botData.BotDetectionStats.IsLedge = false;
                         botData.BotStats.IsInLedgeClimbing = true;
@@ -68,7 +69,7 @@ namespace Character.CharacterScripts
                     if (isOnLedge && botInput.MoveUp.action.IsPressed() | botInput.MoveLeft.action.IsPressed()  && !botData.BotStats.IsInLedgeClimbing)
                     {
                         botData.BotStats.LedgeClimbingStartTime = Time.time;
-                        botData.BotComponents.MoveCollider.isTrigger = true;
+                        //botData.BotComponents.MoveCollider.isTrigger = true;
                         botData.BotComponents.Rb.velocity = botData.BotStats.LedgeJumpForce; 
                         Physics.gravity = botData.BotStats.FallingGForce;
                         botData.BotDetectionStats.IsLedge = false;

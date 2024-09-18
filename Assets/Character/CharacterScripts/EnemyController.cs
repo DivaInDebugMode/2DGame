@@ -72,6 +72,7 @@ namespace Character.CharacterScripts
                 else
                 {
                     isChasing = false;
+                    playerTransform = null;
                 }
             }
 
@@ -105,6 +106,14 @@ namespace Character.CharacterScripts
             }
 
             SmoothRotate();
+
+            if (playerTransform is null && isBackwards)
+            {
+                animator.SetBool(IsWalking, false);
+                animator.SetBool(IsIdle, true);
+                animator.SetBool(IsRunning, false);
+                animator.SetBool(IsAttacking, false);
+            }
         }
 
         private void FixedUpdate()
@@ -157,6 +166,7 @@ namespace Character.CharacterScripts
                 animator.SetBool(IsWalking, false);
                 animator.SetBool(IsIdle, false);
                 animator.SetBool(IsAttacking, false);
+                Debug.Log("chaseee");
             }
         }
 

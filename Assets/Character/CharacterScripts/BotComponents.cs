@@ -9,7 +9,5 @@ namespace Character.CharacterScripts
        
         public Rigidbody Rb => rigidbody;
         public BoxCollider MoveCollider => moveCollider;
-
-       
     }
 }

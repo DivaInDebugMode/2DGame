@@ -14,7 +14,7 @@ namespace Character.CharacterScripts
         private bool isTap;
         private float dropTimer;
         private bool shouldDrop;
-
+        
         private void OnEnable()
         {
             botInput.Jump.action.started += JumpActionPress;
@@ -29,7 +29,20 @@ namespace Character.CharacterScripts
 
         private void JumpActionPress(InputAction.CallbackContext context)
         {
-            if (botData.BotDetectionStats.IsGrounded | botData.BotDetectionStats.IsOnPlatform |  botData.BotDetectionStats.IsOnIce  && !botData.BotStats.IsGroundDashing &&
+            // if (botData.BotDetectionStats.IsGrounded | botData.BotDetectionStats.IsOnPlatform |  botData.BotDetectionStats.IsOnIce  && !botData.BotStats.IsGroundDashing &&
+            //     !botData.BotStats.IsCrouching && !botData.BotStats.HasJumped)
+            // {
+            //     botData.BotStats.HasJumped = true;
+            //     botData.BotStats.IsJump = true;
+            //     pressStartTime = Time.time;
+            //     isPressed = true;
+            //     isTap = false;
+            //     shouldDrop = false;
+            //     dropTimer = 0f;
+            //     botData.BotComponents.Rb.velocity = new Vector2(botData.BotComponents.Rb.velocity.x, botData.BotStats.JumpForce);
+            // }
+            
+            if (botData.BotDetectionStats.IsGrounded | botData.BotDetectionStats.IsOnPlatform |  botData.BotDetectionStats.IsOnIce &&
                 !botData.BotStats.IsCrouching && !botData.BotStats.HasJumped)
             {
                 botData.BotStats.HasJumped = true;
