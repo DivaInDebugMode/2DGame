@@ -1,7 +1,4 @@
-
 using System;
-using System.Linq;
-using Character.CharacterScriptable;
 using UnityEngine;
 
 namespace Character.CharacterScripts
@@ -9,18 +6,11 @@ namespace Character.CharacterScripts
     public class BotDetection : MonoBehaviour
     {
         [SerializeField] private Transform groundTransform;
-        [SerializeField] private Transform groundLedgeTransform;
         [SerializeField] private BotData botData;
         [SerializeField] private Transform ledgeDetectionTransform;
         [SerializeField] private Transform wallDetectionTransform;
-        [SerializeField] private Transform groundDetectionFrontFoot;
         [SerializeField] private GameObject glideObj;
-
-        public GameObject GlideObj
-        {
-            get => glideObj;
-            set => glideObj = value;
-        }
+        public GameObject GlideObj => glideObj;
         private Transform LedgeDetectionTransform => ledgeDetectionTransform;
         private Transform WallDetectionTransform => wallDetectionTransform;
         public Transform GroundTransform => groundTransform;
@@ -28,9 +18,7 @@ namespace Character.CharacterScripts
         private void Update()
         {
             IsGrounded();
-            CheckWall();
-            CheckIce();
-            KickFromEdge();
+            IsWallOrIsLedge();
         }
         private void IsGrounded()
         {
@@ -38,7 +26,8 @@ namespace Character.CharacterScripts
             var bottom = bounds.center -
                          new Vector3(0, bounds.extents.y, 0);
             botData.BotDetectionStats.IsGrounded = Physics.CheckSphere(
-                bottom, 0.32f, botData.BotDetectionStats.Grounded | botData.BotDetectionStats.Platform);
+                bottom, 0.32f, botData.BotDetectionStats.Grounded | 
+                               botData.BotDetectionStats.HorizontalPlatform | botData.BotDetectionStats.VerticalPlatform);
         }
         
         public void IsNearOnGround()
@@ -47,12 +36,11 @@ namespace Character.CharacterScripts
             var bottom = bounds.center -
                          new Vector3(0, bounds.extents.y, 0);
             botData.BotDetectionStats.IsNearOnGround = Physics.CheckSphere(
-                bottom, 1f, botData.BotDetectionStats.Grounded | botData.BotDetectionStats.Platform | botData.BotDetectionStats.Ice );
+                bottom, 1f, botData.BotDetectionStats.Grounded | 
+                            botData.BotDetectionStats.HorizontalPlatform | botData.BotDetectionStats.VerticalPlatform);
         }
         
-        
-
-        private void CheckWall()
+        private void IsWallOrIsLedge()
         {
             if (botData.BotStats.IsInLedgeClimbing) return;
             if (botData.BotDetectionStats.IsGrounded) return;
@@ -60,65 +48,22 @@ namespace Character.CharacterScripts
             {
                 case 1:
                     botData.BotDetectionStats.IsLedge = Physics.Raycast(LedgeDetectionTransform.position, Vector3.right,
-                        0.5f, botData.BotDetectionStats.Grounded  | botData.BotDetectionStats.Platform);
+                        0.5f, botData.BotDetectionStats.Grounded  | botData.BotDetectionStats.HorizontalPlatform);
+                    
                     botData.BotDetectionStats.IsWall = Physics.Raycast(WallDetectionTransform.position, Vector3.right,
                         botData.BotDetectionStats.WallDetectionRadius, botData.BotDetectionStats.Wall);
                     break;
                 case -1:
                     botData.BotDetectionStats.IsLedge = Physics.Raycast(LedgeDetectionTransform.position,
                         -Vector3.right,
-                        0.5f, botData.BotDetectionStats.Grounded | botData.BotDetectionStats.Platform);
+                        0.5f, botData.BotDetectionStats.Grounded | botData.BotDetectionStats.HorizontalPlatform);
+                    
                     botData.BotDetectionStats.IsWall = Physics.Raycast(WallDetectionTransform.position, -Vector3.right,
                         botData.BotDetectionStats.WallDetectionRadius, botData.BotDetectionStats.Wall);
                     break;
             }
         }
-
-        private void KickFromEdge()
-        {
-            botData.BotDetectionStats.IsOnEdgeWithSecondFoot = Physics.Raycast(groundTransform.position,
-                Vector3.down, 0.2f, botData.BotDetectionStats.Grounded | botData.BotDetectionStats.Platform | botData.BotDetectionStats.Edge);
-    
-            botData.BotDetectionStats.IsClimbingGround = Physics.Raycast(groundLedgeTransform.position,
-                Vector3.down, 1.2f, botData.BotDetectionStats.Grounded | botData.BotDetectionStats.Platform | botData.BotDetectionStats.Edge);
-    
-            botData.BotDetectionStats.IsGroundFrontFoot = Physics.Raycast(groundDetectionFrontFoot.position,
-                Vector3.down, 1.2f, botData.BotDetectionStats.Grounded | botData.BotDetectionStats.Platform | botData.BotDetectionStats.Edge);
-        }
-
-        private void OnDrawGizmos()
-        {
-            // Raycast for edge detection with the second foot
-            Gizmos.color = Color.red; // Color for the first raycast
-            Gizmos.DrawLine(groundTransform.position, groundTransform.position + Vector3.down * 0.2f);
-    
-            // Raycast for climbing ground detection
-            Gizmos.color = Color.green; // Color for the second raycast
-            Gizmos.DrawLine(groundLedgeTransform.position, groundLedgeTransform.position + Vector3.down * 1.2f);
-    
-            // Raycast for ground detection on the front foot
-            Gizmos.color = Color.blue; // Color for the third raycast
-            Gizmos.DrawLine(groundDetectionFrontFoot.position, groundDetectionFrontFoot.position + Vector3.down * 1.2f);
-            
-            if (botData == null || botData.BotComponents.MoveCollider == null) return;
-    
-            var bounds = botData.BotComponents.MoveCollider.bounds;
-            var bottom = bounds.center - new Vector3(0, bounds.extents.y, 0);
-    
-            // Draw Gizmo for IsGrounded (small sphere)
-            Gizmos.color = Color.red;
-            Gizmos.DrawWireSphere(bottom, 0.315f);
-        }
         
-        private void CheckIce()
-        {
-            var bounds = botData.BotComponents.MoveCollider.bounds;
-            var bottom = bounds.center - new Vector3(0, bounds.extents.y, 0);
-            var size = Mathf.Max(bounds.extents.x, bounds.extents.z); 
-            botData.BotDetectionStats.IsOnIce = Physics.CheckSphere(
-                bottom, size, botData.BotDetectionStats.Ice);
-        }
-
         private void OnTriggerEnter(Collider other)
         {
             if (((1 << other.gameObject.layer) & botData.BotDetectionStats.HurricaneBounce.value) != 0)
@@ -136,5 +81,46 @@ namespace Character.CharacterScripts
             }
         }
 
+        private void OnCollisionEnter(Collision collision)
+        {
+            if (((1 << collision.gameObject.layer) & botData.BotDetectionStats.HorizontalPlatform.value) != 0)
+            {
+                transform.parent = collision.transform;
+            }
+            
+            if (((1 << collision.gameObject.layer) & botData.BotDetectionStats.VerticalPlatform.value) != 0)
+            {
+                transform.parent = collision.transform;
+            }
+        }
+
+        private void OnCollisionStay(Collision collisionInfo)
+        {
+            if (((1 << collisionInfo.gameObject.layer) & botData.BotDetectionStats.HorizontalPlatform.value) != 0)
+            {
+                if (botData.BotStats.MoveDirection.x != 0 || botData.BotStats.IsJump)
+                {
+                    transform.parent = null;
+                }
+                else if(botData.BotStats.MoveDirection.x == 0 || !botData.BotStats.IsJump)
+                {
+                    transform.parent = collisionInfo.transform;
+                }
+            }
+        }
+
+        private void OnCollisionExit(Collision other)
+        {
+            if (((1 << other.gameObject.layer) & botData.BotDetectionStats.HorizontalPlatform.value) != 0)
+            {
+                transform.parent = null;
+            }
+            
+            if (((1 << other.gameObject.layer) & botData.BotDetectionStats.VerticalPlatform.value) != 0)
+            {
+                transform.parent = null;
+            }
+            
+        }
     }
 }

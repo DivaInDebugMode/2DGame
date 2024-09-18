@@ -18,15 +18,12 @@ MonoBehaviour:
   wall:
     serializedVersion: 2
     m_Bits: 128
-  rope:
-    serializedVersion: 2
-    m_Bits: 256
-  ropeTail:
-    serializedVersion: 2
-    m_Bits: 0
-  platform:
+  horizontalPlatform:
     serializedVersion: 2
     m_Bits: 1024
+  verticalPlatform:
+    serializedVersion: 2
+    m_Bits: 8192
   isLedge: 0
   isWall: 0
   wallDetectionRadius: 0.3
@@ -34,20 +31,9 @@ MonoBehaviour:
   isGrounded: 1
   isNearOnGround: 0
   isDistanceForDash: 0
-  isGroundFrontFoot: 1
   hurricaneBounce:
     serializedVersion: 2
     m_Bits: 16384
   megaJumpBounce:
     serializedVersion: 2
     m_Bits: 2048
-  isOnEdge: 0
-  isOnEdgeWithSecondFoot: 0
-  isClimbingGround: 1
-  isOnIce: 0
-  ice:
-    serializedVersion: 2
-    m_Bits: 4096
-  edge:
-    serializedVersion: 2
-    m_Bits: 256

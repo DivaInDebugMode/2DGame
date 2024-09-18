@@ -13,9 +13,8 @@ namespace Character.CharacterScriptable
         [Tooltip("Layer mask to detect the ledge.")]
         [SerializeField] private LayerMask wall;
 
-        [SerializeField] private LayerMask rope;
-        [SerializeField] private LayerMask ropeTail;
-        [SerializeField] private LayerMask platform;
+        [SerializeField] private LayerMask horizontalPlatform;
+        [SerializeField] private LayerMask verticalPlatform;
         
         [SerializeField] private bool isLedge;
         [SerializeField] private bool isWall;
@@ -47,9 +46,8 @@ namespace Character.CharacterScriptable
 
         public LayerMask Grounded => grounded;
         public LayerMask Wall => wall;
-        public LayerMask Rope => rope;
-        public LayerMask RopeTail => ropeTail;
-        public LayerMask Platform => platform;
+        public LayerMask HorizontalPlatform => horizontalPlatform;
+        public LayerMask VerticalPlatform => verticalPlatform;
         #endregion
 
         #region Grounded State
@@ -58,36 +56,9 @@ namespace Character.CharacterScriptable
         [SerializeField] private bool isGrounded;
         [SerializeField] private bool isNearOnGround;
         [SerializeField] private bool isDistanceForDash;
-        [SerializeField] private bool isGroundFrontFoot;
         [SerializeField] private LayerMask hurricaneBounce;
         [SerializeField] private LayerMask megaJumpBounce;
-        [SerializeField] private bool isOnEdge;
-        [SerializeField] private bool isOnEdgeWithSecondFoot;
-        [SerializeField] private bool isClimbingGround;
-
-        public bool IsGroundFrontFoot
-        {
-            get => isGroundFrontFoot;
-            set => isGroundFrontFoot = value;
-        }
-        public bool IsClimbingGround
-        {
-            get => isClimbingGround;
-            set => isClimbingGround = value;
-        }
-
-        public bool IsOnEdgeWithSecondFoot
-        {
-            get => isOnEdgeWithSecondFoot;
-            set => isOnEdgeWithSecondFoot = value;
-        }
-
-        public bool IsOnEdge
-        {
-            get => isOnEdge;
-            set => isOnEdge = value;
-        }
-
+        
         public bool IsDistanceForDash
         {
             get => isDistanceForDash;
@@ -105,41 +76,9 @@ namespace Character.CharacterScriptable
             set => isGrounded = value;
         }
         
+        public LayerMask HurricaneBounce => hurricaneBounce;
+        public LayerMask MegaJumpBounce => megaJumpBounce;
         
         #endregion
-
-        [Header("Grounded State")] 
-        [SerializeField] private bool isOnIce;
-        [SerializeField] private LayerMask ice;
-        [SerializeField] private LayerMask edge;
-
-        public LayerMask Edge
-        {
-            get => edge;
-        }
-        
-        
-        public bool IsOnIce
-        {
-            get => isOnIce;
-            set => isOnIce = value;
-        }
-
-        public LayerMask Ice
-        {
-            get => ice;
-            set => ice = value;
-        }
-
-        public LayerMask HurricaneBounce
-        {
-            get => hurricaneBounce;
-        }
-
-        public LayerMask MegaJumpBounce
-        {
-            get => megaJumpBounce;
-        }
-        
     }
 }

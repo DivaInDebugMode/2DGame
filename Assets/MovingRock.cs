@@ -16,6 +16,7 @@ public class MovingRock : MonoBehaviour
         direction = 1;
         movingTime = startMovingTime;
         isStopped = false;
+        
     }
 
     private void FixedUpdate()

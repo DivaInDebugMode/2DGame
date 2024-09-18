@@ -29,20 +29,7 @@ namespace Character.CharacterScripts
 
         private void JumpActionPress(InputAction.CallbackContext context)
         {
-            // if (botData.BotDetectionStats.IsGrounded | botData.BotDetectionStats.IsOnPlatform |  botData.BotDetectionStats.IsOnIce  && !botData.BotStats.IsGroundDashing &&
-            //     !botData.BotStats.IsCrouching && !botData.BotStats.HasJumped)
-            // {
-            //     botData.BotStats.HasJumped = true;
-            //     botData.BotStats.IsJump = true;
-            //     pressStartTime = Time.time;
-            //     isPressed = true;
-            //     isTap = false;
-            //     shouldDrop = false;
-            //     dropTimer = 0f;
-            //     botData.BotComponents.Rb.velocity = new Vector2(botData.BotComponents.Rb.velocity.x, botData.BotStats.JumpForce);
-            // }
-            
-            if (botData.BotDetectionStats.IsGrounded | botData.BotDetectionStats.IsOnPlatform |  botData.BotDetectionStats.IsOnIce &&
+            if (botData.BotDetectionStats.IsGrounded &&
                 !botData.BotStats.IsCrouching && !botData.BotStats.HasJumped)
             {
                 botData.BotStats.HasJumped = true;
@@ -54,31 +41,26 @@ namespace Character.CharacterScripts
                 dropTimer = 0f;
                 botData.BotComponents.Rb.velocity = new Vector2(botData.BotComponents.Rb.velocity.x, botData.BotStats.JumpForce);
             }
+
         }
 
         private void Update()
         {
             if(botData.BotStats.IsAirDashing) return;
 
-            if (isPressed)
-            {
-                jumpPressedTime = Time.time - pressStartTime;
-                isTap = jumpPressedTime <= 0.1f;
-            }
+            if (!isPressed) return;
+            jumpPressedTime = Time.time - pressStartTime;
+            isTap = jumpPressedTime <= 0.1f;
         }
 
         private void FixedUpdate()
         { 
             if(botData.BotStats.IsAirDashing) return;
-            if (isTap && !shouldDrop)
-            {
-                dropTimer += Time.deltaTime;
-                if (dropTimer >= 0.12f)
-                {
-                    botData.BotComponents.Rb.velocity = new Vector2(botData.BotComponents.Rb.velocity.x, botData.BotStats.InitialJumpForce);
-                    shouldDrop = true;
-                }
-            }
+            if (!isTap || shouldDrop) return;
+            dropTimer += Time.deltaTime;
+            if (!(dropTimer >= 0.12f)) return;
+            botData.BotComponents.Rb.velocity = new Vector2(botData.BotComponents.Rb.velocity.x, botData.BotStats.InitialJumpForce);
+            shouldDrop = true;
         }
 
         private void OnButtonCancel(InputAction.CallbackContext context)
@@ -86,12 +68,10 @@ namespace Character.CharacterScripts
             if (botData.BotDetectionStats.IsWall) return;
 
             isPressed = false;
-            if (jumpPressedTime > 0.1f)
-            {
-                isTap = false;
-                dropTimer = 0f;
-                shouldDrop = false;
-            }
+            if (!(jumpPressedTime > 0.1f)) return;
+            isTap = false;
+            dropTimer = 0f;
+            shouldDrop = false;
         }
     }
 }

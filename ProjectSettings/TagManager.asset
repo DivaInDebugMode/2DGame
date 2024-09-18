@@ -13,12 +13,12 @@ TagManager:
   - UI
   - Player
   - Wall
-  - Edge
+  - 
   - Rock
-  - Platform
+  - HorizontalPlatform
   - Bounce
   - Ice
-  - Water
+  - VerticalPlatform
   - Hurricane
   - 
   - 

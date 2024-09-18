@@ -1,11 +1,10 @@
 using System;
-using System.Collections;
-using Character.CharacterScripts;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class MovingPlatform : MonoBehaviour
 {
-     [Header("Movement Settings")]
+    [Header("Movement Settings")]
     [SerializeField] private Vector3 moveDirection = Vector3.right; // Direction of movement
     [SerializeField] private float moveDistance;               // Distance to move
     [SerializeField] private float moveSpeed;                  // Speed of movement

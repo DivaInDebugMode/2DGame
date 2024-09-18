@@ -49,7 +49,7 @@ namespace Character.CharacterScripts
             targetPosition = startPosition + moveDirection * moveDistance;
         }
 
-        void Update()
+        void FixedUpdate()
         {
             // Determine laser behavior based on the selected type
             switch (laserType)

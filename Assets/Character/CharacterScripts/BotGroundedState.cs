@@ -30,6 +30,7 @@ namespace Character.CharacterScripts
 
         public override void EnterState()
         {
+            botAnimatorController.Animator.SetBool(Grounded, true);
             botData.BotDetectionStats.IsWall = false;
             Physics.gravity = botData.BotStats.GroundGForce;
             botData.BotComponents.Rb.velocity = Vector3.zero;
@@ -37,7 +38,6 @@ namespace Character.CharacterScripts
             jumpStartTimer = Time.time;
             jumpTimerOn = true;
             botData.BotStats.IsWallJump = false;
-           // botData.BotStats.CurrentSpeed = 0;
             botData.BotStats.GroundDashTimer = 0f;
             botData.BotStats.CanGroundDash = true;
             botData.BotStats.HasGroundDashed = false;
@@ -65,8 +65,6 @@ namespace Character.CharacterScripts
             }
             
             StartDash();
-
-            LedgeSlide();
         }
         private void HandleMovementAnimation()
         {
@@ -250,28 +248,7 @@ namespace Character.CharacterScripts
                 botAnimatorController.Animator.SetBool(Grounded, false);
             }
         }
-
-        private void LedgeSlide()
-        {
-            if (botData.BotDetectionStats.IsClimbingGround || !botData.BotDetectionStats.IsGroundFrontFoot) return;
-            switch (botData.BotStats.CurrentDirectionValue)
-            {
-                case 1:
-                    if (botData.BotComponents.Rb.velocity == Vector3.zero)
-                    {
-                        botData.BotDetectionStats.IsOnEdge = true;
-                        botData.BotComponents.Rb.velocity = new Vector2(-1.5f, -1.5f);
-                    }
-                    break;
-                case -1:
-                    if (botData.BotComponents.Rb.velocity == Vector3.zero)
-                    {
-                        botData.BotDetectionStats.IsOnEdge = true;
-                        botData.BotComponents.Rb.velocity = new Vector2(1.5f, -1.5f);
-                    }
-                    break;
-            }
-        }
+        
         
         public override void ExitState()
         {
@@ -280,7 +257,6 @@ namespace Character.CharacterScripts
             botData.BotStats.IsGroundDashing = false;
             botAnimatorController.Animator.SetBool(Grounded, false);
             botAnimatorController.Animator.SetBool(Dash, false);
-            botData.BotDetectionStats.IsOnEdge = false;
         }
         
         public BotGroundedState(BotStateMachine currentContext, BotMovement botMovement, BotInput botInput,

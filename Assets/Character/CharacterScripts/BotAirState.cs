@@ -27,7 +27,7 @@ namespace Character.CharacterScripts
         [Header("AirDash Variables")] private bool cancelDashAnimation;
         private bool canDash;
         private static readonly int AirDash = Animator.StringToHash("AirDash");
-        private static readonly int NearGround = Animator.StringToHash("NearGround");
+       // private static readonly int NearGround = Animator.StringToHash("NearGround");
 
         public override void EnterState()
         {
@@ -71,7 +71,6 @@ namespace Character.CharacterScripts
         public override void FixedUpdate()
         {
             StartDash();
-            LedgeSlide();
             if (botData.BotStats.IsInLedgeClimbing) return;
             if(botData.BotStats.IsWallJump) return;
             if(botData.BotStats.IsAirDashing) return;
@@ -110,14 +109,14 @@ namespace Character.CharacterScripts
 
         private void WallJumpTimerHandler()
         {
-            switch (botData.BotStats.IsWallJump)
+            if (botData.BotStats.IsWallJump && botData.BotStats.WallJumpDurationStart)
             {
-                case true when botData.BotStats.WallJumpDurationStart:
-                    startTimeOfWallJump = Time.time;
-                    botData.BotStats.WallJumpDurationStart = false;
-                    break;
-                case false:
-                    return;
+                startTimeOfWallJump = Time.time;
+                botData.BotStats.WallJumpDurationStart = false;
+            }
+            else if (!botData.BotStats.IsWallJump)
+            {
+                return;
             }
 
             durationOfWallJump = Time.time - startTimeOfWallJump;
@@ -134,7 +133,7 @@ namespace Character.CharacterScripts
                 hasJumped = true;
                 botAnimatorController.Animator.SetBool(GroundJump, true);
             }
-            else if(hasJumped && !cancelJumpAnimation && botData.BotComponents.Rb.velocity.y <= 0)
+            else if(hasJumped && !cancelJumpAnimation && botData.BotComponents.Rb.velocity.y <= 0 || botData.BotDetectionStats.IsWall)
             {
                 botData.BotDetectionStats.WallDetectionRadius = 0.3f;
                 botData.BotStats.IsJump = false;
@@ -306,31 +305,6 @@ namespace Character.CharacterScripts
             // botData.BotDetectionStats.IsDistanceForDash = Physics.CheckSphere(
             //     bottom, 0.2f, botData.BotDetectionStats.Grounded | botData.BotDetectionStats.Platform);
         }
-        
-        private void LedgeSlide()
-        {
-            if (!botData.BotDetectionStats.IsClimbingGround && botData.BotDetectionStats.IsGroundFrontFoot)
-            {
-                switch (botData.BotStats.CurrentDirectionValue)
-                {
-                    case 1:
-                        if (botData.BotComponents.Rb.velocity == Vector3.zero)
-                        {
-                            botData.BotDetectionStats.IsOnEdge = true;
-                            botData.BotComponents.Rb.velocity = new Vector2(-1.5f, -1.5f);
-                            Debug.Log("ledge");
-                        }
-                        break;
-                    case -1:
-                        if (botData.BotComponents.Rb.velocity == Vector3.zero)
-                        {
-                            botData.BotDetectionStats.IsOnEdge = true;
-                            botData.BotComponents.Rb.velocity = new Vector2(1.5f, -1.5f);
-                        }
-                        break;
-                }
-            }
-        }
 
         private void HandleLedgeJumpTimer()
         {
@@ -360,11 +334,9 @@ namespace Character.CharacterScripts
             botData.BotDetectionStats.IsDistanceForDash = false;
             
             botData.BotStats.IsAirDashing = false;
-            botAnimatorController.Animator.SetBool(NearGround,false);
+            // botAnimatorController.Animator.SetBool(NearGround,false);
             
             botData.BotDetection.GlideObj.SetActive(false);
-            botData.BotDetectionStats.IsOnEdge = false;
-
 
         }
 

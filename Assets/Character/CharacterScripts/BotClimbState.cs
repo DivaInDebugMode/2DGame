@@ -7,7 +7,6 @@ namespace Character.CharacterScripts
     {
         private static readonly int WallSlide = Animator.StringToHash("Wall Slide");
         private bool isOnLedge;
-        private HingeJoint test;
         
         public override void EnterState()
         {

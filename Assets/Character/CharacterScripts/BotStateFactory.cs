@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using Character.CharacterScriptable;
 
 namespace Character.CharacterScripts
 {
@@ -8,7 +7,6 @@ namespace Character.CharacterScripts
         GroundedState,
         AirState,
         ClimbState,
-        IceState
     }
     public class BotStateFactory
     {
@@ -23,9 +21,6 @@ namespace Character.CharacterScripts
                 new BotAirState(currentContext, botMovement, botInput, botData, botAnimatorController);
             container[States.ClimbState] =
                 new BotClimbState(currentContext, botMovement, botInput, botData, botAnimatorController);
-            container[States.IceState] =
-                new BotIceState(currentContext, botMovement, botInput, botData, botAnimatorController);
-            
         }
         
         public BotBaseState Grounded()
@@ -41,11 +36,6 @@ namespace Character.CharacterScripts
         public BotBaseState Climb()
         {
             return container[States.ClimbState];
-        }
-
-        public BotBaseState Ice()
-        {
-            return container[States.IceState];
         }
     }
 }
