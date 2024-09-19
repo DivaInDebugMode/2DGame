@@ -20,22 +20,22 @@ MonoBehaviour:
   moveDirection: {x: 0, y: 0, z: 0}
   currentDirectionValue: 1
   lastDirectionValue: 1
-  directionTime: 0.15999998
+  directionTime: 0
   targetAngle: 90
   dashForce: 8
   isGroundDashing: 0
   hasGroundDashed: 0
   canGroundDash: 1
-  groundDashDuration: 0.60113907
+  groundDashDuration: 0.6019592
   groundDashTimer: 0
-  groundDashCooldownStart: 27.73449
+  groundDashCooldownStart: 71.96086
   groundDashCooldown: 0.6
   dashLengthTimeInGround: 0.6
   isAirDashing: 0
   hasAirDashed: 0
   canAirDash: 1
-  airDashDuration: 0.60352135
-  airDashCooldownStart: 13.072069
+  airDashDuration: 0.12820005
+  airDashCooldownStart: 4.2935557
   dashLengthTimeInAir: 0.6
   isRotating: 0
   isCrouching: 0
@@ -54,7 +54,7 @@ MonoBehaviour:
   fallingGForce: {x: 0, y: -35}
   glidingGForce: {x: 0, y: -3}
   wallGForce: {x: 0, y: -3.5}
-  ledgeJumpForce: {x: 0.3, y: 13}
+  ledgeJumpForce: {x: 0.3, y: 15}
   ledgeClimbingStartTime: 0
   durationOfLedgeClimbing: 0
   isHurricaneBounce: 0

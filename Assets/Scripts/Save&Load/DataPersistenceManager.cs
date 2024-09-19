@@ -72,8 +72,6 @@ namespace Save_Load
         public void SaveGame()
         {
             // Save data from character state machine and camera follow components
-            
-            
             botStateMachine.SaveData(ref gameData);
             //cameraFollow.SaveData(ref gameData);
             

@@ -7,13 +7,16 @@ namespace Character.CharacterScripts
     {
         [SerializeField] private BotStats botStats;
         [SerializeField] private BotDetectionStats botDetectionStats;
-        [SerializeField] private BotComponents botComponents;
         [SerializeField] private BotDetection botDetection;
-
+        [SerializeField] private Animator animator;
+        [SerializeField] private new Rigidbody rigidbody;
+        [SerializeField] private BoxCollider moveCollider;
+        
         public BotStats BotStats => botStats;
         public BotDetectionStats BotDetectionStats => botDetectionStats;
-        public BotComponents BotComponents => botComponents;
-
         public BotDetection BotDetection => botDetection;
+        public Animator Animator => animator;
+        public Rigidbody Rb => rigidbody;
+        public BoxCollider MoveCollider => moveCollider;
     }
 }

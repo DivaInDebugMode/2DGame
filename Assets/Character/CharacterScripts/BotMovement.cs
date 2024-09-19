@@ -1,5 +1,7 @@
 using System;
 using System.Collections;
+using Managers;
+using Save_Load;
 using UnityEngine;
 
 namespace Character.CharacterScripts
@@ -9,6 +11,9 @@ namespace Character.CharacterScripts
     {
         [SerializeField] private BotData botData;
         [SerializeField] private BotInput botInput;
+
+        [SerializeField] private LayerMask checkPoint;
+        [SerializeField] private bool test;
         private void Start()
         {
             botData.BotStats.LastDirectionValue = botData.BotStats.CurrentDirectionValue;
@@ -41,14 +46,14 @@ namespace Character.CharacterScripts
             if (botData.BotStats.IsCrouching || botData.BotStats.IsGroundDashing) return;
             if (botData.BotStats.MoveDirection.x != 0)
             {
-                botData.BotComponents.Rb.velocity = new Vector2(
+                botData.Rb.velocity = new Vector2(
                     botData.BotStats.MoveDirection.x * horizontalSpeed, 
-                    botData.BotComponents.Rb.velocity.y);
+                    botData.Rb.velocity.y);
                 botData.BotStats.HasStopped = false;
             }
             else if (botData.BotStats.CurrentSpeed <= 4f && !botData.BotStats.HasStopped)
             {
-                botData.BotComponents.Rb.velocity = new Vector2(0, botData.BotComponents.Rb.velocity.y);
+                botData.Rb.velocity = new Vector2(0, botData.Rb.velocity.y);
                 botData.BotStats.HasStopped = true;
             }
         }
@@ -65,7 +70,7 @@ namespace Character.CharacterScripts
                     case -1:
                         if (!botData.BotStats.HasHurricaned)
                         {
-                            botData.BotComponents.Rb.velocity = new Vector2(-15,15);
+                            botData.Rb.velocity = new Vector2(-15,15);
                             StartCoroutine(HurricaneTimer());
                             botData.BotStats.HasHurricaned = true;
                         }
@@ -73,7 +78,7 @@ namespace Character.CharacterScripts
                     case 1:
                         if (!botData.BotStats.HasHurricaned)
                         {
-                            botData.BotComponents.Rb.velocity = new Vector2(15,15);
+                            botData.Rb.velocity = new Vector2(15,15);
                             StartCoroutine(HurricaneTimer());
                             botData.BotStats.HasHurricaned = true;
                         }                      
@@ -82,7 +87,7 @@ namespace Character.CharacterScripts
 
             }else if (botData.BotStats.IsMegaBounce)
             {
-                botData.BotComponents.Rb.velocity = new Vector2(botData.BotComponents.Rb.velocity.x,22);
+                botData.Rb.velocity = new Vector2(botData.Rb.velocity.x,22);
                 StartCoroutine(BounceTimer());
             }
         }
@@ -156,31 +161,5 @@ namespace Character.CharacterScripts
         }
         
         private void StandingFromCrouch() => botData.BotStats.IsCrouching = false;
-        
-        
-        // public void MoveHorizontally(float horizontalSpeed)
-        // {
-        //    
-        //     if(botData.BotStats.IsCrouching || botData.BotStats.IsGroundDashing) return;
-        //     if (botData.BotStats.MoveDirection.x != 0)
-        //     {
-        //         botData.BotStats.VelocityX = Mathf.MoveTowards(botData.BotComponents.Rb.velocity.x,
-        //             botData.BotStats.MoveDirection.x * horizontalSpeed, botData.BotStats.SmoothTime * Time.fixedTime);
-        //         botData.BotComponents.Rb.velocity =
-        //             new Vector2(botData.BotStats.VelocityX, botData.BotComponents.Rb.velocity.y);
-        //         botData.BotStats.HasStopped = false;
-        //
-        //     }
-        //     else if(botData.BotStats.CurrentSpeed <= 4f  && !botData.BotStats.HasStopped)
-        //     {
-        //         botData.BotComponents.Rb.velocity =
-        //             new Vector2(0, botData.BotComponents.Rb.velocity.y);
-        //         botData.BotStats.HasStopped = true;
-        //       
-        //     }
-        // }
-        //
-        
-        
     }
 }

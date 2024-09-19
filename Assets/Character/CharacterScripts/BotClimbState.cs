@@ -11,8 +11,8 @@ namespace Character.CharacterScripts
         public override void EnterState()
         {
             Physics.gravity = botData.BotStats.WallGForce;
-            botData.BotComponents.Rb.velocity = Vector3.zero;
-            botAnimatorController.Animator.SetBool(WallSlide, true);
+            botData.Rb.velocity = Vector3.zero;
+            botData.Animator.SetBool(WallSlide, true);
             botData.BotStats.IsWallJump = false;
             botData.BotStats.IsInLedgeClimbing = false;
         }
@@ -57,7 +57,7 @@ namespace Character.CharacterScripts
                     {
                         botData.BotStats.LedgeClimbingStartTime = Time.time;
                         //botData.BotComponents.MoveCollider.isTrigger = true;
-                        botData.BotComponents.Rb.velocity = 
+                        botData.Rb.velocity = 
                             new Vector2(-botData.BotStats.LedgeJumpForce.x, botData.BotStats.LedgeJumpForce.y); 
                         Physics.gravity = botData.BotStats.FallingGForce;
                         botData.BotDetectionStats.IsLedge = false;
@@ -69,7 +69,7 @@ namespace Character.CharacterScripts
                     {
                         botData.BotStats.LedgeClimbingStartTime = Time.time;
                         //botData.BotComponents.MoveCollider.isTrigger = true;
-                        botData.BotComponents.Rb.velocity = botData.BotStats.LedgeJumpForce; 
+                        botData.Rb.velocity = botData.BotStats.LedgeJumpForce; 
                         Physics.gravity = botData.BotStats.FallingGForce;
                         botData.BotDetectionStats.IsLedge = false;
                         botData.BotStats.IsInLedgeClimbing = true;
@@ -84,7 +84,7 @@ namespace Character.CharacterScripts
             if (botData.BotDetectionStats.IsLedge && !isOnLedge)
             {
                 isOnLedge = true; 
-                botData.BotComponents.Rb.velocity = Vector3.zero;
+                botData.Rb.velocity = Vector3.zero;
                 Physics.gravity = Vector3.zero;
             }
         }
@@ -105,13 +105,13 @@ namespace Character.CharacterScripts
                 switch (botData.BotStats.CurrentDirectionValue)
                 {
                     case 1:
-                        botData.BotComponents.Rb.velocity = new Vector2(-6, 9);
+                        botData.Rb.velocity = new Vector2(-6, 9);
                         botData.BotStats.TargetAngle = 270f;
                         botData.BotStats.CurrentDirectionValue = -1;
                         botData.BotStats.LastDirectionValue = -1;
                         break;
                     case -1:
-                        botData.BotComponents.Rb.velocity = new Vector2(6, 9);
+                        botData.Rb.velocity = new Vector2(6, 9);
                         botData.BotStats.TargetAngle = 90f;
                         botData.BotStats.CurrentDirectionValue = 1;
                         botData.BotStats.LastDirectionValue = 1;
@@ -124,13 +124,13 @@ namespace Character.CharacterScripts
         public override void ExitState()
         { 
             isOnLedge = false;
-            botAnimatorController.Animator.SetBool(WallSlide, false);
+            botData.Animator.SetBool(WallSlide, false);
 
         }
 
         public BotClimbState(BotStateMachine currentContext, BotMovement botMovement, BotInput botInput,
-            BotData botData, BotAnimatorController botAnimatorController) : base(currentContext, botMovement, botInput,
-            botData, botAnimatorController)
+            BotData botData) : base(currentContext, botMovement, botInput,
+            botData)
         {
         }
     }

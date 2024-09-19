@@ -22,7 +22,7 @@ namespace Character.CharacterScripts
         }
         private void IsGrounded()
         {
-            var bounds = botData.BotComponents.MoveCollider.bounds;
+            var bounds = botData.MoveCollider.bounds;
             var bottom = bounds.center -
                          new Vector3(0, bounds.extents.y, 0);
             botData.BotDetectionStats.IsGrounded = Physics.CheckSphere(
@@ -32,7 +32,7 @@ namespace Character.CharacterScripts
         
         public void IsNearOnGround()
         {
-            var bounds = botData.BotComponents.MoveCollider.bounds;
+            var bounds = botData.MoveCollider.bounds;
             var bottom = bounds.center -
                          new Vector3(0, bounds.extents.y, 0);
             botData.BotDetectionStats.IsNearOnGround = Physics.CheckSphere(
@@ -120,7 +120,6 @@ namespace Character.CharacterScripts
             {
                 transform.parent = null;
             }
-            
         }
     }
 }

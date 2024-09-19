@@ -8,16 +8,14 @@ namespace Character.CharacterScripts
         protected readonly BotMovement botMovement;
         protected BotInput botInput;
         protected readonly BotData botData;
-        protected readonly BotAnimatorController botAnimatorController;
         
         protected BotBaseState(BotStateMachine currentContext,BotMovement botMovement, BotInput botInput,
-           BotData botData, BotAnimatorController botAnimatorController)
+           BotData botData)
         {
             ctx = currentContext;
             this.botMovement = botMovement;
             this.botInput = botInput;
             this.botData = botData;
-            this.botAnimatorController = botAnimatorController;
         }
 
         // Abstract methods for entering, updating, fixing, and exiting states

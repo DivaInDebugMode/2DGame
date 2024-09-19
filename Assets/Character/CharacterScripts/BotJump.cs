@@ -39,7 +39,7 @@ namespace Character.CharacterScripts
                 isTap = false;
                 shouldDrop = false;
                 dropTimer = 0f;
-                botData.BotComponents.Rb.velocity = new Vector2(botData.BotComponents.Rb.velocity.x, botData.BotStats.JumpForce);
+                botData.Rb.velocity = new Vector2(botData.Rb.velocity.x, botData.BotStats.JumpForce);
             }
 
         }
@@ -59,7 +59,7 @@ namespace Character.CharacterScripts
             if (!isTap || shouldDrop) return;
             dropTimer += Time.deltaTime;
             if (!(dropTimer >= 0.12f)) return;
-            botData.BotComponents.Rb.velocity = new Vector2(botData.BotComponents.Rb.velocity.x, botData.BotStats.InitialJumpForce);
+            botData.Rb.velocity = new Vector2(botData.Rb.velocity.x, botData.BotStats.InitialJumpForce);
             shouldDrop = true;
         }
 

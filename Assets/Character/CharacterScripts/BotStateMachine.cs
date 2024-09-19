@@ -11,10 +11,9 @@ namespace Character.CharacterScripts
         [SerializeField] private BotData botData;
         [SerializeField] private BotInput botInput;
         [SerializeField] private BotMovement botMovement;
-        [SerializeField] private BotAnimatorController botAnimatorController;
         private void Awake()
         {
-            states = new BotStateFactory(this,botData,botMovement,botInput,botAnimatorController);
+            states = new BotStateFactory(this,botData,botMovement,botInput);
             currentState = states.Grounded();
             currentState.EnterState();
         }
@@ -26,8 +25,6 @@ namespace Character.CharacterScripts
         {
             currentState.UpdateState();
             StateSwitcher();
-            
-            Debug.Log(currentState);
         }
         
         private void StateSwitcher()
