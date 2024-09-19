@@ -1,25 +1,30 @@
 using System.Collections.Generic;
-using Character.CharacterScripts;
 using UnityEngine;
 
-public class HitManager : MonoBehaviour
+namespace Character.CharacterScripts
 {
-    [SerializeField] private PlayerHealthManager playerHealthManager;
-    [SerializeField] private List<CollisionDetection> collisionDetection = new();
-
-    private void OnEnable()
+    public class HitManager : MonoBehaviour
     {
-        foreach (var collision in collisionDetection)
+        [SerializeField] private PlayerHealthManager playerHealthManager;
+        [SerializeField] private List<CollisionDetection> collisionDetection = new();
+       
+
+        private void OnEnable()
         {
-            collision.OnPlayerDetection += playerHealthManager.PlayerTakeDamage;
+            foreach (var collision in collisionDetection)
+            {
+                collision.OnPlayerDetection += playerHealthManager.PlayerTakeDamage;
+            }
+           
         }
-    }
 
-    private void OnDisable()
-    {
-        foreach (var collision in collisionDetection)
+        private void OnDisable()
         {
-            collision.OnPlayerDetection -= playerHealthManager.PlayerTakeDamage;
+            foreach (var collision in collisionDetection)
+            {
+                collision.OnPlayerDetection -= playerHealthManager.PlayerTakeDamage;
+            }
+           
         }
     }
 }

@@ -1,6 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Character.CharacterScripts
 {
@@ -10,6 +12,9 @@ namespace Character.CharacterScripts
         [SerializeField] private PlayerHealthManager playerHealthManager;
         [SerializeField] private Transform playerTransform;
         [SerializeField] private Vector3 lastCheckPoint;
+        [SerializeField] private bool isSpawn;
+        
+        
 
         private void OnEnable()
         {
@@ -18,7 +23,16 @@ namespace Character.CharacterScripts
                 checkPoint.OnCheckPointEnter += SaveCheckPointTransform;
             }
 
-            playerHealthManager.OnPlayerDeath += SpawnPlayerOnLastCheckPoint;
+            playerHealthManager.OnPlayerRespawn += SpawnPlayerOnLastCheckPoint;
+            
+            
+        }
+
+        private void FixedUpdate()
+        {
+            if (!isSpawn) return;
+            SpawnOnCheckPoint();
+            isSpawn = false;
         }
 
         private void OnDisable()
@@ -27,7 +41,7 @@ namespace Character.CharacterScripts
             {
                 checkPoint.OnCheckPointEnter -= SaveCheckPointTransform;
             }
-            playerHealthManager.OnPlayerDeath -= SpawnPlayerOnLastCheckPoint;
+            playerHealthManager.OnPlayerRespawn -= SpawnPlayerOnLastCheckPoint;
         }
 
         private void SaveCheckPointTransform(Vector3 lastSpawnPoint)
@@ -42,8 +56,19 @@ namespace Character.CharacterScripts
 
         private IEnumerator SpawnPlayerTimer()
         {
-            yield return new WaitForSecondsRealtime(1f);
+           
+            yield return new WaitForSecondsRealtime(1.1f);
+            isSpawn = true;
+            playerHealthManager.PlayerDissolve.AppearPlayer();
+           
+           
+        }
+        
+        private void SpawnOnCheckPoint()
+        {
             playerTransform.position = lastCheckPoint;
         }
     }
+    
+   
 }
