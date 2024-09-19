@@ -13,8 +13,6 @@ namespace Character.CharacterScripts
         [SerializeField] private Transform playerTransform;
         [SerializeField] private Vector3 lastCheckPoint;
         [SerializeField] private bool isSpawn;
-        
-        
 
         private void OnEnable()
         {
@@ -57,11 +55,10 @@ namespace Character.CharacterScripts
         private IEnumerator SpawnPlayerTimer()
         {
            
-            yield return new WaitForSecondsRealtime(1.1f);
+            yield return new WaitForSecondsRealtime(1f);
             isSpawn = true;
             playerHealthManager.PlayerDissolve.AppearPlayer();
-           
-           
+            playerHealthManager.BotInput.enabled = true;
         }
         
         private void SpawnOnCheckPoint()

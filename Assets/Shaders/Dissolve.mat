@@ -20,7 +20,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Dissol
+  m_Name: Dissolve
   m_Shader: {fileID: -6465566751694194690, guid: ddf5f6161eb44fa459acf993401b7cb0, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
