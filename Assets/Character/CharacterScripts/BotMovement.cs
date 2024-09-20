@@ -1,7 +1,5 @@
 using System;
 using System.Collections;
-using Managers;
-using Save_Load;
 using UnityEngine;
 
 namespace Character.CharacterScripts

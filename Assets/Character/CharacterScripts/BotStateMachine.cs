@@ -1,5 +1,3 @@
-using Character.CharacterScriptable;
-using Save_Load;
 using UnityEngine;
 
 namespace Character.CharacterScripts
@@ -53,17 +51,6 @@ namespace Character.CharacterScripts
             currentState.ExitState();
             currentState = newState;
             currentState.EnterState();
-        }
-        
-        public void LoadData(GameData data)
-        {
-            transform.position = data.playerPos;
-        }
-
-        // Saves character data to a save file
-        public void SaveData(ref GameData data)
-        {
-            data.playerPos = transform.position;
         }
     }
 }

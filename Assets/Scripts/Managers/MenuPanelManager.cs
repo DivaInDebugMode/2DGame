@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using Hover;
-using Save_Load;
 using Sound;
 using TMPro;
 using UnityEngine;
@@ -32,7 +31,6 @@ namespace Managers
         [SerializeField] private List<OptionButtonHover> optionButtonHovers = new(); // List of option button hovers
         [SerializeField] private List<GameObject> innerOptionPanels; // List of main panels
         [SerializeField] private SceneIndex sceneIndex; // Index of the current scene
-        [SerializeField] private GameIndex gameIndex; // Index of the current game
         [SerializeField] private PauseCondition pauseCondition; // Pause condition reference
         [SerializeField] private Button backButton; // Button to go back
         private GameObject lastSelected;
@@ -47,13 +45,11 @@ namespace Managers
                 case 0: 
                     panels[0].SetActive(true);
                     panels[1].SetActive(false);
-                    panels[2].SetActive(false);
                     eventSystem.SetSelectedGameObject(firstButtonsOfMainPanels[0].gameObject);
                     break;
                 case > 0: 
                     panels[0].SetActive(false);
                     panels[1].SetActive(true);
-                    panels[2].SetActive(false);
                     break;
             }
         }
@@ -133,12 +129,7 @@ namespace Managers
             backQuestionPanel.SetActive(true);
             eventSystem.SetSelectedGameObject(answerButtonYes.gameObject);
         }
-
-
-        public void StartNewGame(int index) => gameIndex.Index = index;
-
-        public void LoadGameWithButtonIndex(int index) => gameIndex.Index = index;
-
+        
         private void ReturnToGame() => SceneManager.UnloadSceneAsync("StartMenu");
     }
 }

@@ -20,15 +20,15 @@ MonoBehaviour:
   moveDirection: {x: 0, y: 0, z: 0}
   currentDirectionValue: 1
   lastDirectionValue: 1
-  directionTime: 0
+  directionTime: 0.48000008
   targetAngle: 90
   dashForce: 8
   isGroundDashing: 0
   hasGroundDashed: 0
   canGroundDash: 1
-  groundDashDuration: 0.6019592
+  groundDashDuration: 0.14996815
   groundDashTimer: 0
-  groundDashCooldownStart: 71.96086
+  groundDashCooldownStart: 13.135563
   groundDashCooldown: 0.6
   dashLengthTimeInGround: 0.6
   isAirDashing: 0
