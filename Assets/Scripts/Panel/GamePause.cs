@@ -133,7 +133,7 @@ namespace Panel
         // Saves the game
         private void SaveOnBackButton()
         {
-            DataPersistenceManager.Instance.SaveGame();
+            //DataPersistenceManager.Instance.SaveGame();
         }
     }
 }

@@ -41,7 +41,6 @@ namespace Character.CharacterScripts
                 dropTimer = 0f;
                 botData.Rb.velocity = new Vector2(botData.Rb.velocity.x, botData.BotStats.JumpForce);
             }
-
         }
 
         private void Update()
