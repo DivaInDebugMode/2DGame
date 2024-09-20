@@ -28,7 +28,6 @@ public class Dissolve : MonoBehaviour
         
             material.SetFloat(Power, endValue);
         }
-        
     }
 
     public void DissolvePLayer() => StartCoroutine(ChangeDissolveStrength(targetValue));
