@@ -17,7 +17,7 @@ public class TutorialTextBoxes : MonoBehaviour
 
     private void Start()
     {
-        inputActionReference.action.Disable();
+       // inputActionReference.action.Disable();
         textMeshProObj.transform.localScale = Vector3.zero;
         hasPressedButton = false;
         UpdateBindingText();
@@ -53,7 +53,7 @@ public class TutorialTextBoxes : MonoBehaviour
         if (hasPressedButton) return;
         if (((1 << other.gameObject.layer) & player.value) != 0)
         {
-            inputActionReference.action.Enable();
+            //inputActionReference.action.Enable();
             textMeshProUGUI.transform.DOScale(new Vector3(1, 1, 1), 0.5f);
         }
     }

@@ -2,39 +2,44 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Character.CharacterScripts
+namespace Platform_Scripts
 {
     public class PlatformManager : MonoBehaviour
     {
-        [SerializeField] private List<VanishingPlatforms> platformsList = new();
-        [SerializeField] private float spawnTimer;
-        [SerializeField] private float vanishTimer;
+        [SerializeField] private List<VanishPlatform> vanishPlatforms;
 
         private void OnEnable()
         {
-            foreach (var platform in platformsList)
+            foreach (var platform in vanishPlatforms)
             {
-                platform.OnPlayerDetected += HandlePlatformVanish;
+                platform.OnPlayerDetection += SetActivePlatform;
             }
         }
 
         private void OnDisable()
         {
-            foreach (var platform in platformsList)
+            foreach (var platform in vanishPlatforms)
             {
-                platform.OnPlayerDetected -= HandlePlatformVanish;
+                platform.OnPlayerDetection -= SetActivePlatform;
             }
         }
-        private void HandlePlatformVanish(int index)
+
+        private void SetActivePlatform(int index)
         {
-            StartCoroutine(CubeDisappearingTimer(index));
+            StartCoroutine(DeactivatePlatformTimer(index));
         }
-        private IEnumerator CubeDisappearingTimer(int index)
+
+        private IEnumerator DeactivatePlatformTimer(int index)
         {
-            yield return new WaitForSecondsRealtime(vanishTimer);
-            platformsList[index].gameObject.SetActive(false);
-            yield return new WaitForSecondsRealtime(spawnTimer); 
-            platformsList[index].gameObject.SetActive(true);
+            yield return new WaitForSecondsRealtime(vanishPlatforms[index].DisappearTime);
+            vanishPlatforms[index].gameObject.SetActive(false);
+            StartCoroutine(SetActivePlatformTimer(index));
+        }
+
+        private IEnumerator SetActivePlatformTimer(int index)
+        {
+            yield return new WaitForSecondsRealtime(vanishPlatforms[index].SpawnTime);
+            vanishPlatforms[index].gameObject.SetActive(true);
         }
     }
 }

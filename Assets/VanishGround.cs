@@ -9,11 +9,11 @@ public class VanishGround : MonoBehaviour
     [SerializeField] private List<Material> materials;
     [SerializeField] private float targetValue;
     [SerializeField] private float duration;
+    [SerializeField] private float disappearTime;
     private static readonly int Power = Shader.PropertyToID("_GroundPower");
     [SerializeField] private LayerMask playerLayer;
     private void Start()
     {
-        
         foreach (var material in materials)
         {
             material.SetFloat(Power,0);
@@ -36,7 +36,7 @@ public class VanishGround : MonoBehaviour
     private IEnumerator DisableGroundTimer()
     {
         StartCoroutine(ChangeDissolveStrength(targetValue));
-        yield return new WaitForSecondsRealtime(0.1f);
+        yield return new WaitForSecondsRealtime(disappearTime);
         foreach (var ground in grounds)
         {
             ground.gameObject.SetActive(false);
