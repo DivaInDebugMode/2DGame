@@ -8,8 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: SketchEffect_Timmy
-  m_Shader: {fileID: -6465566751694194690, guid: 38be96ab7b9e81140bd98ea4b8a977ab,
-    type: 3}
+  m_Shader: {fileID: -6465566751694194690, guid: 38be96ab7b9e81140bd98ea4b8a977ab, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
@@ -61,10 +60,8 @@ Material:
     - _QueueOffset: 0
     m_Colors:
     - Color_f1c1645d1a5645c18d9725c45912eec5: {r: 1, g: 1, b: 1, a: 0}
-    - Color_f1c1645d1a5645c18d9725c45912eec5_1: {r: 0.15294118, g: 0.15294118, b: 0.15294118,
-        a: 0}
-    - Color_fdb4426266254bd3ba2d808bbe0554ef: {r: 0.23584908, g: 0.23451409, b: 0.23451409,
-        a: 0}
+    - Color_f1c1645d1a5645c18d9725c45912eec5_1: {r: 0.15294118, g: 0.15294118, b: 0.15294118, a: 0}
+    - Color_fdb4426266254bd3ba2d808bbe0554ef: {r: 0.23584908, g: 0.23451409, b: 0.23451409, a: 0}
   m_BuildTextureStacks: []
 --- !u!114 &4045431292371654810
 MonoBehaviour:

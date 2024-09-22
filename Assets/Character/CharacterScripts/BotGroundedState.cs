@@ -96,9 +96,7 @@ namespace Character.CharacterScripts
             }
             if (botData.BotStats.MoveDirection.x == 0 && botData.BotStats.CurrentSpeed >= 0f)
             {
-                // botData.BotStats.CurrentSpeed -= Time.deltaTime * botData.BotStats.MoveDeceleration * 50f;
                 botData.BotStats.CurrentSpeed = 0;
-
             }
         }
 

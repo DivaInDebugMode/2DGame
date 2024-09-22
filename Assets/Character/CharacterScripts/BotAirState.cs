@@ -27,7 +27,6 @@ namespace Character.CharacterScripts
         [Header("AirDash Variables")] private bool cancelDashAnimation;
         private bool canDash;
         private static readonly int AirDash = Animator.StringToHash("AirDash");
-       // private static readonly int NearGround = Animator.StringToHash("NearGround");
 
         public override void EnterState()
         {
@@ -38,14 +37,13 @@ namespace Character.CharacterScripts
             cancelFallingAfterGliding = false;
             hasJumped = false;
             inFalling = false;
-            botData.BotStats.IsGliding = false; //ss
+            botData.BotStats.IsGliding = false; 
             hasGlided = false;
             botData.BotStats.CanAirDashAnimation = true;
             cancelFallingAfterDash = true;
             cancelFallingAfterLanding = false;
 
             botData.BotStats.HasAirDashed = false;
-            //ss
             botData.BotStats.CanAirDash = true;
         }
 
@@ -80,6 +78,7 @@ namespace Character.CharacterScripts
         private void HandleMovementSpeed()
         {
             if (botData.BotStats.IsInLedgeClimbing) return; 
+            if(botData.BotStats.IsGliding) return;
             if(botData.BotStats.IsGroundDashing) return;
             if (botData.BotStats.MoveDirection.x != 0)
             {
@@ -90,7 +89,6 @@ namespace Character.CharacterScripts
                     {
                         botData.BotStats.CurrentSpeed = botData.BotStats.WalkSpeed;
                     }
-                    //wasashlelia
                 }
                 else
                 {
@@ -169,6 +167,7 @@ namespace Character.CharacterScripts
             {
                 botData.BotStats.StopGlide = false;
                 botData.BotStats.IsGliding = true;
+                botData.BotStats.CurrentSpeed = botData.BotStats.MaxSpeed;
                 Physics.gravity = botData.BotStats.GlidingGForce;
             }else if (botData.Rb.velocity.y > 0 && botData.BotStats.IsGliding || botData.BotStats.IsAirDashing)
             {
@@ -299,11 +298,6 @@ namespace Character.CharacterScripts
         {
             botData.BotDetectionStats.IsDistanceForDash = Physics.CheckSphere(
                 botData.BotDetection.GroundTransform.position, 0.5f, botData.BotDetectionStats.Grounded);
-            // Vector3 bottom = botData.BotComponents.MoveCollider.bounds.center - new Vector3(0, botData.BotComponents.MoveCollider.bounds.extents.y, 0);
-            //
-            // // შემოწმება, რომ ბოტი მიწაზე ან პლატფორმაზე დგას
-            // botData.BotDetectionStats.IsDistanceForDash = Physics.CheckSphere(
-            //     bottom, 0.2f, botData.BotDetectionStats.Grounded | botData.BotDetectionStats.Platform);
         }
 
         private void HandleLedgeJumpTimer()
@@ -314,7 +308,6 @@ namespace Character.CharacterScripts
                 if (botData.BotStats.DurationOfLedgeClimbing >= 0.2f)
                 {
                     botData.BotStats.IsInLedgeClimbing = false;
-                    //botData.BotComponents.MoveCollider.isTrigger = false;
                     botData.BotStats.LedgeClimbingStartTime = 0f;
                     botData.BotStats.DurationOfLedgeClimbing = 0f;
                 }
@@ -334,8 +327,6 @@ namespace Character.CharacterScripts
             botData.BotDetectionStats.IsDistanceForDash = false;
             
             botData.BotStats.IsAirDashing = false;
-            // botAnimatorController.Animator.SetBool(NearGround,false);
-            
             botData.BotDetection.GlideObj.SetActive(false);
 
         }
