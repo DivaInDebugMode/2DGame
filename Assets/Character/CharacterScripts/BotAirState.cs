@@ -78,7 +78,6 @@ namespace Character.CharacterScripts
         private void HandleMovementSpeed()
         {
             if (botData.BotStats.IsInLedgeClimbing) return; 
-            if(botData.BotStats.IsGliding) return;
             if(botData.BotStats.IsGroundDashing) return;
             if (botData.BotStats.MoveDirection.x != 0)
             {

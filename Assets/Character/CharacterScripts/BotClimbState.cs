@@ -76,7 +76,6 @@ namespace Character.CharacterScripts
                     } 
                     break;
             }
-           
         }
         
         private void HandleLedgeGrab()
@@ -105,13 +104,13 @@ namespace Character.CharacterScripts
                 switch (botData.BotStats.CurrentDirectionValue)
                 {
                     case 1:
-                        botData.Rb.velocity = new Vector2(-6, 9);
+                        botData.Rb.velocity = new Vector2(-6, 14);
                         botData.BotStats.TargetAngle = 270f;
                         botData.BotStats.CurrentDirectionValue = -1;
                         botData.BotStats.LastDirectionValue = -1;
                         break;
                     case -1:
-                        botData.Rb.velocity = new Vector2(6, 9);
+                        botData.Rb.velocity = new Vector2(6, 14);
                         botData.BotStats.TargetAngle = 90f;
                         botData.BotStats.CurrentDirectionValue = 1;
                         botData.BotStats.LastDirectionValue = 1;

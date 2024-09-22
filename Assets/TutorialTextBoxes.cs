@@ -12,7 +12,7 @@ public class TutorialTextBoxes : MonoBehaviour
     [SerializeField] private TextMeshPro textMeshProUGUI;
     [SerializeField] private List<string> inputText;
     [SerializeField] private bool hasPressedButton;
-
+    
     private InputDevice lastInputDevice;
 
     private void Start()
@@ -76,3 +76,7 @@ public class TutorialTextBoxes : MonoBehaviour
         }
     }
 }
+
+
+
+

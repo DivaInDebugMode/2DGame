@@ -1,30 +1,33 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
-public class VanishGround : MonoBehaviour
+public class Room1PlayerTriggerManager : MonoBehaviour
 {
-    
+    [SerializeField] private MovingWalls movingWalls;
     [SerializeField] private List<GameObject> grounds;
     [SerializeField] private List<Material> materials;
     [SerializeField] private float targetValue;
     [SerializeField] private float duration;
     private static readonly int Power = Shader.PropertyToID("_GroundPower");
-    [SerializeField] private LayerMask playerLayer;
+    
+    private void OnEnable()
+    {
+        movingWalls.OnWallStopped += DisableGround;
+    }
+
+    private void OnDisable()
+    {
+        movingWalls.OnWallStopped -= DisableGround;
+    }
+
     private void Start()
     {
-        
         foreach (var material in materials)
         {
             material.SetFloat(Power,0);
-        }
-    }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        if (((1 << other.gameObject.layer) & playerLayer.value) != 0)
-        {
-            DisableGround();
         }
     }
 
@@ -36,7 +39,7 @@ public class VanishGround : MonoBehaviour
     private IEnumerator DisableGroundTimer()
     {
         StartCoroutine(ChangeDissolveStrength(targetValue));
-        yield return new WaitForSecondsRealtime(0.1f);
+        yield return new WaitForSecondsRealtime(0.5f);
         foreach (var ground in grounds)
         {
             ground.gameObject.SetActive(false);

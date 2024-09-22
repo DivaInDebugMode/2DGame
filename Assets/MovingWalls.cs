@@ -12,7 +12,6 @@ public class MovingWalls : MonoBehaviour
    [SerializeField] private float liftYAmount;
    public event Action OnWallStopped;
    private Vector3 targetPosition;
-
    
    private void Start()
    {
