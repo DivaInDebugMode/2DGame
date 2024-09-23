@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e6555dc62174e405ba3886cb961c54a0, type: 3}
   m_Name: BotStats
   m_EditorClassIdentifier: 
-  currentSpeed: 0
+  currentSpeed: -0.03925229
   maxSpeed: 8
   walkSpeed: 4
   moveDeceleration: 10
@@ -20,23 +20,23 @@ MonoBehaviour:
   moveDirection: {x: 0, y: 0, z: 0}
   currentDirectionValue: 1
   lastDirectionValue: 1
-  directionTime: 0.48000008
+  directionTime: 0
   targetAngle: 90
-  dashForce: 8
+  dashForce: 15
   isGroundDashing: 0
   hasGroundDashed: 0
   canGroundDash: 1
-  groundDashDuration: 0.14996815
+  groundDashDuration: 0.35282135
   groundDashTimer: 0
-  groundDashCooldownStart: 13.135563
-  groundDashCooldown: 0.6
-  dashLengthTimeInGround: 0.6
+  groundDashCooldownStart: 44.441837
+  groundDashCooldown: 1
+  dashLengthTimeInGround: 0.35
   isAirDashing: 0
   hasAirDashed: 0
-  canAirDash: 1
-  airDashDuration: 0.12820005
-  airDashCooldownStart: 4.2935557
-  dashLengthTimeInAir: 0.6
+  canAirDash: 0
+  airDashDuration: 0.35498238
+  airDashCooldownStart: 11.941054
+  dashLengthTimeInAir: 0.35
   isRotating: 0
   isCrouching: 0
   hasCrouched: 1
@@ -45,7 +45,7 @@ MonoBehaviour:
   isJump: 0
   isWallJump: 0
   wallJumpDurationStart: 0
-  hasJumped: 0
+  hasJumped: 1
   isInLedgeClimbing: 0
   initialJumpForce: 5
   isGliding: 0
@@ -60,4 +60,4 @@ MonoBehaviour:
   isHurricaneBounce: 0
   isMegaBounce: 0
   hasHurricaned: 0
-  canAirDashAnimation: 1
+  canAirDashAnimation: 0
