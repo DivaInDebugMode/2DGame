@@ -9,9 +9,6 @@ namespace Character.CharacterScripts
     {
         [SerializeField] private BotData botData;
         [SerializeField] private BotInput botInput;
-
-        [SerializeField] private LayerMask checkPoint;
-        [SerializeField] private bool test;
         private void Start()
         {
             botData.BotStats.LastDirectionValue = botData.BotStats.CurrentDirectionValue;

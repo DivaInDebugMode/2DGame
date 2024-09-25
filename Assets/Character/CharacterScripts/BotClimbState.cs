@@ -15,6 +15,9 @@ namespace Character.CharacterScripts
             botData.Animator.SetBool(WallSlide, true);
             botData.BotStats.IsWallJump = false;
             botData.BotStats.IsInLedgeClimbing = false;
+            
+            
+            botData.BotStats.HasStopped = true; //imistvis ro wall jump sworad shesruldes 
         }
 
         public override void UpdateState()
@@ -56,7 +59,6 @@ namespace Character.CharacterScripts
                     if (isOnLedge && botInput.MoveUp.action.IsPressed() | botInput.MoveRight.action.IsPressed()  && !botData.BotStats.IsInLedgeClimbing)
                     {
                         botData.BotStats.LedgeClimbingStartTime = Time.time;
-                        //botData.BotComponents.MoveCollider.isTrigger = true;
                         botData.Rb.velocity = 
                             new Vector2(-botData.BotStats.LedgeJumpForce.x, botData.BotStats.LedgeJumpForce.y); 
                         Physics.gravity = botData.BotStats.FallingGForce;
@@ -68,7 +70,6 @@ namespace Character.CharacterScripts
                     if (isOnLedge && botInput.MoveUp.action.IsPressed() | botInput.MoveLeft.action.IsPressed()  && !botData.BotStats.IsInLedgeClimbing)
                     {
                         botData.BotStats.LedgeClimbingStartTime = Time.time;
-                        //botData.BotComponents.MoveCollider.isTrigger = true;
                         botData.Rb.velocity = botData.BotStats.LedgeJumpForce; 
                         Physics.gravity = botData.BotStats.FallingGForce;
                         botData.BotDetectionStats.IsLedge = false;
@@ -116,7 +117,6 @@ namespace Character.CharacterScripts
                         botData.BotStats.LastDirectionValue = 1;
                         break;
                 }
-                
             }
         }
 
@@ -124,7 +124,6 @@ namespace Character.CharacterScripts
         { 
             isOnLedge = false;
             botData.Animator.SetBool(WallSlide, false);
-
         }
 
         public BotClimbState(BotStateMachine currentContext, BotMovement botMovement, BotInput botInput,

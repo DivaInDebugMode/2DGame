@@ -50,6 +50,7 @@ namespace Character.CharacterScripts
         public override void UpdateState()
         {
             HandleMovementSpeed();
+            HandleGlidingMovementSpeed();
             HandleGliding();
             HandleJumpAnimation();
             HandleFallAnimation();
@@ -77,8 +78,10 @@ namespace Character.CharacterScripts
 
         private void HandleMovementSpeed()
         {
-            if (botData.BotStats.IsInLedgeClimbing) return; 
+            if (botData.BotStats.IsInLedgeClimbing) return;
+            if(botData.BotStats.IsGliding) return;
             if(botData.BotStats.IsGroundDashing) return;
+            if(botData.BotStats.IsWallJump) return;
             if (botData.BotStats.MoveDirection.x != 0)
             {
                 
@@ -104,6 +107,34 @@ namespace Character.CharacterScripts
             }
         }
 
+        private void HandleGlidingMovementSpeed()
+        {
+            if(!botData.BotStats.IsGliding) return;
+            if (botData.BotStats.MoveDirection.x != 0)
+            {
+                
+                if (botInput.Run.action.IsPressed())
+                {
+                    if (Math.Abs(botData.BotStats.CurrentSpeed - botData.BotStats.MaxSpeed) > 0.0001f)
+                    {
+                        botData.BotStats.CurrentSpeed = 6;
+                    }
+                }
+                else
+                {
+                    if (Math.Abs(botData.BotStats.CurrentSpeed - botData.BotStats.WalkSpeed) > 0.0001f)
+                    {
+                        botData.BotStats.DirectionTime = 0;
+                        botData.BotStats.CurrentSpeed = 6;
+                    }
+                }
+            }
+            if (botData.BotStats.MoveDirection.x == 0 && botData.BotStats.CurrentSpeed >= 0f)
+            {
+                botData.BotStats.CurrentSpeed -= Time.deltaTime * botData.BotStats.MoveDeceleration * 2f;
+            }
+        }
+
         private void WallJumpTimerHandler()
         {
             if (botData.BotStats.IsWallJump && botData.BotStats.WallJumpDurationStart)
@@ -117,7 +148,7 @@ namespace Character.CharacterScripts
             }
 
             durationOfWallJump = Time.time - startTimeOfWallJump;
-            if (durationOfWallJump >= 0.2f)
+            if (durationOfWallJump >= 0.3f)
             {
                 botData.BotStats.IsWallJump = false;
             }

@@ -340,7 +340,7 @@ namespace Character.CharacterScripts
         #endregion
         
         
-        #region Character Jump/Air Values
+        #region Character Attack Values
 
         [Header("Character Attack Values")] [Space]
         [Tooltip("The attack and combo values.")]
