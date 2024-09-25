@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 
 namespace Character.CharacterScripts
@@ -55,6 +56,8 @@ namespace Character.CharacterScripts
             JumpActionResetTimer();
             HandleDashTimer();
             HandleDashAction();
+            
+            
         }
         
         public override void FixedUpdate()
@@ -246,7 +249,6 @@ namespace Character.CharacterScripts
                 botData.Animator.SetBool(Grounded, false);
             }
         }
-        
         
         public override void ExitState()
         {
