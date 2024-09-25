@@ -11,6 +11,12 @@ public class MovingWalls : MonoBehaviour
    [SerializeField] private float liftSpeed;
    [SerializeField] private float liftYAmount;
    public event Action OnWallStopped;
+
+   public bool HasOpened
+   {
+      get => hasOpened;
+      set => hasOpened = value;
+   }
    private Vector3 targetPosition;
    
    private void Start()

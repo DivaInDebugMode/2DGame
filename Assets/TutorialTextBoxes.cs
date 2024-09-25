@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -12,14 +13,27 @@ public class TutorialTextBoxes : MonoBehaviour
     [SerializeField] private TextMeshPro textMeshProUGUI;
     [SerializeField] private List<string> inputText;
     [SerializeField] private bool hasPressedButton;
-    
+    public event Action OnButtonPressed;
+
+    public bool HasPressedButton
+    {
+        get => hasPressedButton;
+        set
+        {
+            hasPressedButton = value;
+            if (hasPressedButton)
+            {
+                OnButtonPressed?.Invoke();
+            }
+        }
+    }
     private InputDevice lastInputDevice;
 
     private void Start()
     {
        // inputActionReference.action.Disable();
         textMeshProObj.transform.localScale = Vector3.zero;
-        hasPressedButton = false;
+        HasPressedButton = false;
         UpdateBindingText();
     }
 
@@ -50,7 +64,7 @@ public class TutorialTextBoxes : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (hasPressedButton) return;
+        if (HasPressedButton) return;
         if (((1 << other.gameObject.layer) & player.value) != 0)
         {
             //inputActionReference.action.Enable();
@@ -60,11 +74,12 @@ public class TutorialTextBoxes : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
-        if(hasPressedButton) return;
+        if(HasPressedButton) return;
         if (((1 << other.gameObject.layer) & player.value) == 0) return;
         if (inputActionReference.action.IsPressed())
         {
-            hasPressedButton = true;
+            textMeshProUGUI.transform.DOScale(new Vector3(0, 0, 0), 0.5f);
+            HasPressedButton = true;
         }
     }
 
@@ -76,7 +91,3 @@ public class TutorialTextBoxes : MonoBehaviour
         }
     }
 }
-
-
-
-
