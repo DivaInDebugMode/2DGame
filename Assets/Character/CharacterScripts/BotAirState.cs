@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using UnityEngine;
 
 namespace Character.CharacterScripts
@@ -23,6 +24,10 @@ namespace Character.CharacterScripts
         private bool hasGlided;
         private bool cancelGlidingAfterDash;
         private static readonly int Gliding = Animator.StringToHash("Gliding");
+        private bool glideTimerOn;
+        private float glideStartTimer;
+        private float glideTimerDuration;
+        private bool hasGlideTimeOn;
 
         [Header("AirDash Variables")] private bool cancelDashAnimation;
         private bool canDash;
@@ -45,6 +50,8 @@ namespace Character.CharacterScripts
 
             botData.BotStats.HasAirDashed = false;
             botData.BotStats.CanAirDash = true;
+
+          //  glideTimerOn = false;
         }
 
         public override void UpdateState()
@@ -64,7 +71,7 @@ namespace Character.CharacterScripts
             IsInDashDistanceRange();
             HandleDashAction();
             HandleDashTimer();
-
+          //  GlidingActionResetTimer();
 
         }
         public override void FixedUpdate()
@@ -117,7 +124,7 @@ namespace Character.CharacterScripts
                 {
                     if (Math.Abs(botData.BotStats.CurrentSpeed - botData.BotStats.MaxSpeed) > 0.0001f)
                     {
-                        botData.BotStats.CurrentSpeed = 6;
+                        botData.BotStats.CurrentSpeed = 5;
                     }
                 }
                 else
@@ -125,7 +132,7 @@ namespace Character.CharacterScripts
                     if (Math.Abs(botData.BotStats.CurrentSpeed - botData.BotStats.WalkSpeed) > 0.0001f)
                     {
                         botData.BotStats.DirectionTime = 0;
-                        botData.BotStats.CurrentSpeed = 6;
+                        botData.BotStats.CurrentSpeed = 5;
                     }
                 }
             }
@@ -151,12 +158,14 @@ namespace Character.CharacterScripts
             if (durationOfWallJump >= 0.3f)
             {
                 botData.BotStats.IsWallJump = false;
+                botData.BotStats.HasWallJumped = false;
             }
         }
         
         private void HandleJumpAnimation()
         {
-            if (botData.BotStats.IsJump && botData.Rb.velocity.y > 0f && !hasJumped  || botData.Rb.velocity.y > 0f )
+            if (botData.BotStats.IsJump && botData.Rb.velocity.y > 0f && !hasJumped || botData.BotStats.HasHurricaned && !hasJumped 
+                || botData.BotStats.IsMegaBounce && !hasJumped)
             {
                 hasJumped = true;
                 botData.Animator.SetBool(GroundJump, true);
@@ -174,7 +183,7 @@ namespace Character.CharacterScripts
         {
             if (botData.BotStats.IsInLedgeClimbing) return;
             if(botData.BotDetectionStats.IsNearOnGround) return;
-            if (botData.Rb.velocity.y < 0 && !inFalling && !botData.BotStats.IsGliding && !botData.BotStats.IsWallJump)
+            if (botData.Rb.velocity.y < 0 && !inFalling && !botData.BotStats.IsGliding && !botData.BotStats.IsWallJump || botData.BotStats.IsMegaBounce)
             {
                 inFalling = true;
                 
@@ -192,20 +201,38 @@ namespace Character.CharacterScripts
         private void HandleGliding()
         {
             if (botData.BotStats.IsInLedgeClimbing) return;
+           // if(glideTimerOn) return;
             if (botInput.Jump.action.triggered && !botData.BotStats.IsAirDashing &&
                 !botData.BotDetectionStats.IsNearOnGround && !botData.BotStats.IsWallJump)
             {
                 botData.BotStats.StopGlide = false;
                 botData.BotStats.IsGliding = true;
+                // ctx.StartCoroutine(SetGlideObjectActive());
                 botData.BotStats.CurrentSpeed = botData.BotStats.MaxSpeed;
                 Physics.gravity = botData.BotStats.GlidingGForce;
-            }else if (botData.Rb.velocity.y > 0 && botData.BotStats.IsGliding || botData.BotStats.IsAirDashing)
+            }else if (botData.Rb.velocity.y > 0 && botData.BotStats.IsGliding || botData.BotStats.IsAirDashing
+                                                                              || botData.BotStats.IsMegaBounce || botData.BotStats.HasHurricaned)
             {
                 botData.BotStats.IsGliding = false;
+                botData.Animator.SetBool(Gliding, false);
+                // botData.BotDetection.GlideObj.SetActive(false);
             }
         }
         
-
+        // private void GlidingActionResetTimer()
+        // {
+        //     if (glideTimerOn)
+        //     {
+        //         glideTimerDuration = Time.time - glideStartTimer;
+        //         if (glideTimerDuration >= 0.0f)
+        //         {
+        //             glideTimerOn = false;
+        //         }
+        //     }
+        //     
+        //     //gliding gadasaketebelia ise ro pirveli Air shemosvla unda ikos triggerze da shemdegebi Pressed ze ro taimerze sworad imushaos
+        // }
+        
         private void HandleGlidingAnimation()
         {
             if (botData.BotStats.IsGliding && botInput.Jump.action.IsPressed() && !hasGlided && !botData.BotStats.IsAirDashing &&
@@ -214,7 +241,6 @@ namespace Character.CharacterScripts
                 hasGlided = true;
                 botData.Rb.velocity = Vector3.zero;
                 botData.Animator.SetBool(Gliding, true);
-                botData.BotDetection.GlideObj.SetActive(true);
             }
         
             if (botData.BotDetectionStats.IsNearOnGround && !cancelFallingAfterLanding &&
@@ -228,13 +254,21 @@ namespace Character.CharacterScripts
                     inFalling = false;
                 }
                 botData.BotStats.IsGliding = false;
+                glideTimerOn = true;
+                glideStartTimer = Time.time;
                 hasGlided = false;
                 cancelFallingAfterGliding = false;
                 botData.Animator.SetBool(Gliding, false);
-                botData.BotDetection.GlideObj.SetActive(false);
+                // botData.BotDetection.GlideObj.SetActive(false);
             }
         }
         
+        private IEnumerator SetGlideObjectActive()
+        {
+            yield return new WaitForSecondsRealtime(0.15f);
+            botData.BotDetection.GlideObj.SetActive(true);
+        }
+
         private void HandleAirDashAnimation()
         {
             if (botData.BotStats.CanAirDashAnimation && botData.BotStats.IsAirDashing && !botData.BotStats.IsWallJump)
@@ -357,8 +391,7 @@ namespace Character.CharacterScripts
             botData.BotDetectionStats.IsDistanceForDash = false;
             
             botData.BotStats.IsAirDashing = false;
-            botData.BotDetection.GlideObj.SetActive(false);
-
+            // botData.BotDetection.GlideObj.SetActive(false);
         }
 
         public BotAirState(BotStateMachine currentContext, BotMovement botMovement, BotInput botInput, BotData botData

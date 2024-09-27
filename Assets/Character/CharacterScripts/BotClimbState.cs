@@ -15,21 +15,17 @@ namespace Character.CharacterScripts
             botData.Animator.SetBool(WallSlide, true);
             botData.BotStats.IsWallJump = false;
             botData.BotStats.IsInLedgeClimbing = false;
-            
-            
-            botData.BotStats.HasStopped = true; //imistvis ro wall jump sworad shesruldes 
+            botData.BotStats.HasStopped = true;
         }
 
         public override void UpdateState()
         {
             RotateFromWall();
-            JumpAction();
             LedgeAction();
         }
 
         public override void FixedUpdate()
         {
-            JumpPhysicsFromWall();
             HandleLedgeGrab();
         }
 
@@ -86,37 +82,6 @@ namespace Character.CharacterScripts
                 isOnLedge = true; 
                 botData.Rb.velocity = Vector3.zero;
                 Physics.gravity = Vector3.zero;
-            }
-        }
-
-        private void JumpAction()
-        {
-            if (botInput.Jump.action.triggered && !botData.BotStats.IsWallJump)
-            {
-                Physics.gravity = botData.BotStats.WallGForce;
-                botData.BotStats.IsWallJump = true;
-                botData.BotStats.WallJumpDurationStart = true;
-            }
-        }
-        private void JumpPhysicsFromWall()
-        {
-            if (botData.BotStats.IsWallJump)
-            {
-                switch (botData.BotStats.CurrentDirectionValue)
-                {
-                    case 1:
-                        botData.Rb.velocity = new Vector2(-6, 14);
-                        botData.BotStats.TargetAngle = 270f;
-                        botData.BotStats.CurrentDirectionValue = -1;
-                        botData.BotStats.LastDirectionValue = -1;
-                        break;
-                    case -1:
-                        botData.Rb.velocity = new Vector2(6, 14);
-                        botData.BotStats.TargetAngle = 90f;
-                        botData.BotStats.CurrentDirectionValue = 1;
-                        botData.BotStats.LastDirectionValue = 1;
-                        break;
-                }
             }
         }
 

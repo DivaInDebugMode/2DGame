@@ -228,6 +228,9 @@ namespace Character.CharacterScripts
         [SerializeField] private bool isWallJump;
         [Tooltip("When player is in wall jump action")]
         [SerializeField] private bool wallJumpDurationStart;
+
+        [SerializeField] private Vector2 wallJumpForce;
+        [SerializeField] private bool hasWallJumped;
         [Tooltip("Whether the character is hasJumped.")]
         [SerializeField] private bool hasJumped;
         [Tooltip("Whether the character is ledge climbing.")]
@@ -236,7 +239,7 @@ namespace Character.CharacterScripts
         [SerializeField] private float initialJumpForce;
         [Tooltip("Whether the character is gliding.")]
         [SerializeField] private bool isGliding;
-
+        
         [SerializeField] private bool stopGliding;
         [Tooltip("Apply gravity in ground state.")]
         [SerializeField] private Vector2 groundGForce;
@@ -254,6 +257,17 @@ namespace Character.CharacterScripts
         [SerializeField] private bool hasHurricaned;
         [SerializeField] private bool canAirDashAnimation;
 
+        public Vector2 WallJumpForce
+        {
+            get => wallJumpForce;
+            set => wallJumpForce = value;
+        }
+        public bool HasWallJumped
+        {
+            get => hasWallJumped;
+            set => hasWallJumped = value;
+        }
+        
         public bool StopGlide
         {
             get => stopGliding;
