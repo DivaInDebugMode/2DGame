@@ -24,10 +24,6 @@ namespace Character.CharacterScripts
         private bool hasGlided;
         private bool cancelGlidingAfterDash;
         private static readonly int Gliding = Animator.StringToHash("Gliding");
-        private bool glideTimerOn;
-        private float glideStartTimer;
-        private float glideTimerDuration;
-        private bool hasGlideTimeOn;
 
         [Header("AirDash Variables")] private bool cancelDashAnimation;
         private bool canDash;
@@ -50,8 +46,6 @@ namespace Character.CharacterScripts
 
             botData.BotStats.HasAirDashed = false;
             botData.BotStats.CanAirDash = true;
-
-          //  glideTimerOn = false;
         }
 
         public override void UpdateState()
@@ -71,8 +65,6 @@ namespace Character.CharacterScripts
             IsInDashDistanceRange();
             HandleDashAction();
             HandleDashTimer();
-          //  GlidingActionResetTimer();
-
         }
         public override void FixedUpdate()
         {
@@ -201,13 +193,11 @@ namespace Character.CharacterScripts
         private void HandleGliding()
         {
             if (botData.BotStats.IsInLedgeClimbing) return;
-           // if(glideTimerOn) return;
             if (botInput.Jump.action.triggered && !botData.BotStats.IsAirDashing &&
                 !botData.BotDetectionStats.IsNearOnGround && !botData.BotStats.IsWallJump)
             {
                 botData.BotStats.StopGlide = false;
                 botData.BotStats.IsGliding = true;
-                // ctx.StartCoroutine(SetGlideObjectActive());
                 botData.BotStats.CurrentSpeed = botData.BotStats.MaxSpeed;
                 Physics.gravity = botData.BotStats.GlidingGForce;
             }else if (botData.Rb.velocity.y > 0 && botData.BotStats.IsGliding || botData.BotStats.IsAirDashing
@@ -215,23 +205,8 @@ namespace Character.CharacterScripts
             {
                 botData.BotStats.IsGliding = false;
                 botData.Animator.SetBool(Gliding, false);
-                // botData.BotDetection.GlideObj.SetActive(false);
             }
         }
-        
-        // private void GlidingActionResetTimer()
-        // {
-        //     if (glideTimerOn)
-        //     {
-        //         glideTimerDuration = Time.time - glideStartTimer;
-        //         if (glideTimerDuration >= 0.0f)
-        //         {
-        //             glideTimerOn = false;
-        //         }
-        //     }
-        //     
-        //     //gliding gadasaketebelia ise ro pirveli Air shemosvla unda ikos triggerze da shemdegebi Pressed ze ro taimerze sworad imushaos
-        // }
         
         private void HandleGlidingAnimation()
         {
@@ -254,19 +229,10 @@ namespace Character.CharacterScripts
                     inFalling = false;
                 }
                 botData.BotStats.IsGliding = false;
-                glideTimerOn = true;
-                glideStartTimer = Time.time;
                 hasGlided = false;
                 cancelFallingAfterGliding = false;
                 botData.Animator.SetBool(Gliding, false);
-                // botData.BotDetection.GlideObj.SetActive(false);
             }
-        }
-        
-        private IEnumerator SetGlideObjectActive()
-        {
-            yield return new WaitForSecondsRealtime(0.15f);
-            botData.BotDetection.GlideObj.SetActive(true);
         }
 
         private void HandleAirDashAnimation()
@@ -390,8 +356,7 @@ namespace Character.CharacterScripts
             botData.BotStats.IsInLedgeClimbing = false;
             botData.BotDetectionStats.IsDistanceForDash = false;
             
-            botData.BotStats.IsAirDashing = false;
-            // botData.BotDetection.GlideObj.SetActive(false);
+            botData.BotStats.IsAirDashing = false; 
         }
 
         public BotAirState(BotStateMachine currentContext, BotMovement botMovement, BotInput botInput, BotData botData

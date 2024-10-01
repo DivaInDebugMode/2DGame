@@ -22,7 +22,6 @@ namespace Character.CharacterScripts
             dissolve.DissolvePLayer();
             botInput.enabled = false;
             OnPlayerRespawn?.Invoke();
-           
         }
 
         private void PlayerHeal()

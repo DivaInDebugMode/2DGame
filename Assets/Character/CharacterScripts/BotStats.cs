@@ -358,37 +358,14 @@ namespace Character.CharacterScripts
 
         [Header("Character Attack Values")] [Space]
         [Tooltip("The attack and combo values.")]
-        [SerializeField] private int groundGroundAttackIndex;
-
-        [SerializeField] private float groundAttackIndexResetTime;
-        [SerializeField] private float groundAttackCombo1Time;
-        [SerializeField] private float groundAttackCombo2Time;
         [SerializeField] private bool isAttacking;
 
-        public float GroundAttackCombo1Time
-        {
-            get => groundAttackCombo1Time;
-        }
-        
-        public float GroundAttackCombo2Time
-        {
-            get => groundAttackCombo2Time;
-        }
+       
         public bool IsAttacking
         {
             get => isAttacking;
             set => isAttacking = value;
         }
-        public float GroundAttackIndexResetTime
-        {
-            get => groundAttackIndexResetTime;
-        }
-        public int GroundAttackIndex
-        {
-            get => groundGroundAttackIndex;
-            set => groundGroundAttackIndex = value;
-        }
-
         #endregion
     }
 }

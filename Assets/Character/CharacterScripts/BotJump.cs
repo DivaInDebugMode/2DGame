@@ -13,7 +13,6 @@ namespace Character.CharacterScripts
         private bool isTap;
         private float dropTimer;
         private bool shouldDrop;
-        
         private void OnEnable()
         {
             botInput.Jump.action.started += JumpActionPress;
@@ -25,7 +24,6 @@ namespace Character.CharacterScripts
             botInput.Jump.action.started -= JumpActionPress;
             botInput.Jump.action.canceled -= OnButtonCancel;
         }
-
         private void JumpActionPress(InputAction.CallbackContext context)
         {
             if (botData.BotDetectionStats.IsGrounded &&
@@ -33,7 +31,7 @@ namespace Character.CharacterScripts
             {
                 botData.BotStats.HasJumped = true;
                 botData.BotStats.IsJump = true;
-                pressStartTime = Time.time;
+                pressStartTime = Time.unscaledTime; // Use unscaled time to prevent frame rate issues
                 isPressed = true;
                 isTap = false;
                 shouldDrop = false;
@@ -45,13 +43,13 @@ namespace Character.CharacterScripts
                         break;
                     default:
                     {
-                        if(botData.BotStats.MoveDirection.x != 0) botData.Rb.velocity = new Vector2
-                            (botData.Rb.velocity.x, botData.BotStats.JumpForce);
+                        if (botData.BotStats.MoveDirection.x != 0)
+                            botData.Rb.velocity = new Vector2(botData.Rb.velocity.x, botData.BotStats.JumpForce);
                         break;
                     }
                 }
-                
-            }else if (botData.BotDetectionStats.IsWall && !botData.BotStats.IsWallJump)
+            }
+            else if (botData.BotDetectionStats.IsWall && !botData.BotStats.IsWallJump)
             {
                 botData.BotStats.HasWallJumped = false;
                 botData.BotStats.IsWallJump = true;
@@ -60,21 +58,20 @@ namespace Character.CharacterScripts
             }
         }
 
-        private void Update()
-        {
-            if(botData.BotStats.IsAirDashing) return;
-
-            if (!isPressed) return;
-            jumpPressedTime = Time.time - pressStartTime;
-            isTap = jumpPressedTime <= 0.15f;
-        }
-
         private void FixedUpdate()
         {
             JumpPhysicsFromWall();
-            if(botData.BotStats.IsAirDashing) return;
+            if (botData.BotStats.IsAirDashing) return;
+
+            if (isPressed)
+            {
+                jumpPressedTime = Time.unscaledTime - pressStartTime; // Use unscaled time for accuracy
+                isTap = jumpPressedTime <= 0.15f; // Check if it's a tap
+            }
+
             if (!isTap || shouldDrop) return;
-            dropTimer += Time.deltaTime;
+
+            dropTimer += Time.fixedDeltaTime;
             if (!(dropTimer >= 0.17f)) return;
             switch (botData.BotStats.MoveDirection.x)
             {
@@ -82,17 +79,17 @@ namespace Character.CharacterScripts
                     botData.Rb.velocity = new Vector2(0, botData.BotStats.InitialJumpForce);
                     break;
                 default:
-                {
-                    if(botData.BotStats.MoveDirection.x != 0)
+                    if (botData.BotStats.MoveDirection.x != 0)
                     {
                         botData.Rb.velocity = new Vector2(botData.Rb.velocity.x, botData.BotStats.InitialJumpForce);
                     }
+
                     break;
-                } 
-            } 
+            }
+
             shouldDrop = true;
         }
-        
+
         private void JumpPhysicsFromWall()
         {
             if (botData.BotStats.IsWallJump && !botData.BotStats.HasWallJumped)
@@ -100,7 +97,8 @@ namespace Character.CharacterScripts
                 switch (botData.BotStats.CurrentDirectionValue)
                 {
                     case 1:
-                        botData.Rb.velocity = new Vector2(-botData.BotStats.WallJumpForce.x, botData.BotStats.WallJumpForce.y);
+                        botData.Rb.velocity = new Vector2(-botData.BotStats.WallJumpForce.x,
+                            botData.BotStats.WallJumpForce.y);
                         botData.BotStats.TargetAngle = 270f;
                         botData.BotStats.CurrentDirectionValue = -1;
                         botData.BotStats.LastDirectionValue = -1;

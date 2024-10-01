@@ -24,10 +24,12 @@ namespace Character.CharacterScripts
         private static readonly int Dash = Animator.StringToHash("Dash");
 
 
-        [Header("Jump Timer Variables for enable jump action")]
-        private bool jumpTimerOn;
-        private float jumpStartTimer;
-        private float jumpTimerDuration;
+        //[Header("Jump Timer Variables for enable jump action")]
+        // private bool jumpTimerOn;
+        // private float jumpStartTimer;
+        // private float jumpTimerDuration;
+        private static readonly int GroundAttack1 = Animator.StringToHash("GroundAttack1");
+        private static readonly int GroundAttack2 = Animator.StringToHash("GroundAttack2");
 
         public override void EnterState()
         {
@@ -36,12 +38,15 @@ namespace Character.CharacterScripts
             Physics.gravity = botData.BotStats.GroundGForce;
             botData.Rb.velocity = new Vector3(0, botData.Rb.velocity.y);
             inMove = false;
-            jumpStartTimer = Time.time;
-            jumpTimerOn = true;
+           // jumpStartTimer = Time.time;
+           // jumpTimerOn = true;
             botData.BotStats.IsWallJump = false;
             botData.BotStats.GroundDashTimer = 0f;
             botData.BotStats.CanGroundDash = true;
             botData.BotStats.HasGroundDashed = false;
+            
+            
+            botData.BotStats.HasJumped = false; //es davamate imitoro jump reseti davakomentare
         }
 
         public override void UpdateState()
@@ -53,11 +58,11 @@ namespace Character.CharacterScripts
             HandleGroundedAnimation();
             Crouch();
             CrouchActionResetTimer();
-            JumpActionResetTimer();
+          //  JumpActionResetTimer();
             HandleDashTimer();
             HandleDashAction();
-            
-            
+           //AttackAnimation();
+
         }
         
         public override void FixedUpdate()
@@ -78,7 +83,7 @@ namespace Character.CharacterScripts
         
         private void HandleMovementSpeed()
         {
-            if(botData.BotStats.IsCrouching || botData.BotStats.IsGroundDashing) return;
+            if(botData.BotStats.IsCrouching || botData.BotStats.IsGroundDashing || botData.BotStats.IsAttacking) return;
             if (botData.BotStats.MoveDirection.x != 0)
             {
                 if (botInput.Run.action.IsPressed())
@@ -143,28 +148,30 @@ namespace Character.CharacterScripts
             crouchTimer -= Time.deltaTime;
             if (crouchTimer <= 0f) crouchTimer = 0;
         }
-        private void JumpActionResetTimer()
-        {
-            if (jumpTimerOn)
-            {
-                jumpTimerDuration = Time.time - jumpStartTimer;
-                if (jumpTimerDuration >= 0.0f)
-                {
-                    botData.BotStats.HasJumped = false;
-                    jumpTimerOn = false;
-                }
-            }
-        }
+        // private void JumpActionResetTimer()
+        // {
+        //     if (jumpTimerOn)
+        //     {
+        //         jumpTimerDuration = Time.time - jumpStartTimer;
+        //         if (jumpTimerDuration >= 0.0f)
+        //         {
+        //             botData.BotStats.HasJumped = false;
+        //             jumpTimerOn = false;
+        //         }
+        //     }
+        // }
         private void HandleDashAnimation()
         {
             if (botData.BotStats.IsGroundDashing && dashAnimatorReset)
             {
                 botData.Animator.SetBool(Dash, true);
+                
                 dashAnimatorReset = false;
             }
             else if (!botData.BotStats.IsGroundDashing && !dashAnimatorReset)
             {
                 botData.Animator.SetBool(Dash, false);
+                
                 dashAnimatorReset = true;
             }
         }
@@ -249,6 +256,28 @@ namespace Character.CharacterScripts
                 botData.Animator.SetBool(Grounded, false);
             }
         }
+
+        // private void AttackAnimation()
+        // {
+        //     if (botInput.Attack.action.triggered && !botData.BotStats.IsAttacking && !botData.BotStats.IsGroundDashing)
+        //     {
+        //         botData.BotStats.IsAttacking = true;
+        //         botData.BotStats.CurrentSpeed = 0f;
+        //
+        //         botData.Animator.SetBool(GroundAttack1, botData.BotStats.IsAttacking);
+        //         ctx.StartCoroutine(FinishAttack1());
+        //
+        //     }
+        // }
+        //
+        // private bool attack1Finished;
+        // private IEnumerator FinishAttack1()
+        // {
+        //     yield return new WaitForSecondsRealtime(0.55f);
+        //     
+        //     botData.BotStats.IsAttacking = false;
+        //     botData.Animator.SetBool(GroundAttack1, botData.BotStats.IsAttacking);
+        // }
         
         public override void ExitState()
         {

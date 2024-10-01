@@ -26,7 +26,7 @@ namespace Character.CharacterScripts
             var bottom = bounds.center -
                          new Vector3(0, bounds.extents.y, 0);
             botData.BotDetectionStats.IsGrounded = Physics.CheckSphere(
-                bottom, 0.32f, botData.BotDetectionStats.Grounded | 
+                bottom, 0.34f, botData.BotDetectionStats.Grounded | 
                                botData.BotDetectionStats.HorizontalPlatform | botData.BotDetectionStats.VerticalPlatform);
         }
         
@@ -36,7 +36,7 @@ namespace Character.CharacterScripts
             var bottom = bounds.center -
                          new Vector3(0, bounds.extents.y, 0);
             botData.BotDetectionStats.IsNearOnGround = Physics.CheckSphere(
-                bottom, 1f, botData.BotDetectionStats.Grounded | 
+                bottom, 0.32f, botData.BotDetectionStats.Grounded | 
                             botData.BotDetectionStats.HorizontalPlatform | botData.BotDetectionStats.VerticalPlatform);
         }
         

@@ -16,14 +16,11 @@ namespace Character.CharacterScripts
 
         private void OnEnable()
         {
+            playerHealthManager.OnPlayerRespawn += SpawnPlayerOnLastCheckPoint;
             foreach (var checkPoint in checkPoints)
             {
                 checkPoint.OnCheckPointEnter += SaveCheckPointTransform;
             }
-
-            playerHealthManager.OnPlayerRespawn += SpawnPlayerOnLastCheckPoint;
-            
-            
         }
 
         private void FixedUpdate()
@@ -35,11 +32,11 @@ namespace Character.CharacterScripts
 
         private void OnDisable()
         {
+            playerHealthManager.OnPlayerRespawn -= SpawnPlayerOnLastCheckPoint;
             foreach (var checkPoint in checkPoints)
             {
                 checkPoint.OnCheckPointEnter -= SaveCheckPointTransform;
             }
-            playerHealthManager.OnPlayerRespawn -= SpawnPlayerOnLastCheckPoint;
         }
 
         private void SaveCheckPointTransform(Vector3 lastSpawnPoint)
@@ -55,7 +52,7 @@ namespace Character.CharacterScripts
         private IEnumerator SpawnPlayerTimer()
         {
            
-            yield return new WaitForSecondsRealtime(1f);
+            yield return new WaitForSecondsRealtime(0.5f);
             isSpawn = true;
             playerHealthManager.PlayerDissolve.AppearPlayer();
             playerHealthManager.BotInput.enabled = true;
@@ -66,6 +63,4 @@ namespace Character.CharacterScripts
             playerTransform.position = lastCheckPoint;
         }
     }
-    
-   
 }
