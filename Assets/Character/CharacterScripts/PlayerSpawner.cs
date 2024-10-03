@@ -51,10 +51,15 @@ namespace Character.CharacterScripts
 
         private IEnumerator SpawnPlayerTimer()
         {
-           
             yield return new WaitForSecondsRealtime(0.5f);
             isSpawn = true;
             playerHealthManager.PlayerDissolve.AppearPlayer();
+            StartCoroutine(ActivateBotInputTimer());
+        }
+
+        private IEnumerator ActivateBotInputTimer()
+        {
+            yield return new WaitForSecondsRealtime(0.1f);
             playerHealthManager.BotInput.enabled = true;
         }
         

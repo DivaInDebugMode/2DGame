@@ -257,27 +257,27 @@ namespace Character.CharacterScripts
             }
         }
 
-        // private void AttackAnimation()
-        // {
-        //     if (botInput.Attack.action.triggered && !botData.BotStats.IsAttacking && !botData.BotStats.IsGroundDashing)
-        //     {
-        //         botData.BotStats.IsAttacking = true;
-        //         botData.BotStats.CurrentSpeed = 0f;
-        //
-        //         botData.Animator.SetBool(GroundAttack1, botData.BotStats.IsAttacking);
-        //         ctx.StartCoroutine(FinishAttack1());
-        //
-        //     }
-        // }
-        //
-        // private bool attack1Finished;
-        // private IEnumerator FinishAttack1()
-        // {
-        //     yield return new WaitForSecondsRealtime(0.55f);
-        //     
-        //     botData.BotStats.IsAttacking = false;
-        //     botData.Animator.SetBool(GroundAttack1, botData.BotStats.IsAttacking);
-        // }
+        private void AttackAnimation()
+        {
+            if (botInput.Attack.action.triggered && !botData.BotStats.IsAttacking && !botData.BotStats.IsGroundDashing)
+            {
+                botData.BotStats.IsAttacking = true;
+                botData.BotStats.CurrentSpeed = 0f;
+        
+                botData.Animator.SetBool(GroundAttack1, botData.BotStats.IsAttacking);
+                ctx.StartCoroutine(FinishAttack1());
+        
+            }
+        }
+        
+        private bool attack1Finished;
+        private IEnumerator FinishAttack1()
+        {
+            yield return new WaitForSecondsRealtime(0.55f);
+            
+            botData.BotStats.IsAttacking = false;
+            botData.Animator.SetBool(GroundAttack1, botData.BotStats.IsAttacking);
+        }
         
         public override void ExitState()
         {

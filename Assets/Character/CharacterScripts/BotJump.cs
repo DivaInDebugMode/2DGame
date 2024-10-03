@@ -61,7 +61,8 @@ namespace Character.CharacterScripts
         private void FixedUpdate()
         {
             JumpPhysicsFromWall();
-            if (botData.BotStats.IsAirDashing) return;
+            
+            if (botData.BotStats.IsAirDashing || botData.BotStats.IsGliding) return;
 
             if (isPressed)
             {
