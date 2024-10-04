@@ -25,13 +25,14 @@ namespace Character.CharacterScripts
         private bool hasTriggeredGlide;
         private bool firstGlideFinished;
         private bool cancelGlidingAfterDash;
+        private bool isGlidingPhysicsUpdated;
+        private bool startGlideFalling;
         private static readonly int Gliding = Animator.StringToHash("Gliding");
 
         [Header("AirDash Variables")] private bool cancelDashAnimation;
         private bool canDash;
         private static readonly int AirDash = Animator.StringToHash("AirDash");
 
-        private bool test;
         public override void EnterState()
         {
             botData.BotDetectionStats.IsWall = false;
@@ -79,14 +80,7 @@ namespace Character.CharacterScripts
             if (botData.BotStats.IsInLedgeClimbing) return;
             if(botData.BotStats.IsWallJump) return;
             if(botData.BotStats.IsAirDashing) return;
-            
-            //imistvis ro glidingis dros fixed shi eweros personajis pizika 
-            if (test && botData.BotStats.IsGliding)
-            {
-                botData.Rb.velocity = Vector3.zero;
-                Physics.gravity = botData.BotStats.GlidingGForce;
-                test = false;
-            }
+            HandleGlidingPhysics();
             botMovement.MoveHorizontally(botData.BotStats.CurrentSpeed);
         }
 
@@ -211,7 +205,7 @@ namespace Character.CharacterScripts
             if (botInput.Jump.action.triggered && !botData.BotStats.IsAirDashing &&
                 !botData.BotDetectionStats.IsNearOnGround && !botData.BotStats.IsWallJump && !hasTriggeredGlide)
             {
-                test = true;
+                isGlidingPhysicsUpdated = true;
                 hasTriggeredGlide = true;
                 botData.BotStats.StopGlide = false;
                 botData.BotStats.IsGliding = true;
@@ -220,7 +214,7 @@ namespace Character.CharacterScripts
             else if (botInput.Jump.action.IsPressed() && !botData.BotStats.IsAirDashing &&
                       !botData.BotDetectionStats.IsNearOnGround && !botData.BotStats.IsWallJump && firstGlideFinished && hasTriggeredGlide)
             {
-                test = true;
+                isGlidingPhysicsUpdated = true;
                 firstGlideFinished = false;
                 botData.BotStats.StopGlide = false;
                 botData.BotStats.IsGliding = true;
@@ -260,9 +254,36 @@ namespace Character.CharacterScripts
                 hasGlided = false;
                 cancelFallingAfterGliding = false;
                 botData.Animator.SetBool(Gliding, false);
-                //aq 
+
                 ctx.StartCoroutine(GlideTimer());
             }
+        }
+
+        private void HandleGlidingPhysics()
+        {
+            if (isGlidingPhysicsUpdated && botData.BotStats.IsGliding)
+            {
+                botData.Rb.useGravity = false;
+                botData.Rb.velocity = new Vector2(botData.Rb.velocity.x, 0f);
+                ctx.StartCoroutine(StartGlideFallingTimer());
+                isGlidingPhysicsUpdated = false;
+            }
+            
+            if (botData.BotStats.IsGliding && startGlideFalling)
+            {
+                botData.Rb.velocity = new Vector2(botData.Rb.velocity.x, -3.5f);
+            }
+            else if(!botData.BotStats.IsGliding && startGlideFalling)
+            {
+                botData.Rb.useGravity = true;
+                startGlideFalling = false;
+            }
+        }
+
+        private IEnumerator StartGlideFallingTimer()
+        {
+            yield return new WaitForSecondsRealtime(0.2f);
+            startGlideFalling = true;
         }
         
         private IEnumerator GlideTimer()
