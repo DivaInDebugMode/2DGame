@@ -413,10 +413,9 @@ namespace Character.CharacterScripts
             botData.Animator.SetBool(Gliding, false);
             botData.BotStats.IsJump = false;
             botData.BotDetectionStats.IsNearOnGround = false;
-
             botData.BotStats.IsInLedgeClimbing = false;
             botData.BotDetectionStats.IsDistanceForDash = false;
-            
+            botData.Rb.useGravity = true;
             botData.BotStats.IsAirDashing = false; 
         }
 
